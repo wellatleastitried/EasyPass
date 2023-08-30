@@ -1,5 +1,3 @@
-//package src.main.java;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -249,7 +247,7 @@ class PasswordGenerator {
 	/**
 	 * Checks the strength of a given password by running it through commonly used password word-lists, and, if it is
 	 * not present in them, grading it by using specific criteria.
-	 * @param pass The password to test the strength of.
+	 * @param pass The password to scan word-lists for and test the strength of.
 	 * @return Returns the score on a scale of 1-10 based on how strong the password appears to be.
 	 */
 	protected int passwordStrengthScoring(String pass) {
@@ -326,14 +324,14 @@ class PasswordGenerator {
 
 	/**
 	 * Checks to see if a given char is uppercase.
-	 * @param c The char to check.
+	 * @param c The character to check.
 	 * @return Returns 'true' if uppercase, 'false' otherwise.
 	 */
 	private boolean isUppercase(char c) { return ((int) c) >= 65 && ((int) c) <= 90; }
 
 	/**
 	 * Checks to see if a given char is a special character.
-	 * @param c The char to check.
+	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a special character, 'false' otherwise.
 	 */
 	private boolean isSpecChar(char c) {
@@ -344,7 +342,7 @@ class PasswordGenerator {
 
 	/**
 	 * Checks to see if a given char is a number.
-	 * @param c The char to check.
+	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a number, 'false' otherwise.
 	 */
 	private boolean isNum(char c) { return Character.isDigit(c); }

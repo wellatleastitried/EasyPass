@@ -1,5 +1,3 @@
-//package src.main.java;
-
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -41,8 +39,7 @@ class PasswordStorage {
 	 * @return Returns a base64 encoded string to be used.
 	 */
 	private String getB64String() {
-		// TODO: file reader to take this string from a config file, when a new iv is made, make a new key as well and
-		//  save to the config file
+		// TODO: parse InitData for initial key when program first runs and padding to use.
 		return "Eb12p50KRBhsJTRpH59PQ58Stp/R1OgKk4kGkyoUJ7I=";
 	}
 
