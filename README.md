@@ -2,7 +2,7 @@
 EasyPass is a straight-forward command-line tool that allows you to:
   - Generate new passwords
   - Store existing passwords
-  - Check the strenth of passwords
+  - Check the strength of passwords
   - See if passwords have been leaked in previous data breaches.
 
 ## Notice
