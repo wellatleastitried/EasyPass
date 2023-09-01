@@ -1,0 +1,3 @@
+com\walit\pass\PasswordGenerator.class
+com\walit\pass\PasswordManager.class
+com\walit\pass\PasswordStorage.class
