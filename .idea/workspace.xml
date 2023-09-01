@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="" />
+    <list default="true" id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="Added Intellij project files.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EasyPass.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PasswordGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PasswordManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PasswordStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/PasswordGUI.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/Utilities/data/InitData.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/Utilities/img/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/Utilities/log/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/WordLists/100kCommon.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/WordLists/10MilPasswords.txt" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +28,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -25,17 +44,10 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
   }
 }</component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="EasyPass" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -45,10 +57,23 @@
       <option name="presentableId" value="Default" />
       <updated>1693445007979</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added Intellij project files.">
+      <option name="closed" value="true" />
+      <created>1693445233265</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1693445233265</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="UnknownFeatures">
     <option featureType="dependencySupport" implementationName="executable:docker" />
     <option featureType="dependencySupport" implementationName="executable:kubectl" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Intellij project files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Intellij project files." />
   </component>
 </project>
