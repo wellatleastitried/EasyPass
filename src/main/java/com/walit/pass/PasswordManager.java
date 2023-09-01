@@ -6,6 +6,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.XMLFormatter;
+import static java.lang.System.*;
 
 /**
  * This is the file containing the main method for PasswordManager. This program allows the user to generate, store,
@@ -16,7 +17,6 @@ import java.util.logging.XMLFormatter;
 public class PasswordManager implements Runnable {
 
 	public final String bSlash = File.separator;
-	public final String dubEsc = ".." + File.separator + ".." + File.separator;
 	public int lengthOfPassword = -1;
 	public int specialChars = -1;
 	public int capitals = -1;
@@ -41,12 +41,12 @@ public class PasswordManager implements Runnable {
 		String os = System.getProperty("os.name");
         os = os.toLowerCase();
         if (!(os.contains("win"))) {
-        	System.out.println("Not a windows machine.");
+        	out.println("Not a windows machine.");
         	System.exit(1);
         }
 		initializeFilesForProgram();
 		File logFile = new File("resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		System.out.println(logFile.getName());
+		out.println(logFile.getName());
 		FileHandler fH;
 		try {
 			if (logFile.exists() && logFile.isFile()) {
@@ -62,14 +62,14 @@ public class PasswordManager implements Runnable {
 			fH.setFormatter(xF);
 			logger.log(Level.INFO, "Successful startup.");
 		} catch (IOException e) {
-			System.out.println("Logger could not be initialized.\n\nPlease restart program.");
+			out.println("Logger could not be initialized.\n\nPlease restart program.");
 		}
 		//PasswordGUI pGUI = new PasswordGUI();
 		poundSeparate();
 		printLogo();
 		poundSeparate();
 		int x = startup();
-		System.out.println();
+		out.println();
 		while (x != 7) {
 			switch (x) {
 				case 1 -> {
@@ -97,7 +97,7 @@ public class PasswordManager implements Runnable {
 					x = startup();
 				}
 				case 5 -> {
-					System.out.println("""
+					out.println("""
 						Would you like to:
 						 - Change an existing password
 						 - Remove an existing password
@@ -124,7 +124,7 @@ public class PasswordManager implements Runnable {
 	}
 
 	private void printLogo() {
-		System.out.println("""
+		out.println("""
 			
 			|||||||     |||     |||||||  ||   ||  |||||||     |||     |||||||  |||||||
 			||         || ||    ||        || ||   ||   ||    || ||    ||       ||
@@ -135,11 +135,11 @@ public class PasswordManager implements Runnable {
 	}
 
 	private void dashSeparate() {
-		System.out.println("\n--------------------------------------------------------------------------\n");
+		out.println("\n--------------------------------------------------------------------------\n");
 	}
 
 	private void poundSeparate() {
-		System.out.println("\n##########################################################################\n");
+		out.println("\n##########################################################################\n");
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class PasswordManager implements Runnable {
 				choiceMade = true;
 			} else if (ans.equals("r")) {
 				choiceMade = true;
-			} else System.out.println("\nThat was not a valid option, enter \"c\" for change or \"r\" for remove.");
+			} else out.println("\nThat was not a valid option, enter \"c\" for change or \"r\" for remove.");
 		}
 		return isChange;
 	}
@@ -183,7 +183,7 @@ public class PasswordManager implements Runnable {
 	 * Handles changing the user's password by getting the name the password belongs to and allowing them to enter a new password.
 	 * */
 	private void changeInfo() {
-		System.out.println("You chose to change an existing password.");
+		out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
 		PasswordStorage pS = new PasswordStorage(logger);
 		List<String> strings = pS.findNameToAlter();
@@ -202,16 +202,16 @@ public class PasswordManager implements Runnable {
 		}
 		if (acceptedStrings.size() > 1) {
 			int index = 1;
-			System.out.println("\nThere were multiple passwords with the same name, which would you like to change?");
+			out.println("\nThere were multiple passwords with the same name, which would you like to change?");
 			for (String x : acceptedStrings) {
-				System.out.println(index + ") " + x);
+				out.println(index + ") " + x);
 				index++;
 			}
 			System.out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
 			String choice = s.nextLine();
 			int chosenIndex = Integer.parseInt(choice);
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
-			System.out.println("You chose to change the password: "
+			out.println("You chose to change the password: "
 					+ splitStrings[1] + " for " + splitStrings[0]
 					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
 			String[] temp = getPassFromUser();
@@ -223,7 +223,7 @@ public class PasswordManager implements Runnable {
 			pS.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
-			System.out.println("You chose to change the password: "
+			out.println("You chose to change the password: "
 					+ splitStrings[1] + " for " + splitStrings[0]
 					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
 			String[] temp;
@@ -238,9 +238,9 @@ public class PasswordManager implements Runnable {
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
 			pS.storeNameFromLists(strings);
-			System.out.println("\nPassword successfully changed.");
+			out.println("\nPassword successfully changed.");
 		} else {
-			System.out.println("\nName unable to be found, enter a valid name.\n");
+			out.println("\nName unable to be found, enter a valid name.\n");
 			changeInfo();
 		}
 	}
@@ -249,7 +249,7 @@ public class PasswordManager implements Runnable {
 	 * Handles removing the user's password by allowing them to enter the name associated with their password.
 	 */
 	private void removeInfo() {
-		System.out.println("You chose to remove an existing password.");
+		out.println("You chose to remove an existing password.");
 		String name = getUserNameForAlter(1);
 		PasswordStorage pS = new PasswordStorage(logger);
 		List<String> strings = pS.findNameToAlter();
@@ -268,16 +268,16 @@ public class PasswordManager implements Runnable {
 		}
 		if (acceptedStrings.size() > 1) {
 			int index = 1;
-			System.out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
+			out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
 			for (String x : acceptedStrings) {
-				System.out.println(index + ") " + x);
+				out.println(index + ") " + x);
 				index++;
 			}
 			System.out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
 			String choice = s.nextLine().trim();
 			int chosenIndex = Integer.parseInt(choice);
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
-			System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+			out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 			for (int i = 0; i < strings.size(); i++) {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
 			}
@@ -285,7 +285,7 @@ public class PasswordManager implements Runnable {
 			pS.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
-			System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+			out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 			int index = -1;
 			for (int i = 0; i < strings.size(); i++) {
 				if (strings.get(i).equals(acceptedStrings.get(0))) {
@@ -295,7 +295,7 @@ public class PasswordManager implements Runnable {
 			strings.remove(index);
 			pS.storeNameFromLists(strings);
 		} else {
-			System.out.println("\nName unable to be found, enter a valid name.\n");
+			out.println("\nName unable to be found, enter a valid name.\n");
 			removeInfo();
 		}
 	}
@@ -306,8 +306,8 @@ public class PasswordManager implements Runnable {
 	 * @return Returns a string containing the name that the password belongs to.
 	 */
 	private String getUserNameForAlter(int choice) {
-		if (choice == 0) System.out.println("Enter the name for the password you would like to change.");
-		else if (choice == 1) System.out.println("Enter the name for the password you would like to remove.");
+		if (choice == 0) out.println("Enter the name for the password you would like to change.");
+		else if (choice == 1) out.println("Enter the name for the password you would like to remove.");
 		else logger.log(Level.INFO, "I genuinely have no idea how this happened.");
 		return s.nextLine().trim().toLowerCase();
 	}
@@ -318,7 +318,7 @@ public class PasswordManager implements Runnable {
 	 * will be initialized separately.
 	 */
 	private String[] getPassFromUser() {
-		System.out.println("Enter the password you would like to store: ");
+		out.println("Enter the password you would like to store: ");
 		String[] userPass = new String[2];
 		userPass[1] = s.nextLine().trim();
 		char[] checker = userPass[1].toCharArray();
@@ -332,7 +332,7 @@ public class PasswordManager implements Runnable {
 			}
 		}
 		while (problem) {
-			System.out.println("\nThere cannot be a comma \",\" or space in the password you are saving, " +
+			out.println("\nThere cannot be a comma \",\" or space in the password you are saving, " +
 					"please try a password without a comma.");
 			userPass[1] = s.nextLine().trim();
 			checker = userPass[1].toCharArray();
@@ -354,12 +354,12 @@ public class PasswordManager implements Runnable {
 	 * @param arr A two index array holding the user's password and the name associated with it.
 	 */
 	private void finalizeName(String[] arr) {
-		System.out.println("\nWhat is this password for? If you don't want it saved, type STOP");
+		out.println("\nWhat is this password for? If you don't want it saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
 		boolean problem = false;
 		char[] checker;
 		if (arr[0].equals("stop")) {
-			System.out.println("ok, fair enough\n");
+			out.println("ok, fair enough\n");
 		} else {
 			checker = arr[0].toCharArray();
 			for (char q : checker) {
@@ -371,8 +371,8 @@ public class PasswordManager implements Runnable {
 			boolean fixed = false;
 			while (problem) {
 
-				System.out.println("\nThere cannot be a comma \",\" in the name you are saving, please try a name without a comma.");
-				System.out.println("What is this password for? If you don't want it saved, type STOP");
+				out.println("\nThere cannot be a comma \",\" in the name you are saving, please try a name without a comma.");
+				out.println("What is this password for? If you don't want it saved, type STOP");
 				arr[0] = s.nextLine().toLowerCase().trim();
 				checker = arr[0].toCharArray();
 				for (char x : checker) {
@@ -458,7 +458,7 @@ public class PasswordManager implements Runnable {
 			y = Integer.parseInt(x);
 			while (y < 1 || y > 7) {
 				logger.log(Level.WARNING, "User input an illegal integer for the prompt.");
-				System.out.println("Pick an option numbered 1 through 7.");
+				out.println("Pick an option numbered 1 through 7.");
 				x = s.nextLine();
 				y = Integer.parseInt(x);
 			}
@@ -477,7 +477,7 @@ public class PasswordManager implements Runnable {
 		PasswordGenerator pGen = new PasswordGenerator(logger);
 		String[] params = new String[2];
 		params[1] = pGen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
-		System.out.println(params[1]);
+		out.println(params[1]);
 		return params;
 	}
 
@@ -510,64 +510,64 @@ public class PasswordManager implements Runnable {
 		//getParams();
 		resetParams();
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
-			System.out.println("Enter desired password length: ");
+			out.println("Enter desired password length: ");
 			try {
 				String x = s.nextLine().trim();
 				lengthOfPassword = Integer.parseInt(x);
 				if (lengthOfPassword < 0 || lengthOfPassword > 100) {
 					logger.log(Level.WARNING, "User input an invalid number.");
-					System.out.println("Negative numbers and lengths above 10000 cannot be used in the input.");
+					out.println("Negative numbers and lengths above 10000 cannot be used in the input.");
 					tempMethod();
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
 				lengthOfPassword = -1;
-				System.out.println("You must enter a number here.");
+				out.println("You must enter a number here.");
 				break;
 			}
-			System.out.println("Enter num of special chars:");
+			out.println("Enter num of special chars:");
 			try {
 				String x = s.nextLine().trim();
 				specialChars = Integer.parseInt(x);
 				if (specialChars < 0) {
 					logger.log(Level.WARNING, "User input a negative number.");
-					System.out.println("Negative numbers cannot be used in the input.");
+					out.println("Negative numbers cannot be used in the input.");
 					tempMethod();
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
 				specialChars = -1;
-				System.out.println("You must enter a number.");
+				out.println("You must enter a number.");
 				break;
 			}
-			System.out.println("Enter num of capitals");
+			out.println("Enter num of capitals");
 			try {
 				String x = s.nextLine().trim();
 				capitals = Integer.parseInt(x);
 				if (capitals < 0) {
 					logger.log(Level.WARNING, "User input a negative number.");
 					capitals = -1;
-					System.out.println("Negative numbers cannot be used in the input.");
+					out.println("Negative numbers cannot be used in the input.");
 					tempMethod();
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
-				System.out.println("You must enter a number.");
+				out.println("You must enter a number.");
 				break;
 			}
-			System.out.println("Enter num of numbers:");
+			out.println("Enter num of numbers:");
 			try {
 				String x = s.nextLine().trim();
 				numbers = Integer.parseInt(x);
 				if (numbers < 0) {
 					logger.log(Level.WARNING, "User input a negative number.");
-					System.out.println("Negative numbers cannot be used in the input.");
+					out.println("Negative numbers cannot be used in the input.");
 					tempMethod();
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
 				numbers = -1;
-				System.out.println("You must enter a number.");
+				out.println("You must enter a number.");
 				break;
 			}
 		}
@@ -640,13 +640,13 @@ public class PasswordManager implements Runnable {
 		//change this block
 		System.out.print("Enter the password to test here: ");
 		String password = s.nextLine().trim();
-		System.out.println();
+		out.println();
 		int score = pG.passwordStrengthScoring(password);
-		if (score == 0) System.out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
-		else if (score >= 1 && score <= 5) System.out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
-		else if (score > 5 && score <= 8) System.out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
-		else if (score == 9) System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
-		else System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
+		if (score == 0) out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
+		else if (score >= 1 && score <= 5) out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
+		else if (score > 5 && score <= 8) out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
+		else if (score == 9) out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
+		else out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
 	}
 
 	/**
@@ -655,21 +655,21 @@ public class PasswordManager implements Runnable {
 	private void searchFor() {
 		PasswordStorage pS = new PasswordStorage(logger);
 		//change this block
-		System.out.println("Enter the name for the password you are looking for:");
+		out.println("Enter the name for the password you are looking for:");
 		String name = s.nextLine().trim().toLowerCase();
-		System.out.println();
+		out.println();
 		ArrayList<String> acceptedStrings = pS.findInfo(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
-			System.out.println("The password for " + name + " is: " + values[1]);
+			out.println("The password for " + name + " is: " + values[1]);
 		} else if (acceptedStrings.size() > 1) {
-			System.out.println("Here's a list of the passwords that match the name you entered:");
+			out.println("Here's a list of the passwords that match the name you entered:");
 			for (String matchingPasswords : acceptedStrings) {
-				System.out.println(matchingPasswords.replace(",", ":"));
+				out.println(matchingPasswords.replace(",", ":"));
 				
 			}
 		} else {
-			System.out.println("""
+			out.println("""
 					No passwords matched your search.
 					Would you like to try a different search?
 					Enter "y" for yes, anything else for "no\"""");

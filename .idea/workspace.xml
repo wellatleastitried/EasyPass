@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="Added Intellij project files.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="Added Maven to the project structure.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EasyPass.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PasswordGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PasswordManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PasswordStorage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/PasswordGUI.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/Utilities/data/InitData.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/Utilities/img/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/Utilities/log/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/WordLists/100kCommon.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/WordLists/10MilPasswords.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +58,15 @@
       <option name="project" value="LOCAL" />
       <updated>1693445233265</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added Maven to the project structure.">
+      <option name="closed" value="true" />
+      <created>1693537301255</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1693537301255</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -74,6 +75,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Intellij project files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Intellij project files." />
+    <MESSAGE value="Added Maven to the project structure." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Maven to the project structure." />
   </component>
 </project>

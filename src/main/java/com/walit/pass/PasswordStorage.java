@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.lang.System.*;
 
 /**
  * PasswordStorage serves as a helper class to PasswordManager by handling the storage and calling from specific files
@@ -244,11 +245,11 @@ class PasswordStorage {
 				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
 			}
 			BufferedReader bR = new BufferedReader(new FileReader(file));
-			System.out.println();
+			out.println();
 			while ((placeholder = bR.readLine()) != null) {
 				if (hasComma(placeholder)) {
 					String[] temp = placeholder.split(", ", 2);
-					System.out.println(temp[0] + ": " + temp[1]);
+					out.println(temp[0] + ": " + temp[1]);
 				}
 			}
 			bR.close();

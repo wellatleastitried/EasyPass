@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.lang.System.*;
 
 /**
  * PasswordGenerator serves as a helper class to PasswordManager by supplying helpful methods that may be necessary to
@@ -291,12 +292,12 @@ class PasswordGenerator {
 					}
 				}
 			}
-			System.out.println("Searching through previous password leaks took " + (System.currentTimeMillis() - start) + " ms to complete.");
+			out.println("Searching through previous password leaks took " + (System.currentTimeMillis() - start) + " ms to complete.");
 		} catch (NullPointerException nPE) {
 			logger.log(Level.INFO, "No word-lists to search through.");
 		}
 		if (wordWasFound.get()) {
-			System.out.println("This password was previously found in a data breach, you may want to change it.");
+			out.println("This password was previously found in a data breach, you may want to change it.");
 			return 0;
 		}
 		int score = 0;
