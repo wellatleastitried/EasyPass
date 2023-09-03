@@ -9,7 +9,15 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordGenerator.java
 import static java.lang.System.*;
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordGenerator.java
+=======
+
+import static java.lang.System.*;
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordGenerator.java
+>>>>>>> test:src/main/java/PasswordGenerator.java
 
 /**
  * PasswordGenerator serves as a helper class to PasswordManager by supplying helpful methods that may be necessary to

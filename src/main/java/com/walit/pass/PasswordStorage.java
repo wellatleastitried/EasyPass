@@ -13,7 +13,15 @@ import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 import static java.lang.System.*;
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+=======
+
+import static java.lang.System.*;
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 
 /**
  * PasswordStorage serves as a helper class to PasswordManager by handling the storage and calling from specific files
@@ -40,9 +48,16 @@ class PasswordStorage {
 	/**
 	 * @return Returns a base64 encoded string to be used.
 	 */
-	private String getB64String() {
+	private String getKVector() {
 		// TODO: parse InitData for initial key when program first runs and padding to use.
-		return "Eb12p50KRBhsJTRpH59PQ58Stp/R1OgKk4kGkyoUJ7I=";
+		try {
+			Parsed par = new Parsed();
+			return par.getStr();
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Exception in retrieving xml data.");
+		}
+		System.exit(1);
+		return "String unable to be parsed.";
 	}
 
 	/**
@@ -51,7 +66,15 @@ class PasswordStorage {
 	 */
 	private byte[] getIVSpec() {
 		byte[] iv = new byte[16];
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 		File vecFil = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "vectors.txt");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+		File vecFil = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "vectors.txt");
+=======
+		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vectors.txt");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 		try {
 			BufferedReader bR = new BufferedReader(new FileReader(vecFil));
 			String line = bR.readLine();
@@ -84,10 +107,20 @@ class PasswordStorage {
 			String x = getKVector();
 			byte[] bytesOfKVector = Base64.getDecoder().decode(x);
 			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 			File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+			File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 			IvParameterSpec ivPS = new IvParameterSpec(initialize);
 			String ls = System.getProperty("line.separator");
-			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+			String pad = new Parsed().getPad();
+
+			Cipher cipher = Cipher.getInstance(pad);
 			if (num == 0) {
 				byte[] oldIVBytes;
 				oldIVBytes = getIVSpec();
@@ -155,10 +188,21 @@ class PasswordStorage {
 		   	logger.log(Level.SEVERE, "Invalid algorithm parameter exception in unlockLock() method.");
 		} catch (BadPaddingException bPE) {
 		   	logger.log(Level.SEVERE, "Bad padding exception in unlockLock() method.");
-		}
+		} catch (Exception e) {
+            logger.log(Level.SEVERE, "Exception parsing pad from xml.");
+        }
 
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
 		try {
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 			File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "vectors.txt");
+=======
+			File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "vectors.txt");
+=======
+        try {
+			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vectors.txt");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 			if (file.exists() && file.isFile()) {
 				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
 				app.write(hex(initialize));
@@ -179,20 +223,20 @@ class PasswordStorage {
 	}
 
 	/**
-	 * Gets base64 and replaces unnecessary values within it.
-	 * @return Returns a base64 string.
-	 */
-	private String getKVector() {
-		return getB64String();
-	}
-
-	/**
 	 * Stores the name and password for the user.
 	 * @param transferable Encoded user information to be stored.
 	 */
 	protected void storeInfo(String[] transferable) {
 		String[] info = new String[2];
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 		File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+		File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -227,7 +271,15 @@ class PasswordStorage {
 	 * Displays all passwords and associated names for the user.
 	 */
 	protected void getInfo() {
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 		File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+		File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -269,7 +321,15 @@ class PasswordStorage {
 	 * @return Returns a list of all lines that have a name matching the given one.
 	 */
 	protected ArrayList<String> findInfo(String name) {
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 		File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+		File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 		ArrayList<String> acceptedStrings = new ArrayList<>();
 		try {
 			if (!(file.exists() && file.isFile())) {
@@ -343,7 +403,15 @@ class PasswordStorage {
 	 */
 	protected List<String> findNameToAlter() {
 		unlockLock(0);
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 		File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+		File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 		List<String> stringLines = new ArrayList<>();
 		String line;
 		try {
@@ -365,7 +433,15 @@ class PasswordStorage {
 	 * @param infoToStore The list containing the necessary information to store.
 	 */
 	protected void storeNameFromLists(List<String> infoToStore) {
+<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordStorage.java
 		File file = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+<<<<<<< Updated upstream:src/main/java/PasswordStorage.java
+		File file = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
+=======
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+>>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordStorage.java
+>>>>>>> test:src/main/java/PasswordStorage.java
 		unlockLock(0);
 		try {
 			BufferedWriter bW = new BufferedWriter(new FileWriter(file, false));

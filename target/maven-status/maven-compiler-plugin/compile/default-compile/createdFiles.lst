@@ -1,3 +1,7 @@
 com\walit\pass\PasswordGenerator.class
 com\walit\pass\PasswordManager.class
+<<<<<<< HEAD
+=======
+com\walit\pass\Parsed.class
+>>>>>>> test
 com\walit\pass\PasswordStorage.class
