@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-<<<<<<< Updated upstream
-    <list default="true" id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="" />
-=======
-    <list default="true" id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="Increased readability in java source files.">
-      <change afterPath="$PROJECT_DIR$/resources/utilities/data/parsed.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" afterDir="false" />
+    <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/EasyPass.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/Utilities/data/InitData.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Utilities/img/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/img/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Utilities/log/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/log/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Parsed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
     </list>
->>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,24 +34,43 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="2UjFIxZSu8gllFHFh935EGzQppt" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2UsSO4Kh0dvB5NgaEcsiUH8cfqM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.walit.pass" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
-      <module name="EasyPass" />
+      <module name="easypass" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="easypass" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TORNADOFX_RUNCONFIGURATION" run-type="App" live-views="false" live-stylesheets="false" dump-stylesheets="false">
+      <module name="easypass" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -72,53 +79,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6fd1329b-2f33-4eb4-be79-22b68df71828" name="Changes" comment="" />
-      <created>1693445007979</created>
+      <changelist id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="" />
+      <created>1693726253944</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1693445007979</updated>
+      <updated>1693726253944</updated>
     </task>
-<<<<<<< Updated upstream
-=======
-    <task id="LOCAL-00001" summary="Added Intellij project files.">
-      <option name="closed" value="true" />
-      <created>1693445233265</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1693445233265</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Added Maven to the project structure.">
-      <option name="closed" value="true" />
-      <created>1693537301255</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1693537301255</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Increased readability in java source files.">
-      <option name="closed" value="true" />
-      <created>1693544263763</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1693544263763</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
->>>>>>> Stashed changes
     <servers />
   </component>
-  <component name="UnknownFeatures">
-    <option featureType="dependencySupport" implementationName="executable:docker" />
-    <option featureType="dependencySupport" implementationName="executable:kubectl" />
-  </component>
-<<<<<<< Updated upstream
-=======
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added Intellij project files." />
-    <MESSAGE value="Added Maven to the project structure." />
-    <MESSAGE value="Increased readability in java source files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Increased readability in java source files." />
-  </component>
->>>>>>> Stashed changes
 </project>

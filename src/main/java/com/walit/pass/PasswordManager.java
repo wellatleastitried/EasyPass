@@ -6,15 +6,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.XMLFormatter;
-<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordManager.java
-import static java.lang.System.*;
-=======
-<<<<<<< Updated upstream:src/main/java/PasswordManager.java
-=======
 
 import static java.lang.System.*;
->>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordManager.java
->>>>>>> test:src/main/java/PasswordManager.java
 
 /**
  * This is the file containing the main method for PasswordManager. This program allows the user to generate, store,
@@ -53,32 +46,14 @@ public class PasswordManager implements Runnable {
         	System.exit(1);
         }
 		initializeFilesForProgram();
-<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordManager.java
-		File logFile = new File("resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		out.println(logFile.getName());
-=======
-<<<<<<< Updated upstream:src/main/java/PasswordManager.java
-		File logFile = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		System.out.println(logFile.getName());
-=======
 		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
 		out.println(logFile.getName());
->>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordManager.java
->>>>>>> test:src/main/java/PasswordManager.java
 		FileHandler fH;
 		try {
 			if (logFile.exists() && logFile.isFile()) {
 				new FileWriter(logFile, false).close();
 			}
-<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordManager.java
-			fH = new FileHandler("resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
-=======
-<<<<<<< Updated upstream:src/main/java/PasswordManager.java
-			fH = new FileHandler(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
-=======
 			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
->>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordManager.java
->>>>>>> test:src/main/java/PasswordManager.java
 			while (logger.getHandlers().length > 0) {
 				logger.removeHandler(logger.getHandlers()[0]);
 			}
@@ -607,21 +582,9 @@ public class PasswordManager implements Runnable {
 	private void initializeFilesForProgram() {
 
 		String ls = System.getProperty("line.separator");
-<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordManager.java
-		File storeDir = new File("resources" + bSlash + "Utilities" + bSlash + "log");
-		File logDir = new File("resources" + bSlash + "Utilities" + bSlash + "data");
-		File wordLists = new File("resources" + bSlash + "WordLists");
-=======
-<<<<<<< Updated upstream:src/main/java/PasswordManager.java
-		File storeDir = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "log");
-		File logDir = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data");
-		File wordLists = new File(dubEsc + "resources" + bSlash + "WordLists");
-=======
 		File storeDir = new File("resources" + bSlash + "utilities" + bSlash + "log");
 		File logDir = new File("resources" + bSlash + "utilities" + bSlash + "data");
 		File wordLists = new File("resources" + bSlash + "WordLists");
->>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordManager.java
->>>>>>> test:src/main/java/PasswordManager.java
 		File[] dirs = new File[3];
 		dirs[0] = storeDir;
 		dirs[1] = logDir;
@@ -638,21 +601,9 @@ public class PasswordManager implements Runnable {
 		} catch (NullPointerException nPE) {
 			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
 		}
-<<<<<<< HEAD:src/main/java/com/walit/pass/PasswordManager.java
-		File info = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
-		File vectors = new File("resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "vectors.txt");
-		File passMan = new File("resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log");
-=======
-<<<<<<< Updated upstream:src/main/java/PasswordManager.java
-		File info = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "info.csv");
-		File vectors = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "data" + bSlash + "vectors.txt");
-		File passMan = new File(dubEsc + "resources" + bSlash + "Utilities" + bSlash + "log" + bSlash + "PassMan.log");
-=======
 		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
 		File vectors = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vectors.txt");
 		File passMan = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
->>>>>>> Stashed changes:src/main/java/com/walit/pass/PasswordManager.java
->>>>>>> test:src/main/java/PasswordManager.java
 		File[] files = new File[3];
 		files[0] = info;
 		files[1] = vectors;

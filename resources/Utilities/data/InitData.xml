@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DataForStartup>
-    <InitStrings>
-        <pad>AES/CBC/PKCS5PADDING</pad>
-        <str>Eb12p50KRBhsJTRpH59PQ58Stp/R1OgKk4kGkyoUJ7I=</str>
-    </InitStrings>
-</DataForStartup>

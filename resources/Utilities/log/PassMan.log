@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-09-03T07:41:08.612198900Z</date>
+  <millis>1693726868612</millis>
+  <nanos>198900</nanos>
+  <sequence>0</sequence>
+  <logger>ManagerLog</logger>
+  <level>INFO</level>
+  <class>com.walit.pass.PasswordManager</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>Successful startup.</message>
+</record>
+<record>
+  <date>2023-09-03T07:41:16.928153600Z</date>
+  <millis>1693726876928</millis>
+  <nanos>153600</nanos>
+  <sequence>1</sequence>
+  <logger>ManagerLog</logger>
+  <level>INFO</level>
+  <class>com.walit.pass.PasswordManager</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>Successful termination.</message>
+</record>
+</log>
