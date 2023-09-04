@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Utilities/log/PassMan.log" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Utilities/log/PassMan.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/Parsed.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/Parsed.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.pass.XMLTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.pass.XMLTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.walit.pass.XMLTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.walit.pass.XMLTest.txt" afterDir="false" />
-    </list>
+    <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,6 +49,27 @@
       <option name="presentableId" value="Default" />
       <updated>1693726253944</updated>
     </task>
+    <task id="LOCAL-00001" summary="Small tweaks to main and test java files and a few separate files.">
+      <option name="closed" value="true" />
+      <created>1693795636836</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1693795636836</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Small tweaks to main and test java files and a few separate files.">
+      <option name="closed" value="true" />
+      <created>1693795666576</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1693795666576</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Small tweaks to main and test java files and a few separate files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Small tweaks to main and test java files and a few separate files." />
   </component>
 </project>
