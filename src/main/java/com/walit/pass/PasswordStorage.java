@@ -3,11 +3,14 @@ package com.walit.pass;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.io.*;
+
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,7 +34,7 @@ class PasswordStorage {
 	public final String bSlash = File.separator;
 
 	/**
-	 * Constructor for the PasswordStorage class.
+	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
 	 */
 	public PasswordStorage(Logger storeLog) {
 		this.logger = storeLog;
@@ -39,18 +42,18 @@ class PasswordStorage {
 	}
 
 	/**
-	 * @return Returns a base64 encoded string to be used.
+	 * @return Returns the key to be used in the encryption of passwords.
 	 */
-	private String getKVector() {
-		// TODO: parse InitData for initial key when program first runs and padding to use.
+	private String getStrFromFile() {
 		try {
 			Parsed par = new Parsed();
 			return par.getStr();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Exception in retrieving xml data.");
 		}
-		System.exit(1);
-		return "String unable to be parsed.";
+		logger.log(Level.SEVERE, "Unable to parse string.");
+		exit(1);
+		return null;
 	}
 
 	/**
@@ -59,7 +62,7 @@ class PasswordStorage {
 	 */
 	private byte[] getIVSpec() {
 		byte[] iv = new byte[16];
-		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vectors.txt");
+		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vec");
 		try {
 			BufferedReader bR = new BufferedReader(new FileReader(vecFil));
 			String line = bR.readLine();
@@ -89,10 +92,10 @@ class PasswordStorage {
 	 */
 	private void unlockLock(int num) {
 		try {
-			String x = getKVector();
+			String x = getStrFromFile();
 			byte[] bytesOfKVector = Base64.getDecoder().decode(x);
 			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
-			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
 			IvParameterSpec ivPS = new IvParameterSpec(initialize);
 			String ls = System.getProperty("line.separator");
 			String pad = new Parsed().getPad();
@@ -169,7 +172,7 @@ class PasswordStorage {
         }
 
 		try {
-			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vectors.txt");
+			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vec");
 			if (file.exists() && file.isFile()) {
 				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
 				app.write(hex(initialize));
@@ -195,7 +198,7 @@ class PasswordStorage {
 	 */
 	protected void storeInfo(String[] transferable) {
 		String[] info = new String[2];
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -230,7 +233,7 @@ class PasswordStorage {
 	 * Displays all passwords and associated names for the user.
 	 */
 	protected void getInfo() {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -272,7 +275,7 @@ class PasswordStorage {
 	 * @return Returns a list of all lines that have a name matching the given one.
 	 */
 	protected ArrayList<String> findInfo(String name) {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
 		ArrayList<String> acceptedStrings = new ArrayList<>();
 		try {
 			if (!(file.exists() && file.isFile())) {
@@ -346,7 +349,7 @@ class PasswordStorage {
 	 */
 	protected List<String> findNameToAlter() {
 		unlockLock(0);
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
 		List<String> stringLines = new ArrayList<>();
 		String line;
 		try {
@@ -368,7 +371,7 @@ class PasswordStorage {
 	 * @param infoToStore The list containing the necessary information to store.
 	 */
 	protected void storeNameFromLists(List<String> infoToStore) {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
 		unlockLock(0);
 		try {
 			BufferedWriter bW = new BufferedWriter(new FileWriter(file, false));
@@ -379,7 +382,7 @@ class PasswordStorage {
 			bW.flush();
 			bW.close();
 		} catch (IOException e) {
-			logger.log(Level.WARNING, "Error writing new data to info.csv");
+			logger.log(Level.WARNING, "Error writing new data to info");
 		}
 		unlockLock(1);
 	}

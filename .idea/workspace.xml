@@ -5,20 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/EasyPass.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Utilities/data/InitData.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Parsed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Utilities/log/PassMan.log" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Utilities/log/PassMan.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/Parsed.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/Parsed.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.pass.XMLTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.pass.XMLTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.walit.pass.XMLTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.walit.pass.XMLTest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,47 +38,26 @@
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2UsSO4Kh0dvB5NgaEcsiUH8cfqM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ignore.virus.scanning.warn.message": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.walit.pass" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="easypass" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="easypass" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TORNADOFX_RUNCONFIGURATION" run-type="App" live-views="false" live-stylesheets="false" dump-stylesheets="false">
-      <module name="easypass" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

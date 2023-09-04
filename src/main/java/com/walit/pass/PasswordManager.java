@@ -1,6 +1,7 @@
 package com.walit.pass;
 
 import java.io.*;
+
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -208,7 +209,7 @@ public class PasswordManager implements Runnable {
 				out.println(index + ") " + x);
 				index++;
 			}
-			System.out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
+			out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
 			String choice = s.nextLine();
 			int chosenIndex = Integer.parseInt(choice);
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
@@ -274,7 +275,7 @@ public class PasswordManager implements Runnable {
 				out.println(index + ") " + x);
 				index++;
 			}
-			System.out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
+			out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
 			String choice = s.nextLine().trim();
 			int chosenIndex = Integer.parseInt(choice);
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
@@ -433,7 +434,7 @@ public class PasswordManager implements Runnable {
 	 * Generates the menu for the user to interact with in the terminal.
 	 */
 	private void startupText() {
-		System.out.print("""
+		out.print("""
 			CHOOSE AN OPTION!
 			1) Generate a new password
 			2) Find password by search
@@ -443,7 +444,7 @@ public class PasswordManager implements Runnable {
 			6) Store existing password
 			7) Exit program
 			Choose an option:""");
-		System.out.print(" ");
+		out.print(" ");
 	}
 
 	/**
@@ -601,12 +602,12 @@ public class PasswordManager implements Runnable {
 		} catch (NullPointerException nPE) {
 			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
 		}
-		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info.csv");
-		File vectors = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vectors.txt");
+		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+		File vec = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vec");
 		File passMan = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
 		File[] files = new File[3];
 		files[0] = info;
-		files[1] = vectors;
+		files[1] = vec;
 		files[2] = passMan;
 		try {
 			for (int i = 0; i < files.length; i++) {
@@ -639,7 +640,7 @@ public class PasswordManager implements Runnable {
 	private void strengthTest() {
 		PasswordGenerator pG = new PasswordGenerator(logger);
 		//change this block
-		System.out.print("Enter the password to test here: ");
+		out.print("Enter the password to test here: ");
 		String password = s.nextLine().trim();
 		out.println();
 		int score = pG.passwordStrengthScoring(password);

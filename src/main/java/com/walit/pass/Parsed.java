@@ -2,6 +2,7 @@ package com.walit.pass;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.File;
 
 import org.w3c.dom.Document;
@@ -11,8 +12,8 @@ import org.w3c.dom.NodeList;
 
 public class Parsed {
 
-    private String str = "NO";
-    private String pad = "NO";
+    private String str;
+    private String pad;
 
     public Parsed() throws Exception {
         File file = new File("resources\\utilities\\data\\parsed.xml");
