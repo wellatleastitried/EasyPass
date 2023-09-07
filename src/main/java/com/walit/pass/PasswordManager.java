@@ -24,7 +24,7 @@ public class PasswordManager implements Runnable {
 	public int capitals = -1;
 	public int numbers = -1;
 	private final Logger logger = Logger.getLogger("ManagerLog");
-	public Scanner s = new Scanner(System.in);
+	public Scanner s = new Scanner(in);
 
 	/**
 	 * Main method of PasswordManager, creates new PasswordManager object to run.
@@ -32,6 +32,30 @@ public class PasswordManager implements Runnable {
 	 * */
 	public static void main(String[] args) {
 		PasswordManager pM = new PasswordManager();
+		/*
+        switch (args[0]) {
+            case "--console", "-c" -> pM.run();
+            case "--help", "-h" -> {
+				out.println("""
+                    Welcome to the help menu for EasyPass!
+                    								
+                    If no argument is passed to the program, the full application will launch.
+                    								
+                    Useful commands:
+                    	--help           -> Bring up the help menu
+                    	-v, --version    -> Output version information and exit
+                    	-c, --console    -> Starts the command line interface
+                    	
+                    """);
+				exit(0);
+			}
+			case "-v", "--version" -> {
+				getVersionInfo();
+				exit(0);
+			}
+			case default -> pM.runGUI();
+        }
+        */
 		pM.run();
 	}
 
@@ -40,11 +64,11 @@ public class PasswordManager implements Runnable {
 	 * */
 	@Override
 	public void run() {
-		String os = System.getProperty("os.name");
+		String os = getProperty("os.name");
         os = os.toLowerCase();
         if (!(os.contains("win"))) {
         	out.println("Not a windows machine.");
-        	System.exit(1);
+        	exit(1);
         }
 		initializeFilesForProgram();
 		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
@@ -66,7 +90,6 @@ public class PasswordManager implements Runnable {
 		} catch (IOException e) {
 			out.println("Logger could not be initialized.\n\nPlease restart program.");
 		}
-		//PasswordGUI pGUI = new PasswordGUI();
 		poundSeparate();
 		printLogo();
 		poundSeparate();
@@ -122,9 +145,12 @@ public class PasswordManager implements Runnable {
 		shutdown();
 		logger.log(Level.INFO, "Successful termination.");
 		poundSeparate();
-		System.exit(0);
+		exit(0);
 	}
 
+	/**
+	 * Prints logo at startup.
+	 */
 	private void printLogo() {
 		out.println("""
 			
@@ -136,10 +162,16 @@ public class PasswordManager implements Runnable {
 			""");
 	}
 
+	/**
+	 * Line separator during program runtime.
+	 */
 	private void dashSeparate() {
 		out.println("\n--------------------------------------------------------------------------\n");
 	}
 
+	/**
+	 * Line separator during program runtime.
+	 */
 	private void poundSeparate() {
 		out.println("\n##########################################################################\n");
 	}
@@ -509,17 +541,16 @@ public class PasswordManager implements Runnable {
 	 * Gets the parameters for password generation from the user.
 	 */
 	private void tempMethod() {
-		//getParams();
 		resetParams();
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
 			out.println("Enter desired password length: ");
 			try {
 				String x = s.nextLine().trim();
 				lengthOfPassword = Integer.parseInt(x);
-				if (lengthOfPassword < 0 || lengthOfPassword > 100) {
+				if (lengthOfPassword < 0 || lengthOfPassword > 1000) {
 					logger.log(Level.WARNING, "User input an invalid number.");
-					out.println("Negative numbers and lengths above 10000 cannot be used in the input.");
-					tempMethod();
+					out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
+					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
@@ -534,7 +565,8 @@ public class PasswordManager implements Runnable {
 				if (specialChars < 0) {
 					logger.log(Level.WARNING, "User input a negative number.");
 					out.println("Negative numbers cannot be used in the input.");
-					tempMethod();
+					specialChars = -1;
+					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
@@ -550,7 +582,8 @@ public class PasswordManager implements Runnable {
 					logger.log(Level.WARNING, "User input a negative number.");
 					capitals = -1;
 					out.println("Negative numbers cannot be used in the input.");
-					tempMethod();
+					capitals = -1;
+					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
@@ -564,7 +597,8 @@ public class PasswordManager implements Runnable {
 				if (numbers < 0) {
 					logger.log(Level.WARNING, "User input a negative number.");
 					out.println("Negative numbers cannot be used in the input.");
-					tempMethod();
+					numbers = -1;
+					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "User input an illegal character.");
@@ -582,7 +616,7 @@ public class PasswordManager implements Runnable {
 	 */
 	private void initializeFilesForProgram() {
 
-		String ls = System.getProperty("line.separator");
+		String ls = getProperty("line.separator");
 		File storeDir = new File("resources" + bSlash + "utilities" + bSlash + "log");
 		File logDir = new File("resources" + bSlash + "utilities" + bSlash + "data");
 		File wordLists = new File("resources" + bSlash + "WordLists");
@@ -602,8 +636,8 @@ public class PasswordManager implements Runnable {
 		} catch (NullPointerException nPE) {
 			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
 		}
-		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
-		File vec = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vec");
+		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File vec = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
 		File passMan = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
 		File[] files = new File[3];
 		files[0] = info;

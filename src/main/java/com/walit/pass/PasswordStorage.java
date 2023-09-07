@@ -28,7 +28,7 @@ import static java.lang.System.*;
 class PasswordStorage {
 
 	private final Logger logger;
-	public final String ls = System.getProperty("line.separator");
+	public final String ls = getProperty("line.separator");
 	protected SecureRandom sR = new SecureRandom();
 	protected byte[] initialize = new byte[16];
 	public final String bSlash = File.separator;
@@ -62,7 +62,7 @@ class PasswordStorage {
 	 */
 	private byte[] getIVSpec() {
 		byte[] iv = new byte[16];
-		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vec");
+		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
 		try {
 			BufferedReader bR = new BufferedReader(new FileReader(vecFil));
 			String line = bR.readLine();
@@ -95,9 +95,9 @@ class PasswordStorage {
 			String x = getStrFromFile();
 			byte[] bytesOfKVector = Base64.getDecoder().decode(x);
 			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
-			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 			IvParameterSpec ivPS = new IvParameterSpec(initialize);
-			String ls = System.getProperty("line.separator");
+			String ls = getProperty("line.separator");
 			String pad = new Parsed().getPad();
 			Cipher cipher = Cipher.getInstance(pad);
 			if (num == 0) {
@@ -172,7 +172,7 @@ class PasswordStorage {
         }
 
 		try {
-			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vec");
+			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
 			if (file.exists() && file.isFile()) {
 				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
 				app.write(hex(initialize));
@@ -198,7 +198,7 @@ class PasswordStorage {
 	 */
 	protected void storeInfo(String[] transferable) {
 		String[] info = new String[2];
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -233,7 +233,7 @@ class PasswordStorage {
 	 * Displays all passwords and associated names for the user.
 	 */
 	protected void getInfo() {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -263,7 +263,7 @@ class PasswordStorage {
 			logger.log(Level.WARNING, ".csv file unable to be read.");
 		} catch (ArrayIndexOutOfBoundsException aE) {
 			logger.log(Level.SEVERE, "Array index out of bound exception in getInfo() method.");
-			System.exit(1);
+			exit(1);
 		}
 		//encrypt
 		unlockLock(1);
@@ -275,7 +275,7 @@ class PasswordStorage {
 	 * @return Returns a list of all lines that have a name matching the given one.
 	 */
 	protected ArrayList<String> findInfo(String name) {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		ArrayList<String> acceptedStrings = new ArrayList<>();
 		try {
 			if (!(file.exists() && file.isFile())) {
@@ -349,7 +349,7 @@ class PasswordStorage {
 	 */
 	protected List<String> findNameToAlter() {
 		unlockLock(0);
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		List<String> stringLines = new ArrayList<>();
 		String line;
 		try {
@@ -371,7 +371,7 @@ class PasswordStorage {
 	 * @param infoToStore The list containing the necessary information to store.
 	 */
 	protected void storeNameFromLists(List<String> infoToStore) {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "info");
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		unlockLock(0);
 		try {
 			BufferedWriter bW = new BufferedWriter(new FileWriter(file, false));

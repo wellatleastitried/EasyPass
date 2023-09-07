@@ -259,7 +259,7 @@ class PasswordGenerator {
 		//User can add as many word-lists to this folder as they want, but it will drastically impact runtime.
 		File wordDirectory = new File("resources" + bSlash + "WordLists");
 		AtomicBoolean wordWasFound = new AtomicBoolean(false);
-		long start = System.currentTimeMillis();
+		long start = currentTimeMillis();
 		try {
 			File[] wordLists = wordDirectory.listFiles();
 			if (wordLists != null) {
@@ -295,7 +295,7 @@ class PasswordGenerator {
 					}
 				}
 			}
-			out.println("Searching through previous password leaks took " + (System.currentTimeMillis() - start) + " ms to complete.");
+			out.println("Searching through previous password leaks took " + (currentTimeMillis() - start) + " ms to complete.");
 		} catch (NullPointerException nPE) {
 			logger.log(Level.INFO, "No word-lists to search through.");
 		}
