@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-19\bin"/>
-    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire15404844329522456915\surefirebooter-20230907003013159_3.jar C:\Users\user\AppData\Local\Temp\surefire15404844329522456915 2023-09-07T00-30-13_064-jvmRun1 surefire-20230907003013159_1tmp surefire_0-20230907003013159_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire4169977917285157730\surefirebooter-20230907223433061_3.jar C:\Users\user\AppData\Local\Temp\surefire4169977917285157730 2023-09-07T22-34-32_969-jvmRun1 surefire-20230907223433061_1tmp surefire_0-20230907223433061_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\user\OneDrive\Documents\GitHub\EasyPass\target\test-classes;C:\Users\user\OneDrive\Documents\GitHub\EasyPass\target\classes;C:\Users\user\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\user\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire15404844329522456915\surefirebooter-20230907003013159_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire4169977917285157730\surefirebooter-20230907223433061_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="19.0.1+10-21"/>

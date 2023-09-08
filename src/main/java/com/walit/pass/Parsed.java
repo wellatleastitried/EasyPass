@@ -22,6 +22,8 @@ class Parsed {
 
     private String str;
     private String pad;
+    private String version;
+    private String nameOfProd;
 
     /**
      * Constructor for Parsed class, initializes str and pad.
@@ -29,7 +31,7 @@ class Parsed {
      * @throws IOException Thrown if errors finding the xml file come up.
      * @throws SAXException Thrown if there are any remaining errors with the document builder.
      */
-    public Parsed() throws ParserConfigurationException, IOException, SAXException {
+    protected Parsed() throws ParserConfigurationException, IOException, SAXException {
         File file = new File("resources\\utilities\\data\\parsed.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -41,20 +43,25 @@ class Parsed {
             Element elem = (Element) node;
             this.str = elem.getElementsByTagName("str").item(0).getTextContent();
             this.pad = elem.getElementsByTagName("pad").item(0).getTextContent();
+            this.version = elem.getElementsByTagName("version").item(0).getTextContent();
+            this.nameOfProd = elem.getElementsByTagName("prod").item(0).getTextContent();
         }
     }
 
     /**
      * @return Returns the String str.
      */
-    protected String getStr() {
-        return str;
-    }
+    protected String getStr() { return str; }
 
     /**
      * @return Returns the String pad.
      */
-    protected String getPad() {
-        return pad;
+    protected String getPad() { return pad; }
+
+    /**
+     * @return Returns the version information for the program.
+     */
+    protected String getVersion() {
+        return nameOfProd + "-" + version;
     }
 }

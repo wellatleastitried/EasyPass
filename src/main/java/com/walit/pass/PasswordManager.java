@@ -32,31 +32,43 @@ public class PasswordManager implements Runnable {
 	 * */
 	public static void main(String[] args) {
 		PasswordManager pM = new PasswordManager();
-		/*
-        switch (args[0]) {
-            case "--console", "-c" -> pM.run();
-            case "--help", "-h" -> {
-				out.println("""
-                    Welcome to the help menu for EasyPass!
-                    								
-                    If no argument is passed to the program, the full application will launch.
-                    								
-                    Useful commands:
-                    	--help           -> Bring up the help menu
-                    	-v, --version    -> Output version information and exit
-                    	-c, --console    -> Starts the command line interface
-                    	
-                    """);
-				exit(0);
+		if (args.length > 0) {
+			switch (args[0]) {
+				case "--console", "-c" -> pM.run();
+				case "--help", "-h" -> out.println("""
+					
+					Welcome to the help menu for EasyPass!
+					
+					If no argument is passed to the program, the full application will launch.
+					
+					Commands:
+						--help           -> Bring up the help menu
+						-v, --version    -> Output version information and exit
+						-c, --console    -> Starts the command line interface
+					
+					""");
+				case "-v", "--version" -> getVersionInfo();
+				default -> pM.run();/*pM.runGUI();*/
 			}
-			case "-v", "--version" -> {
-				getVersionInfo();
-				exit(0);
-			}
-			case default -> pM.runGUI();
-        }
-        */
-		pM.run();
+		} else {
+			//pM.runGUI();
+			pM.run();
+		}
+		//pM.run();
+		exit(0);
+	}
+
+	/**
+	 * Prints the version information of the program.
+	 */
+	private static void getVersionInfo() {
+		try {
+			Parsed parser = new Parsed();
+			out.println(parser.getVersion());
+		} catch (Exception ignored) {
+			out.println("Error parsing version info.");
+		}
+
 	}
 
 	/**
@@ -93,7 +105,7 @@ public class PasswordManager implements Runnable {
 		poundSeparate();
 		printLogo();
 		poundSeparate();
-		int x = startup();
+		int x = displayMenu();
 		out.println();
 		while (x != 7) {
 			switch (x) {
@@ -104,22 +116,22 @@ public class PasswordManager implements Runnable {
 					finalizeName(temp);
 					dashSeparate();
 					resetParams();
-					x = startup();
+					x = displayMenu();
 				}
 				case 2 -> {
 					searchFor();
 					dashSeparate();
-					x = startup();
+					x = displayMenu();
 				}
 				case 3 -> {
 					extractInfoFromList();
 					dashSeparate();
-					x = startup();
+					x = displayMenu();
 				}
 				case 4 -> {
 					strengthTest();
 					dashSeparate();
-					x = startup();
+					x = displayMenu();
 				}
 				case 5 -> {
 					out.println("""
@@ -132,13 +144,13 @@ public class PasswordManager implements Runnable {
 					if (choice) changeInfo();
 					else removeInfo();
 					dashSeparate();
-					x = startup();
+					x = displayMenu();
 				}
 				case 6 -> {
 					String[] tempStr = getPassFromUser();
 					finalizeName(tempStr);
 					dashSeparate();
-					x = startup();
+					x = displayMenu();
 				}
 			}
 		}
@@ -483,7 +495,7 @@ public class PasswordManager implements Runnable {
 	 * Gets the response from the user in regard to the selection they make from the startupText() menu.
 	 * @return Returns the number they chose from the menu in startupText().
 	 */
-	private int startup() {
+	private int displayMenu() {
 		startupText();
 		String x;
 		int y;
@@ -498,7 +510,7 @@ public class PasswordManager implements Runnable {
 			}
 		} catch (NumberFormatException e) {
 			logger.log(Level.WARNING, "User input an illegal character in place of an integer.");
-			y = startup();
+			y = displayMenu();
 		}
 		return y;
 	}
