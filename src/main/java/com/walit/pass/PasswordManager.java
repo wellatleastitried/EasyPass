@@ -68,7 +68,6 @@ public class PasswordManager implements Runnable {
 		} catch (Exception ignored) {
 			out.println("Error parsing version info.");
 		}
-
 	}
 
 	/**
@@ -212,15 +211,15 @@ public class PasswordManager implements Runnable {
 	 * */
 	private boolean changeOrRem() {
 		boolean choiceMade = false;
-		boolean isChange =false;
+		boolean isChange = false;
 		while (!choiceMade) {
 			String ans = s.nextLine().trim().toLowerCase();
-			if (ans.equals("c")) {
+			if (ans.equals("c") || ans.equals("change")) {
 				isChange = true;
 				choiceMade = true;
-			} else if (ans.equals("r")) {
+			} else if (ans.equals("r") || ans.equals("remove")) {
 				choiceMade = true;
-			} else out.println("\nThat was not a valid option, enter \"c\" for change or \"r\" for remove.");
+			} else out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
 		}
 		return isChange;
 	}

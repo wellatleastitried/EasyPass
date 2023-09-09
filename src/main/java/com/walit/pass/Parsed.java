@@ -61,7 +61,5 @@ class Parsed {
     /**
      * @return Returns the version information for the program.
      */
-    protected String getVersion() {
-        return nameOfProd + "-" + version;
-    }
+    protected String getVersion() { return nameOfProd + "-" + version; }
 }

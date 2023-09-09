@@ -29,8 +29,8 @@ class PasswordStorage {
 
 	private final Logger logger;
 	public final String ls = getProperty("line.separator");
-	protected SecureRandom sR = new SecureRandom();
-	protected byte[] initialize = new byte[16];
+	private SecureRandom sR = new SecureRandom();
+	private byte[] initialize = new byte[16];
 	public final String bSlash = File.separator;
 
 	/**

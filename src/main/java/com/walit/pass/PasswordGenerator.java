@@ -130,28 +130,19 @@ class PasswordGenerator {
 	 * Generates a random single digit number.
 	 * @return Returns the number to be added to the password.
 	 */
-	private char addNumbers() {
-		int index = rand.nextInt(numbers.length);
-		return numbers[index];
-	}
+	private char addNumbers() { return numbers[rand.nextInt(numbers.length)]; }
 
 	/**
 	 * Generates a random capital letter.
 	 * @return Returns the letter to be added to the password.
 	 */
-	private char addCap() {
-		int index = rand.nextInt(capLetters.length);
-		return capLetters[index];
-	}
+	private char addCap() { return capLetters[rand.nextInt(capLetters.length)];	}
 
 	/**
 	 * Generates a random special character.
 	 * @return Returns the character to be added to the password.
 	 */
-	private char addSC() {
-		int index = rand.nextInt(specialCharacters.length);
-		return specialCharacters[index];
-	}
+	private char addSC() { return specialCharacters[rand.nextInt(specialCharacters.length)]; }
 
 	/**
 	 * Checks the number of capital letters to make sure it is not more or less than the intended amount.
@@ -285,7 +276,6 @@ class PasswordGenerator {
 						}
 					});
 				}
-
 				for (Thread thread : fileThreads) thread.start();
 				for (Thread thread : fileThreads) {
 					try {
