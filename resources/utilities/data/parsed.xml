@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <parsed>
     <info>
-        <pad>AES/CBC/PKCS5PADDING</pad>
-        <str>Eb12p50KRBhsJTRpH59PQ58Stp/R1OgKk4kGkyoUJ7I=</str>
-        <version>0.1.0</version>
         <prod>EasyPass</prod>
+        <version>0.1.0</version>
+        <pad>AES/CBC/PKCS5PADDING</pad>
+        <str>65D41BCAE4460B54184C590466D3000FEB7BDBF2A898A746E7E06BFE535868FE</str>
     </info>
 </parsed>

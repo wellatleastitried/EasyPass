@@ -37,9 +37,7 @@ class PasswordGenerator {
 	/**
 	 * Constructor for PasswordGenerator class.
 	 */
-	public PasswordGenerator(Logger genLog) {
-		this.logger = genLog;
-	}
+	public PasswordGenerator(Logger genLog) { this.logger = genLog;	}
 
 	/**
 	 * Generates a unique password based on the parameters that are passed to it.

@@ -1,8 +1,11 @@
 package com.walit.pass;
 
+import org.xml.sax.SAXException;
+
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.*;
 
@@ -29,31 +32,44 @@ class PasswordStorage {
 
 	private final Logger logger;
 	public final String ls = getProperty("line.separator");
-	private SecureRandom sR = new SecureRandom();
-	private byte[] initialize = new byte[16];
+	private final byte[] initialize = new byte[16];
 	public final String bSlash = File.separator;
+	private final int[] res1 = {116, 105, 109, 109, 121, 76, 79, 76};
 
 	/**
 	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
 	 */
 	public PasswordStorage(Logger storeLog) {
 		this.logger = storeLog;
+		SecureRandom sR = new SecureRandom();
 		sR.nextBytes(initialize);
 	}
 
 	/**
 	 * @return Returns the key to be used in the encryption of passwords.
 	 */
-	private String getStrFromFile() {
-		try {
-			Parsed par = new Parsed();
-			return par.getStr();
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Exception in retrieving xml data.");
+	private String calcStr() throws ParserConfigurationException, IOException, SAXException {
+		Parsed par = new Parsed();
+		String t = par.getStr();
+		return getVal(t);
+	}
+
+	/**
+	 * Calculates string to return.
+	 * @param change String to pass through operations.
+	 * @return Resulting string after operations.
+	 */
+	private String getVal(String change) {
+		StringBuilder sB = new StringBuilder();
+		for (int n : res1) sB.append((char) n);
+		String strB = sB.toString();
+		byte[] kB = deHex(change);
+		byte[] w = strB.getBytes();
+		byte[] res = new byte[kB.length];
+		for (int i = 0; i < kB.length; i++) {
+			res[i] = (byte) (kB[i] ^ w[i % w.length]);
 		}
-		logger.log(Level.SEVERE, "Unable to parse string.");
-		exit(1);
-		return null;
+		return hex(res);
 	}
 
 	/**
@@ -92,8 +108,8 @@ class PasswordStorage {
 	 */
 	private void unlockLock(int num) {
 		try {
-			String x = getStrFromFile();
-			byte[] bytesOfKVector = Base64.getDecoder().decode(x);
+			String x = calcStr();
+			byte[] bytesOfKVector = deHex(x);
 			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
 			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 			IvParameterSpec ivPS = new IvParameterSpec(initialize);
@@ -168,7 +184,7 @@ class PasswordStorage {
 		} catch (BadPaddingException bPE) {
 		   	logger.log(Level.SEVERE, "Bad padding exception in unlockLock() method.");
 		} catch (Exception e) {
-            logger.log(Level.SEVERE, "Exception parsing pad from xml.");
+            logger.log(Level.SEVERE, "Exception parsing from xml.");
         }
 
 		try {
