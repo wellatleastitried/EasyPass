@@ -308,7 +308,7 @@ class PasswordGenerator {
 				passLen == numCount + 2 || passLen == specCount + 2) {
 			return 2;
 		}
-		score = (passLen <= 4) ? (score - 1) : (passLen < 9) ? (score + 1) : (score + 2);
+		score = (passLen <= 5) ? (score - 2) : (passLen < 8) ? (score - 1) : (passLen <= 10) ? (score + 1) : (score + 2);
 		score = (capCount == 0) ?  score : (capCount < 3) ? (score + 1) : (capCount < 5) ? (score + 2) : (score + 3);
 		score = (specCount == 0) ? score : (specCount < 2) ? (score + 1) : (specCount < 5) ? (score + 2) : (score + 3);
 		score = (numCount == 0) ? score : (numCount < 2) ? (score + 1) : (numCount < 4) ? (score + 2) : (score + 3);

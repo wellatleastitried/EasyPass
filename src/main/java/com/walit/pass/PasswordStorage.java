@@ -34,7 +34,7 @@ class PasswordStorage {
 	public final String ls = getProperty("line.separator");
 	private final byte[] initialize = new byte[16];
 	public final String bSlash = File.separator;
-	private final int[] res1 = {116, 105, 109, 109, 121, 76, 79, 76};
+	private final int[] res1 = {85, 74, 78, 78, 90, 45, 48, 45};
 
 	/**
 	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
@@ -50,8 +50,7 @@ class PasswordStorage {
 	 */
 	private String calcStr() throws ParserConfigurationException, IOException, SAXException {
 		Parsed par = new Parsed();
-		String t = par.getStr();
-		return getVal(t);
+		return getVal(par.getStr());
 	}
 
 	/**
@@ -61,10 +60,12 @@ class PasswordStorage {
 	 */
 	private String getVal(String change) {
 		StringBuilder sB = new StringBuilder();
-		for (int n : res1) sB.append((char) n);
-		String strB = sB.toString();
+		for (int n : res1) {
+			n += 31;
+			sB.append((char) n);
+		}
 		byte[] kB = deHex(change);
-		byte[] w = strB.getBytes();
+		byte[] w = sB.toString().getBytes();
 		byte[] res = new byte[kB.length];
 		for (int i = 0; i < kB.length; i++) {
 			res[i] = (byte) (kB[i] ^ w[i % w.length]);

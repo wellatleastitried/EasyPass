@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/utilities/log/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/log/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
