@@ -158,7 +158,7 @@ class PasswordGenerator {
 		if (counter > capitals || counter == capitals) {
 			int numOfCapitalsToRemove = counter - capitals;
 			if (numOfCapitalsToRemove > 0) {
-				logger.log(Level.WARNING, "Method added too many special characters to pwd, had to manually remove.");
+				logger.log(Level.WARNING, "Function added too many special characters to password, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfCapitalsToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -190,7 +190,7 @@ class PasswordGenerator {
 		if (counter > specialChars || counter == specialChars) {
 			int numOfSpecCharToRemove = counter - specialChars;
 			if (numOfSpecCharToRemove > 0) {
-				logger.log(Level.WARNING, "Method added too many special characters to pwd, had to manually remove.");
+				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfSpecCharToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -222,7 +222,7 @@ class PasswordGenerator {
 		if (counter > numberOfNumbers || counter == numberOfNumbers) {
 			int numOfNumbersToRemove = counter - numberOfNumbers;
 			if (numOfNumbersToRemove > 0) {
-				logger.log(Level.WARNING, "Method added too many special characters to pwd, had to manually remove.");
+				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfNumbersToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {

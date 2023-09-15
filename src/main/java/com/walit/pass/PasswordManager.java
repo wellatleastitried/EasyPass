@@ -15,7 +15,7 @@ import static java.lang.System.*;
  * test, and view passwords by implementing an easy-to-use interface.
  *
  * @author Jackson Swindell
- * */
+ */
 public class PasswordManager implements Runnable {
 
 	public final String bSlash = File.separator;
@@ -29,7 +29,7 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Main method of PasswordManager, creates new PasswordManager object to run.
 	 * @param args Any command line arguments (not evaluated if given)
-	 * */
+	 */
 	public static void main(String[] args) {
 		PasswordManager pM = new PasswordManager();
 		if (args.length > 0) {
@@ -69,10 +69,82 @@ public class PasswordManager implements Runnable {
 			out.println("Error parsing version info.");
 		}
 	}
-
+	/*
+	public void runGUI() {
+		String os = getProperty("os.name");
+		if (!(os.toLowerCase().contains("win"))) {
+			err.println("Not a windows machine.");
+			exit(1);
+		}
+		initializeFilesForProgram();
+		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
+		err.println(logFile.getName());
+		FileHandler fH;
+		try {
+			if (logFile.exists() && logFile.isFile()) {
+				new FileWriter(logFile, false).close();
+			}
+			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
+			while (logger.getHandlers().length > 0) {
+				logger.removeHandler(logger.getHandlers()[0]);
+			}
+			logger.addHandler(fH);
+			fH.setLevel(Level.INFO);
+			XMLFormatter xF = new XMLFormatter();
+			fH.setFormatter(xF);
+			logger.log(Level.INFO, "Successful startup.");
+		} catch (IOException e) {
+			err.println("Logger could not be initialized.\n\nPlease restart program.");
+		}
+		PasswordGUI p = new PasswordGUI();
+		p.displayStartScreen();
+		p.displayHomeScreen();
+		int x = p.getOption();
+		while (x != 7) {
+			switch (x) {
+				case 1 -> {
+					int[] params = p.getSpecs();
+					this.lengthOfPassword = p.GetLength();
+					this.capitals = p.getCaps();
+					this.specialChars = p.getSpecChars();
+					this.numbers = p.getNumbers();
+					String[] temp = getInformation();
+					temp = p.finalizeName();
+					p.completeScreen();
+				}
+				case 2 -> {
+					p.searchFor();
+					p.completeScreen();
+				}
+				case 3 -> {
+					p.extractInfoFromList();
+					p.completeScreen();
+				}
+				case 4 -> {
+					p.strengthTest();
+					p.completeScreen();
+				}
+				case 5 -> {
+					boolean choice = p.changeOrRem();
+					if (choice) p.changeInfo();
+					else p.removeInfo();
+					p.completeScreen();
+				}
+				case 6 -> {
+					String[] tempStr = p.getPassFromUser();
+					p.finalizeName(tempStr);
+					p.completeScreen();
+				}
+			}
+		}
+		p.shutdown();
+		logger.log(Level.INFO, "Successful termination.");
+		exit(0);
+	}
+	*/
 	/**
 	 * Overridden run function that starts the program's execution.
-	 * */
+	 */
 	@Override
 	public void run() {
 		String os = getProperty("os.name");
@@ -99,7 +171,7 @@ public class PasswordManager implements Runnable {
 			fH.setFormatter(xF);
 			logger.log(Level.INFO, "Successful startup.");
 		} catch (IOException e) {
-			out.println("Logger could not be initialized.\n\nPlease restart program.");
+			out.println("Error in startup.\n\nPlease restart program.");
 		}
 		poundSeparate();
 		printLogo();
@@ -109,7 +181,7 @@ public class PasswordManager implements Runnable {
 		while (x != 7) {
 			switch (x) {
 				case 1 -> {
-					tempMethod();
+					getParams();
 					checkParams();
 					String[] temp = getInformation();
 					finalizeName(temp);
@@ -199,16 +271,13 @@ public class PasswordManager implements Runnable {
 
 	/**
 	 * Closes any resources that remain open.
-	 * */
-	private void shutdown() {
-		//pGUI.dispose();
-		s.close();
-	}
+	 */
+	private void shutdown() { s.close(); }
 
 	/**
 	 * Gets the response from the user for whether they want to change or remove a specific password.
 	 * @return Returns true if the user chooses 'change' and false if the user chooses 'remove'.
-	 * */
+	 */
 	private boolean changeOrRem() {
 		boolean choiceMade = false;
 		boolean isChange = false;
@@ -226,7 +295,7 @@ public class PasswordManager implements Runnable {
 
 	/**
 	 * Handles changing the user's password by getting the name the password belongs to and allowing them to enter a new password.
-	 * */
+	 */
 	private void changeInfo() {
 		out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
@@ -235,7 +304,7 @@ public class PasswordManager implements Runnable {
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
-			logger.log(Level.WARNING, "Unable to access file for names.");
+			logger.log(Level.WARNING, "Error retrieving file, please restart.");
 		} else {
 			for (String x : strings) {
 				splitStrings = x.split(", ");
@@ -301,7 +370,7 @@ public class PasswordManager implements Runnable {
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
-			logger.log(Level.WARNING, "Unable to access file for names.");
+			logger.log(Level.WARNING, "Error retrieving file, please restart.");
 		} else {
 			for (String x : strings) {
 				splitStrings = x.split(", ");
@@ -353,7 +422,7 @@ public class PasswordManager implements Runnable {
 	private String getUserNameForAlter(int choice) {
 		if (choice == 0) out.println("Enter the name for the password you would like to change.");
 		else if (choice == 1) out.println("Enter the name for the password you would like to remove.");
-		else logger.log(Level.INFO, "I genuinely have no idea how this happened.");
+		else logger.log(Level.INFO, "There has been an error that I didn't think was possible.");
 		return s.nextLine().trim().toLowerCase();
 	}
 
@@ -445,31 +514,31 @@ public class PasswordManager implements Runnable {
 				logger.log(Level.INFO, "Unable to generate password with the given parameters.\n" +
 						"Make sure the length of the password is long enough.");
 				//make user reenter params
-				tempMethod();
+				getParams();
 			} 
 			while (lengthOfPassword == specialChars) {
 				logger.log(Level.INFO, "Cannot make password that is made up of only specialCharacters.");
 				//make user reenter params
-				tempMethod();
+				getParams();
 			} 
 			while (lengthOfPassword == capitals) {
 				logger.log(Level.INFO, "Cannot make password that is made up of only capital letters.");
 				//make user reenter params
-				tempMethod();
+				getParams();
 			} 
 			while (lengthOfPassword == numbers) {
 				logger.log(Level.INFO, "Cannot make password that is made up of only numbers.");
 				//make user reenter params
-				tempMethod();
+				getParams();
 			} 
 			while (lengthOfPassword < (specialChars + capitals + numbers)) {
 				logger.log(Level.INFO, "Invalid parameters for the password.");
 				//make user reenter params
-				tempMethod();
+				getParams();
 			}
 		} catch (NumberFormatException e) {
 			logger.log(Level.INFO, "User input an illegal character in place of an integer.");
-			tempMethod();
+			getParams();
 		}
 	}
 
@@ -502,13 +571,13 @@ public class PasswordManager implements Runnable {
 			x = s.nextLine().trim();
 			y = Integer.parseInt(x);
 			while (y < 1 || y > 7) {
-				logger.log(Level.WARNING, "User input an illegal integer for the prompt.");
+				logger.log(Level.WARNING, "You have input an illegal integer for the prompt.");
 				out.println("Pick an option numbered 1 through 7.");
 				x = s.nextLine();
 				y = Integer.parseInt(x);
 			}
 		} catch (NumberFormatException e) {
-			logger.log(Level.WARNING, "User input an illegal character in place of an integer.");
+			logger.log(Level.WARNING, "You have input an illegal character in place of an integer.");
 			y = displayMenu();
 		}
 		return y;
@@ -551,7 +620,7 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Gets the parameters for password generation from the user.
 	 */
-	private void tempMethod() {
+	private void getParams() {
 		resetParams();
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
 			out.println("Enter desired password length: ");
@@ -559,12 +628,12 @@ public class PasswordManager implements Runnable {
 				String x = s.nextLine().trim();
 				lengthOfPassword = Integer.parseInt(x);
 				if (lengthOfPassword < 0 || lengthOfPassword > 1000) {
-					logger.log(Level.WARNING, "User input an invalid number.");
+					logger.log(Level.WARNING, "You have input an invalid number.");
 					out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
 					break;
 				}
 			} catch (NumberFormatException e) {
-				logger.log(Level.WARNING, "User input an illegal character.");
+				logger.log(Level.WARNING, "You have input an illegal character.");
 				lengthOfPassword = -1;
 				out.println("You must enter a number here.");
 				break;
@@ -574,13 +643,13 @@ public class PasswordManager implements Runnable {
 				String x = s.nextLine().trim();
 				specialChars = Integer.parseInt(x);
 				if (specialChars < 0) {
-					logger.log(Level.WARNING, "User input a negative number.");
+					logger.log(Level.WARNING, "You have input a negative number.");
 					out.println("Negative numbers cannot be used in the input.");
 					specialChars = -1;
 					break;
 				}
 			} catch (NumberFormatException e) {
-				logger.log(Level.WARNING, "User input an illegal character.");
+				logger.log(Level.WARNING, "You have input an illegal character.");
 				specialChars = -1;
 				out.println("You must enter a number.");
 				break;
@@ -590,14 +659,14 @@ public class PasswordManager implements Runnable {
 				String x = s.nextLine().trim();
 				capitals = Integer.parseInt(x);
 				if (capitals < 0) {
-					logger.log(Level.WARNING, "User input a negative number.");
+					logger.log(Level.WARNING, "You have input a negative number.");
 					capitals = -1;
 					out.println("Negative numbers cannot be used in the input.");
 					capitals = -1;
 					break;
 				}
 			} catch (NumberFormatException e) {
-				logger.log(Level.WARNING, "User input an illegal character.");
+				logger.log(Level.WARNING, "You have input an illegal character.");
 				out.println("You must enter a number.");
 				break;
 			}
@@ -606,20 +675,20 @@ public class PasswordManager implements Runnable {
 				String x = s.nextLine().trim();
 				numbers = Integer.parseInt(x);
 				if (numbers < 0) {
-					logger.log(Level.WARNING, "User input a negative number.");
+					logger.log(Level.WARNING, "You have input a negative number.");
 					out.println("Negative numbers cannot be used in the input.");
 					numbers = -1;
 					break;
 				}
 			} catch (NumberFormatException e) {
-				logger.log(Level.WARNING, "User input an illegal character.");
+				logger.log(Level.WARNING, "You have input an illegal character.");
 				numbers = -1;
 				out.println("You must enter a number.");
 				break;
 			}
 		}
 		if (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
-			tempMethod();
+			getParams();
 		}
 	}
 	/**
@@ -639,7 +708,7 @@ public class PasswordManager implements Runnable {
 			for (File directory : dirs) {
 				if (!(directory.exists())) {
 					boolean checkDirCreation = directory.mkdirs();
-					if (!checkDirCreation) logger.log(Level.SEVERE, "Error creating directory.");
+					if (!checkDirCreation) logger.log(Level.SEVERE, "Error creating directory, please restart now.");
 				}
 			}
 		} catch (SecurityException sE) {
@@ -669,7 +738,7 @@ public class PasswordManager implements Runnable {
 							bW.flush();
 							bW.close();
 						} catch (IOException e) {
-							logger.log(Level.SEVERE, "Error initializing info file.");
+							logger.log(Level.SEVERE, "Error initializing data file.");
 						}
 					}
 				}
