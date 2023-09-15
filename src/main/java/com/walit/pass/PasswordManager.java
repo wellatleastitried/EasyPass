@@ -104,12 +104,12 @@ public class PasswordManager implements Runnable {
 			switch (x) {
 				case 1 -> {
 					int[] params = p.getSpecs();
-					this.lengthOfPassword = p.GetLength();
-					this.capitals = p.getCaps();
-					this.specialChars = p.getSpecChars();
-					this.numbers = p.getNumbers();
+					this.lengthOfPassword = params[0];
+					this.capitals = params[1];
+					this.specialChars = p[2];
+					this.numbers = params[3];
 					String[] temp = getInformation();
-					temp = p.finalizeName();
+					temp = p.finalizeName(temp);
 					p.completeScreen();
 				}
 				case 2 -> {
