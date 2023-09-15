@@ -96,7 +96,7 @@ public class PasswordManager implements Runnable {
 		} catch (IOException e) {
 			err.println("Logger could not be initialized.\n\nPlease restart program.");
 		}
-		PasswordGUI p = new PasswordGUI();
+		PasswordGUI p = new PasswordGUI(logger);
 		p.displayStartScreen();
 		p.displayHomeScreen();
 		int x = p.getOption();

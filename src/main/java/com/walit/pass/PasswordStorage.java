@@ -39,7 +39,7 @@ class PasswordStorage {
 	/**
 	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
 	 */
-	public PasswordStorage(Logger storeLog) {
+	protected PasswordStorage(Logger storeLog) {
 		this.logger = storeLog;
 		SecureRandom sR = new SecureRandom();
 		sR.nextBytes(initialize);
