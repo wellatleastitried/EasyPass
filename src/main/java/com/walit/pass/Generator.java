@@ -15,19 +15,19 @@ import java.util.logging.Logger;
 import static java.lang.System.*;
 
 /**
- * PasswordGenerator serves as a helper class to PasswordManager by supplying helpful methods that may be necessary to
+ * Generator serves as a helper class to PasswordManager by supplying helpful methods that may be necessary to
  * calculate new passwords or test their strength.
  *
  * @author Jackson Swindell
  */
-class PasswordGenerator {
+class Generator {
 
 	public final String bSlash = File.separator;
 	private final char[] numbers = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-	private final char[] characters = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-	private final char[] capLetters = new char[] {'A', 'C', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+	private final char[] characters = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+			'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+	private final char[] capLetters = new char[] {'A', 'C', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 	private final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
 	private final SecureRandom rand = new SecureRandom();
 	private final StringBuilder sB = new StringBuilder();
@@ -35,9 +35,9 @@ class PasswordGenerator {
 	private final Logger logger;
 
 	/**
-	 * Constructor for PasswordGenerator class.
+	 * Constructor for Generator class.
 	 */
-	protected PasswordGenerator(Logger genLog) { this.logger = genLog;	}
+	protected Generator(Logger genLog) { this.logger = genLog;	}
 
 	/**
 	 * Generates a unique password based on the parameters that are passed to it.
@@ -89,7 +89,8 @@ class PasswordGenerator {
 	 * Makes sure that the first character does not start with a special character or number, if it does, swaps it with
 	 * a normal letter from a different index in the password.
 	 * @param toSwap The new password in the form of a char array.
-	 * @return Returns the password with the first character swapped for a normal letter instead of a special character or number.
+	 * @return Returns the password with the first character swapped for a normal letter instead of a special character
+	 * or number.
 	 */
 	private String swapChar(char[] toSwap) {
 		int indexToNote;
@@ -111,7 +112,8 @@ class PasswordGenerator {
 	}
 
 	/**
-	 * Checks to see if the first letter of the new password is a normal letter instead of a special character or number.
+	 * Checks to see if the first letter of the new password is a normal letter instead of a special character
+	 * or number.
 	 * @param characterToCheck The first character of the new password.
 	 * @return Returns 'true' if the first letter is a normal letter, 'false' otherwise.
 	 */
@@ -158,7 +160,10 @@ class PasswordGenerator {
 		if (counter > capitals || counter == capitals) {
 			int numOfCapitalsToRemove = counter - capitals;
 			if (numOfCapitalsToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many special characters to password, had to manually remove.");
+				logger.log(
+						Level.WARNING,
+						"Function added too many special characters to password, had to manually remove."
+				);
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfCapitalsToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -190,7 +195,10 @@ class PasswordGenerator {
 		if (counter > specialChars || counter == specialChars) {
 			int numOfSpecCharToRemove = counter - specialChars;
 			if (numOfSpecCharToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
+				logger.log(
+						Level.WARNING,
+						"Function added too many special characters to pwd, had to manually remove."
+				);
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfSpecCharToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -222,7 +230,10 @@ class PasswordGenerator {
 		if (counter > numberOfNumbers || counter == numberOfNumbers) {
 			int numOfNumbersToRemove = counter - numberOfNumbers;
 			if (numOfNumbersToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
+				logger.log(
+						Level.WARNING,
+						"Function added too many special characters to pwd, had to manually remove."
+				);
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfNumbersToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -245,7 +256,7 @@ class PasswordGenerator {
 	 * @return Returns the score on a scale of 1-10 based on how strong the password appears to be.
 	 */
 	protected int passwordStrengthScoring(String pass) {
-		//User can add as many word-lists to this folder as they want, but it will drastically impact runtime.
+		//User can add as many word-lists to this folder as they want, but it will impact runtime.
 		File wordDirectory = new File("resources" + bSlash + "WordLists");
 		AtomicBoolean wordWasFound = new AtomicBoolean(false);
 		long start = currentTimeMillis();
@@ -283,7 +294,11 @@ class PasswordGenerator {
 					}
 				}
 			}
-			out.println("Searching through previous password leaks took " + (currentTimeMillis() - start) + " ms to complete.");
+			out.println(
+					"Searching through previous password leaks took "
+							+ (currentTimeMillis() - start)
+							+ " ms to complete."
+			);
 		} catch (NullPointerException nPE) {
 			logger.log(Level.INFO, "No word-lists to search through.");
 		}

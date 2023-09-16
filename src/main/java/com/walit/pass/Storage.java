@@ -23,12 +23,12 @@ import java.util.logging.Logger;
 import static java.lang.System.*;
 
 /**
- * PasswordStorage serves as a helper class to PasswordManager by handling the storage and calling from specific files
+ * Storage serves as a helper class to PasswordManager by handling the storage and calling from specific files
  * used by the program.
  *
  * @author Jackson Swindell
  */
-class PasswordStorage {
+class Storage {
 
 	private final Logger logger;
 	public final String ls = getProperty("line.separator");
@@ -39,7 +39,7 @@ class PasswordStorage {
 	/**
 	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
 	 */
-	protected PasswordStorage(Logger storeLog) {
+	protected Storage(Logger storeLog) {
 		this.logger = storeLog;
 		SecureRandom sR = new SecureRandom();
 		sR.nextBytes(initialize);

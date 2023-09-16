@@ -161,7 +161,9 @@ public class PasswordManager implements Runnable {
 			if (logFile.exists() && logFile.isFile()) {
 				new FileWriter(logFile, false).close();
 			}
-			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
+			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log",
+					true
+			);
 			while (logger.getHandlers().length > 0) {
 				logger.removeHandler(logger.getHandlers()[0]);
 			}
@@ -288,18 +290,21 @@ public class PasswordManager implements Runnable {
 				choiceMade = true;
 			} else if (ans.equals("r") || ans.equals("remove")) {
 				choiceMade = true;
-			} else out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
+			} else {
+				out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
+			}
 		}
 		return isChange;
 	}
 
 	/**
-	 * Handles changing the user's password by getting the name the password belongs to and allowing them to enter a new password.
+	 * Handles changing the user's password by getting the name the password belongs to and allowing them to enter
+	 * a new password.
 	 */
 	private void changeInfo() {
 		out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
-		PasswordStorage pS = new PasswordStorage(logger);
+		Storage pS = new Storage(logger);
 		List<String> strings = pS.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
@@ -365,7 +370,7 @@ public class PasswordManager implements Runnable {
 	private void removeInfo() {
 		out.println("You chose to remove an existing password.");
 		String name = getUserNameForAlter(1);
-		PasswordStorage pS = new PasswordStorage(logger);
+		Storage pS = new Storage(logger);
 		List<String> strings = pS.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
@@ -464,7 +469,8 @@ public class PasswordManager implements Runnable {
 	}
 
 	/**
-	 * Gets the name for the password to be stored with and then calls the storeInformation() function to store the user's data.
+	 * Gets the name for the password to be stored with and then calls the storeInformation() function to store the
+	 * user's data.
 	 * @param arr A two index array holding the user's password and the name associated with it.
 	 */
 	private void finalizeName(String[] arr) {
@@ -588,7 +594,7 @@ public class PasswordManager implements Runnable {
 	 * @return Returns the new password in a string array that can be handled by other methods to store it.
 	 */
 	private String[] getInformation() {
-		PasswordGenerator pGen = new PasswordGenerator(logger);
+		Generator pGen = new Generator(logger);
 		String[] params = new String[2];
 		params[1] = pGen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
 		out.println(params[1]);
@@ -596,11 +602,12 @@ public class PasswordManager implements Runnable {
 	}
 
 	/**
-	 * Creates a new PasswordStorage object to handle storing the user's password and the name associated with it into a secure file.
+	 * Creates a new Storage object to handle storing the user's password and the name associated with it
+	 * into a secure file.
 	 * @param info The array holding the user's password and the name associated with it.
 	 */
 	private void storeInformation(String[] info) {
-		PasswordStorage pS = new PasswordStorage(logger);
+		Storage pS = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
 		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
@@ -613,7 +620,7 @@ public class PasswordManager implements Runnable {
 	 * Prints the user's passwords and the names associated with them for the user to see.
 	 */
 	private void extractInfoFromList() {
-		PasswordStorage pS = new PasswordStorage(logger);
+		Storage pS = new Storage(logger);
 		pS.getInfo();
 	}
 
@@ -752,24 +759,34 @@ public class PasswordManager implements Runnable {
 	 * Allows the user to test how strong their password is.
 	 */
 	private void strengthTest() {
-		PasswordGenerator pG = new PasswordGenerator(logger);
+		Generator pG = new Generator(logger);
 		//change this block
 		out.print("Enter the password to test here: ");
 		String password = s.nextLine().trim();
 		out.println();
 		int score = pG.passwordStrengthScoring(password);
-		if (score == 0) out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
-		else if (score >= 1 && score <= 5) out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
-		else if (score > 5 && score <= 8) out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
-		else if (score == 9) out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
-		else out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
+		if (score == 0) {
+			out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
+		}
+		else if (score >= 1 && score <= 5) {
+			out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
+		}
+		else if (score > 5 && score <= 8) {
+			out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
+		}
+		else if (score == 9) {
+			out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
+		}
+		else {
+			out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
+		}
 	}
 
 	/**
 	 * Searches for a specific password by looking for the name associated with it.
 	 */
 	private void searchFor() {
-		PasswordStorage pS = new PasswordStorage(logger);
+		Storage pS = new Storage(logger);
 		//change this block
 		out.println("Enter the name for the password you are looking for:");
 		String name = s.nextLine().trim().toLowerCase();
