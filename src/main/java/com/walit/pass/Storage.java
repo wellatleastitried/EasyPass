@@ -285,6 +285,7 @@ class Storage {
 		//encrypt
 		unlockLock(1);
 	}
+	// TODO: Create getInfoGUI() -> protected String[] getInfoGUI() {}
 
 	/**
 	 * Searches through store file for a specific name.

@@ -1,5 +1,5 @@
-com\walit\pass\PasswordGenerator.class
 com\walit\pass\PasswordGUI.class
 com\walit\pass\PasswordManager.class
 com\walit\pass\Parsed.class
-com\walit\pass\PasswordStorage.class
+com\walit\pass\Generator.class
+com\walit\pass\Storage.class

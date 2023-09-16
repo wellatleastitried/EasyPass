@@ -32,7 +32,7 @@ class Parsed {
      * @throws SAXException Thrown if there are any remaining errors with the document builder.
      */
     protected Parsed() throws ParserConfigurationException, IOException, SAXException {
-        File file = new File("resources\\utilities\\data\\parsed.xml");
+        File file = new File("resources\\utilities\\data\\vStaH");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(file);

@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/Utilities/data/vStaH" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/utilities/data/parsed.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/PasswordStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/pass/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/Parsed.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/Parsed.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/pass/PasswordStorage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.pass.XMLTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.pass.XMLTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.walit.pass.XMLTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.walit.pass.XMLTest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
