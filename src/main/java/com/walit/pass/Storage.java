@@ -28,19 +28,19 @@ import static java.lang.System.*;
  *
  * @author Jackson Swindell
  */
-class Storage {
+abstract class Storage {
 
-	private final Logger logger;
-	public final String ls = getProperty("line.separator");
-	private final byte[] initialize = new byte[16];
-	public final String bSlash = File.separator;
-	private final int[] res1 = {85, 74, 78, 78, 90, 45, 48, 45};
+	private static Logger logger;
+	public static final String ls = getProperty("line.separator");
+	private static final byte[] initialize = new byte[16];
+	public static final String bSlash = File.separator;
+	private static final int[] res1 = {85, 74, 78, 78, 90, 45, 48, 45};
 
 	/**
 	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
 	 */
 	protected Storage(Logger storeLog) {
-		this.logger = storeLog;
+		logger = storeLog;
 		SecureRandom sR = new SecureRandom();
 		sR.nextBytes(initialize);
 	}
@@ -48,7 +48,7 @@ class Storage {
 	/**
 	 * @return Returns the key to be used in the encryption of passwords.
 	 */
-	private String calcStr() throws ParserConfigurationException, IOException, SAXException {
+	private static String calcStr() throws ParserConfigurationException, IOException, SAXException {
 		Parsed par = new Parsed();
 		return getVal(par.getStr());
 	}
@@ -58,7 +58,7 @@ class Storage {
 	 * @param change String to pass through operations.
 	 * @return Resulting string after operations.
 	 */
-	private String getVal(String change) {
+	private static String getVal(String change) {
 		StringBuilder sB = new StringBuilder();
 		for (int n : res1) {
 			n += 31;
@@ -77,7 +77,7 @@ class Storage {
 	 * Gets the previously used initialization vector from its file, if it doesn't exist, creates a new one to be stored.
 	 * @return Returns the old initialization vector if present, returns a new one if not.
 	 */
-	private byte[] getIVSpec() {
+	private static byte[] getIVSpec() {
 		byte[] iv = new byte[16];
 		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
 		try {
@@ -107,7 +107,7 @@ class Storage {
 	 * Method to handle encrypting and decrypting the store file.
 	 * @param num If num is '0' the file will be decrypted, if it is '1' the file will be encrypted.
 	 */
-	private void unlockLock(int num) {
+	private static void unlockLock(int num) {
 		try {
 			String x = calcStr();
 			byte[] bytesOfKVector = deHex(x);
@@ -213,7 +213,7 @@ class Storage {
 	 * Stores the name and password for the user.
 	 * @param transferable Encoded user information to be stored.
 	 */
-	protected void storeInfo(String[] transferable) {
+	protected static void storeInfo(String[] transferable) {
 		String[] info = new String[2];
 		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		try {
@@ -249,7 +249,7 @@ class Storage {
 	/**
 	 * Displays all passwords and associated names for the user.
 	 */
-	protected void getInfo() {
+	protected static void getInfo() {
 		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		try {
 			if (!(file.exists() && file.isFile())) {
@@ -292,7 +292,7 @@ class Storage {
 	 * @param name The specific name to find in the file's contents.
 	 * @return Returns a list of all lines that have a name matching the given one.
 	 */
-	protected ArrayList<String> findInfo(String name) {
+	protected static ArrayList<String> findInfo(String name) {
 		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		ArrayList<String> acceptedStrings = new ArrayList<>();
 		try {
@@ -325,7 +325,7 @@ class Storage {
 	 * @param str The string to search through.
 	 * @return Returns 'true' if there is a comma found and 'false' if there is not a comma.
 	 */
-	private boolean hasComma(String str) {
+	private static boolean hasComma(String str) {
 		char[] chars = str.toCharArray();
 		for (char character : chars) {
 			if (character == ',') return true;
@@ -338,7 +338,7 @@ class Storage {
 	 * @param bytes The byte array that will be converted to hex.
 	 * @return Returns the hex values in the form of a string.
 	 */
-	private String hex(byte[] bytes) {
+	private static String hex(byte[] bytes) {
 		StringBuilder end = new StringBuilder();
 		for (byte x : bytes) {
 			end.append(String.format("%02X", x));
@@ -351,7 +351,7 @@ class Storage {
 	 * @param string The string representation of the hex value.
 	 * @return Returns the byte array representation of the value after being converted from hex.
 	 */
-	private byte[] deHex(String string) {
+	private static byte[] deHex(String string) {
 		byte[] cipherText = new byte[string.length() / 2];
 		for (int i = 0; i < cipherText.length; i++) {
         	int index = i * 2;
@@ -365,7 +365,7 @@ class Storage {
 	 * Searches the store file for all contents.
 	 * @return Returns the contents of the file for the Manager to search through for a specific name.
 	 */
-	protected List<String> findNameToAlter() {
+	protected static List<String> findNameToAlter() {
 		unlockLock(0);
 		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		List<String> stringLines = new ArrayList<>();
@@ -388,7 +388,7 @@ class Storage {
 	 * Stores the password and name associated with it into the store file.
 	 * @param infoToStore The list containing the necessary information to store.
 	 */
-	protected void storeNameFromLists(List<String> infoToStore) {
+	protected static void storeNameFromLists(List<String> infoToStore) {
 		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		unlockLock(0);
 		try {

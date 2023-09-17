@@ -20,24 +20,24 @@ import static java.lang.System.*;
  *
  * @author Jackson Swindell
  */
-class Generator {
-
-	public final String bSlash = File.separator;
-	private final char[] numbers = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-	private final char[] characters = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+abstract class Generator {
+	// TODO: If not working, remove abstract and static
+	public static final String bSlash = File.separator;
+	private static final char[] numbers = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+	private static final char[] characters = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
 			'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-	private final char[] capLetters = new char[] {'A', 'C', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+	private static final char[] capLetters = new char[] {'A', 'C', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
 			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-	private final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
-	private final SecureRandom rand = new SecureRandom();
-	private final StringBuilder sB = new StringBuilder();
-	private String pwd = "";
-	private final Logger logger;
+	private static final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
+	private static final SecureRandom rand = new SecureRandom();
+	private static final StringBuilder sB = new StringBuilder();
+	private static String pwd = "";
+	private static Logger logger;
 
 	/**
 	 * Constructor for Generator class.
 	 */
-	protected Generator(Logger genLog) { this.logger = genLog;	}
+	protected Generator(Logger genLog) { logger = genLog;	}
 
 	/**
 	 * Generates a unique password based on the parameters that are passed to it.
@@ -47,7 +47,7 @@ class Generator {
 	 * @param numbers The number of numbers to be added to the new password.
 	 * @return Returns the new password for the user.
 	 */
-	protected String generatePassword(int length, int specialChars, int capitals, int numbers) {
+	protected static String generatePassword(int length, int specialChars, int capitals, int numbers) {
 		while (!(numOfNumbers(numbers))) {
 			char curr = addNumbers();
 			sB.append(curr);
@@ -92,7 +92,7 @@ class Generator {
 	 * @return Returns the password with the first character swapped for a normal letter instead of a special character
 	 * or number.
 	 */
-	private String swapChar(char[] toSwap) {
+	private static String swapChar(char[] toSwap) {
 		int indexToNote;
 		Set<Character> lowercaseSet = new HashSet<>();
 		for (char c : characters) lowercaseSet.add(c);
@@ -117,7 +117,7 @@ class Generator {
 	 * @param characterToCheck The first character of the new password.
 	 * @return Returns 'true' if the first letter is a normal letter, 'false' otherwise.
 	 */
-	private boolean isValidChar(char characterToCheck) {
+	private static boolean isValidChar(char characterToCheck) {
 		for (int i = 0; i < characters.length; i++) {
 			if (characterToCheck == characters[i] || characterToCheck == capLetters[i]) {
 				return true;
@@ -130,26 +130,26 @@ class Generator {
 	 * Generates a random single digit number.
 	 * @return Returns the number to be added to the password.
 	 */
-	private char addNumbers() { return numbers[rand.nextInt(numbers.length)]; }
+	private static char addNumbers() { return numbers[rand.nextInt(numbers.length)]; }
 
 	/**
 	 * Generates a random capital letter.
 	 * @return Returns the letter to be added to the password.
 	 */
-	private char addCap() { return capLetters[rand.nextInt(capLetters.length)];	}
+	private static char addCap() { return capLetters[rand.nextInt(capLetters.length)];	}
 
 	/**
 	 * Generates a random special character.
 	 * @return Returns the character to be added to the password.
 	 */
-	private char addSC() { return specialCharacters[rand.nextInt(specialCharacters.length)]; }
+	private static char addSC() { return specialCharacters[rand.nextInt(specialCharacters.length)]; }
 
 	/**
 	 * Checks the number of capital letters to make sure it is not more or less than the intended amount.
 	 * @param capitals The number of capital letters the password SHOULD contain.
 	 * @return Returns 'true' if the number of capital letters is equal to 'capitals' and 'false' otherwise.
 	 */
-	private boolean numOfCaps(int capitals) {
+	private static boolean numOfCaps(int capitals) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
 		for (char c : capLetters) charSet.add(c);
@@ -184,7 +184,7 @@ class Generator {
 	 * @param specialChars The number of special characters the password SHOULD contain.
 	 * @return Returns 'true' if the number of special characters is correct and 'false' otherwise.
 	 */
-	private boolean numOfSpecChars(int specialChars) {
+	private static boolean numOfSpecChars(int specialChars) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
 		for (char c : specialCharacters) charSet.add(c);
@@ -195,10 +195,10 @@ class Generator {
 		if (counter > specialChars || counter == specialChars) {
 			int numOfSpecCharToRemove = counter - specialChars;
 			if (numOfSpecCharToRemove > 0) {
-				logger.log(
-						Level.WARNING,
-						"Function added too many special characters to pwd, had to manually remove."
-				);
+//				logger.log(
+//						Level.WARNING,
+//						"Function added too many special characters to pwd, had to manually remove."
+//				);
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfSpecCharToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -219,7 +219,7 @@ class Generator {
 	 * @param numberOfNumbers The number of numbers that SHOULD be in the password.
 	 * @return Returns 'true' if the amount is correct, 'false' otherwise.
 	 */
-	private boolean numOfNumbers(int numberOfNumbers) {
+	private static boolean numOfNumbers(int numberOfNumbers) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
 		for (char c : numbers) charSet.add(c);
@@ -230,10 +230,10 @@ class Generator {
 		if (counter > numberOfNumbers || counter == numberOfNumbers) {
 			int numOfNumbersToRemove = counter - numberOfNumbers;
 			if (numOfNumbersToRemove > 0) {
-				logger.log(
-						Level.WARNING,
-						"Function added too many special characters to pwd, had to manually remove."
-				);
+//				logger.log(
+//						Level.WARNING,
+//						"Function added too many special characters to pwd, had to manually remove."
+//				);
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfNumbersToRemove == 0) break;
 					if (charSet.contains(passwordStringToCharArray[i])) {
@@ -255,7 +255,7 @@ class Generator {
 	 * @param pass The password to scan word-lists for and test the strength of.
 	 * @return Returns the score on a scale of 1-10 based on how strong the password appears to be.
 	 */
-	protected int passwordStrengthScoring(String pass) {
+	protected static int passwordStrengthScoring(String pass) {
 		//User can add as many word-lists to this folder as they want, but it will impact runtime.
 		File wordDirectory = new File("resources" + bSlash + "WordLists");
 		AtomicBoolean wordWasFound = new AtomicBoolean(false);
@@ -280,7 +280,7 @@ class Generator {
 									}
 								}
 							} catch (IOException e) {
-								logger.log(Level.INFO, "Error checking wordlist for matching password.");
+//								logger.log(Level.INFO, "Error checking wordlist for matching password.");
 							}
 						}
 					});
@@ -290,7 +290,7 @@ class Generator {
 					try {
 						thread.join();
 					} catch (InterruptedException iE) {
-						logger.log(Level.INFO, "Interrupted Exception in thread.");
+//						logger.log(Level.INFO, "Interrupted Exception in thread.");
 					}
 				}
 			}
@@ -300,7 +300,7 @@ class Generator {
 							+ " ms to complete."
 			);
 		} catch (NullPointerException nPE) {
-			logger.log(Level.INFO, "No word-lists to search through.");
+//			logger.log(Level.INFO, "No word-lists to search through.");
 		}
 		if (wordWasFound.get()) {
 			out.println("This password was previously found in a data breach, you may want to change it.");
@@ -335,14 +335,14 @@ class Generator {
 	 * @param c The character to check.
 	 * @return Returns 'true' if uppercase, 'false' otherwise.
 	 */
-	private boolean isUppercase(char c) { return ((int) c) >= 65 && ((int) c) <= 90; }
+	private static boolean isUppercase(char c) { return ((int) c) >= 65 && ((int) c) <= 90; }
 
 	/**
 	 * Checks to see if a given char is a special character.
 	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a special character, 'false' otherwise.
 	 */
-	private boolean isSpecChar(char c) {
+	private static boolean isSpecChar(char c) {
 		char[] list = {'!', '_', '?', '.', '-', '@', '#', '$', '%', '&', '*', '+'};
 		for (char x : list) if (c == x) return true;
 		return false;
@@ -353,5 +353,5 @@ class Generator {
 	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a number, 'false' otherwise.
 	 */
-	private boolean isNum(char c) { return Character.isDigit(c); }
+	private static boolean isNum(char c) { return Character.isDigit(c); }
 }

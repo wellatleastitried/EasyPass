@@ -304,8 +304,8 @@ public class PasswordManager implements Runnable {
 	private void changeInfo() {
 		out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
-		Storage pS = new Storage(logger);
-		List<String> strings = pS.findNameToAlter();
+//		Storage pS = new Storage(logger);
+		List<String> strings = Storage.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
@@ -339,7 +339,7 @@ public class PasswordManager implements Runnable {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
-			pS.storeNameFromLists(strings);
+			Storage.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
 			out.println("You chose to change the password: "
@@ -356,7 +356,7 @@ public class PasswordManager implements Runnable {
 				}
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
-			pS.storeNameFromLists(strings);
+			Storage.storeNameFromLists(strings);
 			out.println("\nPassword successfully changed.");
 		} else {
 			out.println("\nName unable to be found, enter a valid name.\n");
@@ -370,8 +370,8 @@ public class PasswordManager implements Runnable {
 	private void removeInfo() {
 		out.println("You chose to remove an existing password.");
 		String name = getUserNameForAlter(1);
-		Storage pS = new Storage(logger);
-		List<String> strings = pS.findNameToAlter();
+//		Storage pS = new Storage(logger);
+		List<String> strings = Storage.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
@@ -401,7 +401,7 @@ public class PasswordManager implements Runnable {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
 			}
 			strings.remove(index);
-			pS.storeNameFromLists(strings);
+			Storage.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
 			out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
@@ -412,7 +412,7 @@ public class PasswordManager implements Runnable {
 				}
 			}
 			strings.remove(index);
-			pS.storeNameFromLists(strings);
+			Storage.storeNameFromLists(strings);
 		} else {
 			out.println("\nName unable to be found, enter a valid name.\n");
 			removeInfo();
@@ -594,9 +594,9 @@ public class PasswordManager implements Runnable {
 	 * @return Returns the new password in a string array that can be handled by other methods to store it.
 	 */
 	private String[] getInformation() {
-		Generator pGen = new Generator(logger);
+//		Generator pGen = new Generator(logger);
 		String[] params = new String[2];
-		params[1] = pGen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
+		params[1] = Generator.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
 		out.println(params[1]);
 		return params;
 	}
@@ -607,21 +607,21 @@ public class PasswordManager implements Runnable {
 	 * @param info The array holding the user's password and the name associated with it.
 	 */
 	private void storeInformation(String[] info) {
-		Storage pS = new Storage(logger);
+//		Storage pS = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
 		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
 		transferable[0] = encodedName;
 		transferable[1] = encodedPwd;
-		pS.storeInfo(transferable);
+		Storage.storeInfo(transferable);
 	}
 
 	/**
 	 * Prints the user's passwords and the names associated with them for the user to see.
 	 */
 	private void extractInfoFromList() {
-		Storage pS = new Storage(logger);
-		pS.getInfo();
+//		Storage pS = new Storage(logger);
+		Storage.getInfo();
 	}
 
 	/**
@@ -759,12 +759,12 @@ public class PasswordManager implements Runnable {
 	 * Allows the user to test how strong their password is.
 	 */
 	private void strengthTest() {
-		Generator pG = new Generator(logger);
+//		Generator pG = new Generator(logger);
 		//change this block
 		out.print("Enter the password to test here: ");
 		String password = s.nextLine().trim();
 		out.println();
-		int score = pG.passwordStrengthScoring(password);
+		int score = Generator.passwordStrengthScoring(password);
 		if (score == 0) {
 			out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
 		}
@@ -786,12 +786,12 @@ public class PasswordManager implements Runnable {
 	 * Searches for a specific password by looking for the name associated with it.
 	 */
 	private void searchFor() {
-		Storage pS = new Storage(logger);
+//		Storage pS = new Storage(logger);
 		//change this block
 		out.println("Enter the name for the password you are looking for:");
 		String name = s.nextLine().trim().toLowerCase();
 		out.println();
-		ArrayList<String> acceptedStrings = pS.findInfo(name);
+		ArrayList<String> acceptedStrings = Storage.findInfo(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
 			out.println("The password for " + name + " is: " + values[1]);

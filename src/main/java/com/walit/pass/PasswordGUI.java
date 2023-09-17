@@ -102,10 +102,10 @@ class PasswordGUI {
         return true;
     }
     protected void searchFor() {
-		Storage pS = new Storage(logger);
+//		Storage pS = new Storage(logger);
 		// Enter the name for the password you are looking for
         String name = ""; // TODO: Change to take value from textField
-		ArrayList<String> acceptedStrings = pS.findInfo(name);
+		ArrayList<String> acceptedStrings = Storage.findInfo(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
             // TODO: Display password for user
@@ -125,9 +125,9 @@ class PasswordGUI {
 		}
 	}
     protected String[] getInformation() {
-		Generator pGen = new Generator(logger);
+//		Generator pGen = new Generator(logger);
 		String[] params = new String[2];
-		params[1] = pGen.generatePassword(length, specialCharCount, capCount, numCount);
+		params[1] = Generator.generatePassword(length, specialCharCount, capCount, numCount);
         // Display password -> params[1]
 		return params;
 	}
@@ -168,19 +168,19 @@ class PasswordGUI {
 		}
 	}
     private void storeInformation(String[] info) {
-		Storage pS = new Storage(logger);
+//		Storage pS = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
 		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
 		transferable[0] = encodedName;
 		transferable[1] = encodedPwd;
-		pS.storeInfo(transferable);
+		Storage.storeInfo(transferable);
 	}
     private void strengthTest() {
-		Generator pG = new Generator(logger);
+//		Generator pG = new Generator(logger);
         // TODO: Prompt user for password to test
 		String password = toStrengthTest.getText();
-		int score = pG.passwordStrengthScoring(password);
+		int score = Generator.passwordStrengthScoring(password);
 		if (score == 0) {
             // TODO: Display the score of the password
 		}
@@ -198,8 +198,8 @@ class PasswordGUI {
 		}
 	}
     private void extractInfoFromList() {
-		Storage pS = new Storage(logger);
-		pS.getInfo(); //pS.getInfoGUI();
+//		Storage pS = new Storage(logger);
+		Storage.getInfo(); //pS.getInfoGUI();
 	}
 
 }
