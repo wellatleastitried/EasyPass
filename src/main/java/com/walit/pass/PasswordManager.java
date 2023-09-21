@@ -234,8 +234,8 @@ public class PasswordManager implements Runner {
 	public void changeInfo() {
 		out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
-//		Storage pS = new Storage(logger);
-		List<String> strings = Storage.findNameToAlter();
+		Storage store = new Storage(logger);
+		List<String> strings = store.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
@@ -269,7 +269,7 @@ public class PasswordManager implements Runner {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
-			Storage.storeNameFromLists(strings);
+			store.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
 			out.println("You chose to change the password: "
@@ -286,7 +286,7 @@ public class PasswordManager implements Runner {
 				}
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
-			Storage.storeNameFromLists(strings);
+			store.storeNameFromLists(strings);
 			out.println("\nPassword successfully changed.");
 		} else {
 			out.println("\nName unable to be found, enter a valid name.\n");
@@ -301,8 +301,8 @@ public class PasswordManager implements Runner {
 	public void removeInfo() {
 		out.println("You chose to remove an existing password.");
 		String name = getUserNameForAlter(1);
-//		Storage pS = new Storage(logger);
-		List<String> strings = Storage.findNameToAlter();
+		Storage store = new Storage(logger);
+		List<String> strings = store.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
@@ -332,7 +332,7 @@ public class PasswordManager implements Runner {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
 			}
 			strings.remove(index);
-			Storage.storeNameFromLists(strings);
+			store.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
 			out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
@@ -343,7 +343,7 @@ public class PasswordManager implements Runner {
 				}
 			}
 			strings.remove(index);
-			Storage.storeNameFromLists(strings);
+			store.storeNameFromLists(strings);
 		} else {
 			out.println("\nName unable to be found, enter a valid name.\n");
 			removeInfo();
@@ -542,13 +542,13 @@ public class PasswordManager implements Runner {
 	 */
 	@Override
 	public void storeInformation(String[] info) {
-//		Storage pS = new Storage(logger);
+		Storage store = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
 		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
 		transferable[0] = encodedName;
 		transferable[1] = encodedPwd;
-		Storage.storeInfo(transferable);
+		store.storeInfo(transferable);
 	}
 
 	/**
@@ -556,8 +556,8 @@ public class PasswordManager implements Runner {
 	 */
 	@Override
 	public void extractInfoFromList() {
-//		Storage pS = new Storage(logger);
-		Storage.getInfo();
+		Storage store = new Storage(logger);
+		store.getInfo();
 	}
 
 	/**
@@ -725,12 +725,11 @@ public class PasswordManager implements Runner {
 	 */
 	@Override
 	public void searchFor() {
-//		Storage pS = new Storage(logger);
-		//change this block
+		Storage store = new Storage(logger);
 		out.println("Enter the name for the password you are looking for:");
 		String name = s.nextLine().trim().toLowerCase();
 		out.println();
-		ArrayList<String> acceptedStrings = Storage.findInfo(name);
+		ArrayList<String> acceptedStrings = store.findInfo(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
 			out.println("The password for " + name + " is: " + values[1]);

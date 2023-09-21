@@ -17,5 +17,4 @@ public interface Runner {
     void searchFor();
     void run();
     void resetParams();
-
 }

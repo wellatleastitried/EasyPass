@@ -199,10 +199,10 @@ class PasswordGUI implements Runner {
     }
     @Override
     public void searchFor() {
-//		Storage pS = new Storage(logger);
+		Storage store = new Storage(logger);
 		// Enter the name for the password you are looking for
         String name = ""; // TODO: Change to take value from textField
-		ArrayList<String> acceptedStrings = Storage.findInfo(name);
+		ArrayList<String> acceptedStrings = store.findInfo(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
             // TODO: Display password for user
@@ -288,13 +288,13 @@ class PasswordGUI implements Runner {
 	}
     @Override
     public void storeInformation(String[] info) {
-//		Storage pS = new Storage(logger);
+		Storage store = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
 		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
 		transferable[0] = encodedName;
 		transferable[1] = encodedPwd;
-		Storage.storeInfo(transferable);
+		store.storeInfo(transferable);
 	}
     @Override
     public void strengthTest() {
@@ -320,8 +320,8 @@ class PasswordGUI implements Runner {
 	}
     @Override
     public void extractInfoFromList() {
-//		Storage pS = new Storage(logger);
-		Storage.getInfo(); //pS.getInfoGUI();
+		Storage store = new Storage(logger);
+		store.getInfo(); //pS.getInfoGUI();
 	}
     @Override
     public void initializeFilesForProgram() {
