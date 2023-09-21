@@ -3,7 +3,6 @@ package com.walit.pass;
 public interface Runner {
     void shutdown();
     boolean changeOrRem();
-
     void changeInfo();
     void removeInfo();
     String getUserNameForAlter(int x);
