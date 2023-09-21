@@ -16,7 +16,7 @@ import static java.lang.System.*;
  *
  * @author Jackson Swindell
  */
-public class PasswordManager implements Runnable {
+public class PasswordManager implements Runner {
 
 	public final String bSlash = File.separator;
 	public int lengthOfPassword = -1;
@@ -48,20 +48,21 @@ public class PasswordManager implements Runnable {
 					
 					""");
 				case "-v", "--version" -> getVersionInfo();
-				default -> pM.run();/*pM.runGUI();*/
+				default -> pM.callInterface();
 			}
 		} else {
-			//pM.runGUI();
-			pM.run();
+			pM.callInterface();
 		}
-		//pM.run();
 		exit(0);
+	}
+	protected void callInterface() {
+		new PasswordGUI(logger).run();
 	}
 
 	/**
 	 * Prints the version information of the program.
 	 */
-	private static void getVersionInfo() {
+	protected static void getVersionInfo() {
 		try {
 			Parsed parser = new Parsed();
 			out.println(parser.getVersion());
@@ -69,83 +70,9 @@ public class PasswordManager implements Runnable {
 			out.println("Error parsing version info.");
 		}
 	}
-	/*
-	public void runGUI() {
-		String os = getProperty("os.name");
-		if (!(os.toLowerCase().contains("win"))) {
-			err.println("Not a windows machine.");
-			exit(1);
-		}
-		initializeFilesForProgram();
-		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		err.println(logFile.getName());
-		FileHandler fH;
-		try {
-			if (logFile.exists() && logFile.isFile()) {
-				new FileWriter(logFile, false).close();
-			}
-			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
-			while (logger.getHandlers().length > 0) {
-				logger.removeHandler(logger.getHandlers()[0]);
-			}
-			logger.addHandler(fH);
-			fH.setLevel(Level.INFO);
-			XMLFormatter xF = new XMLFormatter();
-			fH.setFormatter(xF);
-			logger.log(Level.INFO, "Successful startup.");
-		} catch (IOException e) {
-			err.println("Logger could not be initialized.\n\nPlease restart program.");
-		}
-		PasswordGUI p = new PasswordGUI(logger);
-		p.displayStartScreen();
-		p.displayHomeScreen();
-		int x = p.getOption();
-		while (x != 7) {
-			switch (x) {
-				case 1 -> {
-					int[] params = p.getSpecs();
-					this.lengthOfPassword = params[0];
-					this.capitals = params[1];
-					this.specialChars = p[2];
-					this.numbers = params[3];
-					String[] temp = getInformation();
-					temp = p.finalizeName(temp);
-					p.completeScreen();
-				}
-				case 2 -> {
-					p.searchFor();
-					p.completeScreen();
-				}
-				case 3 -> {
-					p.extractInfoFromList();
-					p.completeScreen();
-				}
-				case 4 -> {
-					p.strengthTest();
-					p.completeScreen();
-				}
-				case 5 -> {
-					boolean choice = p.changeOrRem();
-					if (choice) p.changeInfo();
-					else p.removeInfo();
-					p.completeScreen();
-				}
-				case 6 -> {
-					String[] tempStr = p.getPassFromUser();
-					p.finalizeName(tempStr);
-					p.completeScreen();
-				}
-			}
-		}
-		p.shutdown();
-		logger.log(Level.INFO, "Successful termination.");
-		exit(0);
-	}
-	*/
 	/**
 	 * Overridden run function that starts the program's execution.
 	 */
-	@Override
 	public void run() {
 		String os = getProperty("os.name");
         os = os.toLowerCase();
@@ -264,7 +191,7 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Resets the password parameters to their initial values to prepare for a new password to be generated.
 	 */
-	private void resetParams() {
+	public void resetParams() {
 		lengthOfPassword = -1;
 		specialChars = -1;
 		capitals = -1;
@@ -274,13 +201,15 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Closes any resources that remain open.
 	 */
-	private void shutdown() { s.close(); }
+	@Override
+	public void shutdown() { s.close(); }
 
 	/**
 	 * Gets the response from the user for whether they want to change or remove a specific password.
 	 * @return Returns true if the user chooses 'change' and false if the user chooses 'remove'.
 	 */
-	private boolean changeOrRem() {
+	@Override
+	public boolean changeOrRem() {
 		boolean choiceMade = false;
 		boolean isChange = false;
 		while (!choiceMade) {
@@ -301,7 +230,8 @@ public class PasswordManager implements Runnable {
 	 * Handles changing the user's password by getting the name the password belongs to and allowing them to enter
 	 * a new password.
 	 */
-	private void changeInfo() {
+	@Override
+	public void changeInfo() {
 		out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
 //		Storage pS = new Storage(logger);
@@ -367,7 +297,8 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Handles removing the user's password by allowing them to enter the name associated with their password.
 	 */
-	private void removeInfo() {
+	@Override
+	public void removeInfo() {
 		out.println("You chose to remove an existing password.");
 		String name = getUserNameForAlter(1);
 //		Storage pS = new Storage(logger);
@@ -424,7 +355,8 @@ public class PasswordManager implements Runnable {
 	 * @param choice The variable that holds whether the user chose to change or remove their password.
 	 * @return Returns a string containing the name that the password belongs to.
 	 */
-	private String getUserNameForAlter(int choice) {
+	@Override
+	public String getUserNameForAlter(int choice) {
 		if (choice == 0) out.println("Enter the name for the password you would like to change.");
 		else if (choice == 1) out.println("Enter the name for the password you would like to remove.");
 		else logger.log(Level.INFO, "There has been an error that I didn't think was possible.");
@@ -436,7 +368,7 @@ public class PasswordManager implements Runnable {
 	 * @return Returns the password in the second index of the two index array. The first slot is for the name, which
 	 * will be initialized separately.
 	 */
-	private String[] getPassFromUser() {
+	public String[] getPassFromUser() {
 		out.println("Enter the password you would like to store: ");
 		String[] userPass = new String[2];
 		userPass[1] = s.nextLine().trim();
@@ -473,7 +405,8 @@ public class PasswordManager implements Runnable {
 	 * user's data.
 	 * @param arr A two index array holding the user's password and the name associated with it.
 	 */
-	private void finalizeName(String[] arr) {
+	@Override
+	public void finalizeName(String[] arr) {
 		out.println("\nWhat is this password for? If you don't want it saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
 		boolean problem = false;
@@ -593,10 +526,11 @@ public class PasswordManager implements Runnable {
 	 * Generates a new password for the user.
 	 * @return Returns the new password in a string array that can be handled by other methods to store it.
 	 */
-	private String[] getInformation() {
-//		Generator pGen = new Generator(logger);
+	@Override
+	public String[] getInformation() {
+		Generator gen = new Generator(logger);
 		String[] params = new String[2];
-		params[1] = Generator.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
+		params[1] = gen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
 		out.println(params[1]);
 		return params;
 	}
@@ -606,7 +540,8 @@ public class PasswordManager implements Runnable {
 	 * into a secure file.
 	 * @param info The array holding the user's password and the name associated with it.
 	 */
-	private void storeInformation(String[] info) {
+	@Override
+	public void storeInformation(String[] info) {
 //		Storage pS = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
@@ -619,7 +554,8 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Prints the user's passwords and the names associated with them for the user to see.
 	 */
-	private void extractInfoFromList() {
+	@Override
+	public void extractInfoFromList() {
 //		Storage pS = new Storage(logger);
 		Storage.getInfo();
 	}
@@ -701,7 +637,8 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Creates any directories and files that have either not been made yet or have been deleted and need to be remade.
 	 */
-	private void initializeFilesForProgram() {
+	@Override
+	public void initializeFilesForProgram() {
 
 		String ls = getProperty("line.separator");
 		File storeDir = new File("resources" + bSlash + "utilities" + bSlash + "log");
@@ -758,13 +695,14 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Allows the user to test how strong their password is.
 	 */
-	private void strengthTest() {
-//		Generator pG = new Generator(logger);
+	@Override
+	public void strengthTest() {
+		Generator gen = new Generator(logger);
 		//change this block
 		out.print("Enter the password to test here: ");
 		String password = s.nextLine().trim();
 		out.println();
-		int score = Generator.passwordStrengthScoring(password);
+		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {
 			out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
 		}
@@ -785,7 +723,8 @@ public class PasswordManager implements Runnable {
 	/**
 	 * Searches for a specific password by looking for the name associated with it.
 	 */
-	private void searchFor() {
+	@Override
+	public void searchFor() {
 //		Storage pS = new Storage(logger);
 		//change this block
 		out.println("Enter the name for the password you are looking for:");

@@ -5,17 +5,23 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.XMLFormatter;
 
-class PasswordGUI {
+class PasswordGUI implements Runner {
 
-    protected int length;
-    protected int specialCharCount;
-    protected int capCount;
-    protected int numCount;
+    public String bSlash = File.separator;
+    protected int length = -1;
+    protected int specialCharCount = -1;
+    protected int capCount = -1;
+    protected int numCount = -1;
     // TODO: Initialize local buttons, text-fields, etc for Manager to access
     JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
     JButton genPass, search, displayInfo, strength, changeOrRem, addExist;
@@ -27,8 +33,93 @@ class PasswordGUI {
         // TODO: Initialize start screen
         getStartScreen();
     }
+	protected String temporaryMethod() {
+		return "Called.";
+	}
+    @Override
+    public void run() {
+        //Remove this block
+        System.out.println("Called.");
+		System.exit(0);
+
+        String os = System.getProperty("os.name");
+		if (!(os.toLowerCase().contains("win"))) {
+			System.err.println("Not a windows machine.");
+			System.exit(1);
+		}
+		initializeFilesForProgram();
+		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
+		System.err.println(logFile.getName());
+		FileHandler fH;
+		try {
+			if (logFile.exists() && logFile.isFile()) {
+				new FileWriter(logFile, false).close();
+			}
+			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
+			while (logger.getHandlers().length > 0) {
+				logger.removeHandler(logger.getHandlers()[0]);
+			}
+			logger.addHandler(fH);
+			fH.setLevel(Level.INFO);
+			XMLFormatter xF = new XMLFormatter();
+			fH.setFormatter(xF);
+			logger.log(Level.INFO, "Successful startup.");
+		} catch (IOException e) {
+			System.err.println("Logger could not be initialized.\n\nPlease restart program.");
+		}
+		getStartScreen();
+		getHomeScreen();
+		int x = getOption();
+		while (x != 7) {
+			switch (x) {
+				case 1 -> {
+					int[] params = getSpecs();
+					length = params[0];
+					capCount = params[1];
+					specialCharCount = params[2];
+					numCount = params[3];
+					String[] temp = getInformation();
+					finalizeName(temp);
+					x = getCompleteScreen();
+				}
+				case 2 -> {
+					searchFor();
+					x = getCompleteScreen();
+				}
+				case 3 -> {
+					extractInfoFromList();
+					x = getCompleteScreen();
+				}
+				case 4 -> {
+					strengthTest();
+					x = getCompleteScreen();
+				}
+				case 5 -> {
+					boolean choice = changeOrRem();
+					if (choice) changeInfo();
+					else removeInfo();
+					x = getCompleteScreen();
+				}
+				case 6 -> {
+					String[] tempStr = getPassFromUser();
+					finalizeName(tempStr);
+					x = getCompleteScreen();
+				}
+			}
+		}
+		shutdown();
+		logger.log(Level.INFO, "Successful termination.");
+		System.exit(0);
+    }
+    @Override
+    public void resetParams() {
+        length = -1;
+        specialCharCount = -1;
+        capCount = -1;
+        numCount = -1;
+    }
     protected void getStartScreen() {
-        // TODO: Display logo, action listener on all keys, if pressed -> getHomeScreen()
+        // TODO: Display logo, action listener on all keys, if pressed -> run() -> getHomeScreen()
     }
     protected void getHomeScreen() {
         // TODO: Display home menu where user can choose different functions of manager
@@ -38,8 +129,13 @@ class PasswordGUI {
         // TODO: Get choice from JButtons, depending on button clicked, return corresponding int
         return choice;
     }
-    protected void getCompleteScreen() {
+    protected int getCompleteScreen() {
         // TODO: Display text telling user their task is finished, with back button to home screen
+		return 0;
+    }
+    //@Override
+    public void shutdown() {
+        //pM.dispose();
     }
     protected int[] getSpecs() {
         int[] res = new int[4];
@@ -101,7 +197,8 @@ class PasswordGUI {
         // TODO: Verify params are ints and within legal range given index in int[]
         return true;
     }
-    protected void searchFor() {
+    @Override
+    public void searchFor() {
 //		Storage pS = new Storage(logger);
 		// Enter the name for the password you are looking for
         String name = ""; // TODO: Change to take value from textField
@@ -124,14 +221,36 @@ class PasswordGUI {
 			}
 		}
 	}
-    protected String[] getInformation() {
-//		Generator pGen = new Generator(logger);
+    @Override
+    public String[] getInformation() {
+		Generator gen = new Generator(logger);
 		String[] params = new String[2];
-		params[1] = Generator.generatePassword(length, specialCharCount, capCount, numCount);
+		params[1] = gen.generatePassword(length, specialCharCount, capCount, numCount);
         // Display password -> params[1]
 		return params;
 	}
-    protected void finalizeName(String[] arr) {
+    @Override
+    public boolean changeOrRem() {
+        return false;
+    }
+    @Override
+    public void changeInfo() {
+
+    }
+    @Override
+    public void removeInfo() {
+
+    }
+    @Override
+    public String getUserNameForAlter(int x) {
+        return null;
+    }
+    @Override
+    public String[] getPassFromUser() {
+        return new String[0];
+    }
+    @Override
+    public void finalizeName(String[] arr) {
         // TODO: Prompt user on whether they want to save the password (Button for save, button for back
 		arr[0] = nameGetter.getText(); // TODO: Get val from textField
 		boolean problem = false;
@@ -167,7 +286,8 @@ class PasswordGUI {
 			}
 		}
 	}
-    private void storeInformation(String[] info) {
+    @Override
+    public void storeInformation(String[] info) {
 //		Storage pS = new Storage(logger);
 		String[] transferable = new String[2];
 		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
@@ -176,11 +296,12 @@ class PasswordGUI {
 		transferable[1] = encodedPwd;
 		Storage.storeInfo(transferable);
 	}
-    private void strengthTest() {
-//		Generator pG = new Generator(logger);
+    @Override
+    public void strengthTest() {
+		Generator gen = new Generator(logger);
         // TODO: Prompt user for password to test
 		String password = toStrengthTest.getText();
-		int score = Generator.passwordStrengthScoring(password);
+		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {
             // TODO: Display the score of the password
 		}
@@ -197,17 +318,13 @@ class PasswordGUI {
 			// TODO: Display the score of the password
 		}
 	}
-    private void extractInfoFromList() {
+    @Override
+    public void extractInfoFromList() {
 //		Storage pS = new Storage(logger);
 		Storage.getInfo(); //pS.getInfoGUI();
 	}
+    @Override
+    public void initializeFilesForProgram() {
 
+    }
 }
-
-/*
-Methods to create:
-p.changeOrRem();
-p.changeInfo();
-p.removeInfo();
-p.getPassFromUser();
-*/

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: com.walit.pass.XMLTest
+Test set: com.walit.pass.GUITest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.walit.pass.XMLTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in com.walit.pass.GUITest

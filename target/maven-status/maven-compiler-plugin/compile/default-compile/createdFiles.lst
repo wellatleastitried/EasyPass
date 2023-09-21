@@ -3,3 +3,4 @@ com\walit\pass\PasswordManager.class
 com\walit\pass\Parsed.class
 com\walit\pass\Generator.class
 com\walit\pass\Storage.class
+com\walit\pass\Runner.class
