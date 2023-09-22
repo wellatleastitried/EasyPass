@@ -11,12 +11,12 @@ import java.util.logging.XMLFormatter;
 import static java.lang.System.*;
 
 /**
- * This is the file containing the main method for PasswordManager. This program allows the user to generate, store,
- * test, and view passwords by implementing an easy-to-use interface.
+ * This program allows the user to generate, store, test, and view passwords by implementing an easy-to-use
+ * console interface.
  *
  * @author Jackson Swindell
  */
-public class PasswordManager implements Runner {
+class Console implements Runner {
 
 	public final String bSlash = File.separator;
 	public int lengthOfPassword = -1;
@@ -26,43 +26,12 @@ public class PasswordManager implements Runner {
 	private final Logger logger = Logger.getLogger("ManagerLog");
 	public Scanner s = new Scanner(in);
 
-	/**
-	 * Main method of PasswordManager, creates new PasswordManager object to run.
-	 * @param args Any command line arguments (not evaluated if given)
-	 */
-	public static void main(String[] args) {
-		PasswordManager pM = new PasswordManager();
-		if (args.length > 0) {
-			switch (args[0]) {
-				case "--console", "-c" -> pM.run();
-				case "--help", "-h" -> out.println("""
-					
-					Welcome to the help menu for EasyPass!
-					
-					If no argument is passed to the program, the full application will launch.
-					
-					Commands:
-						--help           -> Bring up the help menu
-						-v, --version    -> Output version information and exit
-						-c, --console    -> Starts the command line interface
-					
-					""");
-				case "-v", "--version" -> getVersionInfo();
-				default -> pM.callInterface();
-			}
-		} else {
-			pM.callInterface();
-		}
-		exit(0);
-	}
-	protected void callInterface() {
-		new PasswordGUI(logger).run();
-	}
+	protected void callInterface() { new UI(logger).run(); }
 
 	/**
 	 * Prints the version information of the program.
 	 */
-	protected static void getVersionInfo() {
+	protected void getVersionInfo() {
 		try {
 			Parsed parser = new Parsed();
 			out.println(parser.getVersion());

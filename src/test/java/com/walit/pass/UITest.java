@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import java.util.logging.Logger;
 
-public class GUITest {
+public class UITest {
     @Test
     public void checkFunctionCall() {
-        String checker = new PasswordGUI(Logger.getLogger("temp")).temporaryMethod();
+        String checker = new UI(Logger.getLogger("temp")).temporaryMethod();
         MatcherAssert.assertThat(checker, is("Called."));
     }
 }

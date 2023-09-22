@@ -1,16 +1,14 @@
 package com.walit.pass;
 
-import org.junit.Test;
-
+import org.hamcrest.MatcherAssert;
 import static org.hamcrest.CoreMatchers.is;
-
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 public class XMLTest {
     @Test
     public void checkStrings() throws Exception {
         Parsed p = new Parsed();
         String pad = p.getPad();
-        assertThat(pad, is("AES/CBC/PKCS5PADDING"));
+        MatcherAssert.assertThat(pad, is("AES/CBC/PKCS5PADDING"));
     }
 }

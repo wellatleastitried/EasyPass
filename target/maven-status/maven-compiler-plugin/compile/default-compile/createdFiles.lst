@@ -1,6 +1,7 @@
-com\walit\pass\PasswordGUI.class
-com\walit\pass\PasswordManager.class
+com\walit\pass\Console.class
 com\walit\pass\Parsed.class
 com\walit\pass\Generator.class
 com\walit\pass\Storage.class
 com\walit\pass\Runner.class
+com\walit\pass\Exec.class
+com\walit\pass\UI.class

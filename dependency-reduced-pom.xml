@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.walit.pass.PasswordManager</mainClass>
+                  <mainClass>com.walit.pass.Exec</mainClass>
                 </transformer>
               </transformers>
             </configuration>

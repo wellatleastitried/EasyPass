@@ -2,9 +2,6 @@ package com.walit.pass;
 
 import javax.swing.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.XMLFormatter;
 
-class PasswordGUI implements Runner {
+class UI implements Runner {
 
     public String bSlash = File.separator;
     protected int length = -1;
@@ -28,7 +25,7 @@ class PasswordGUI implements Runner {
 
     private final Logger logger;
 
-    protected PasswordGUI(Logger guiLog) {
+    protected UI(Logger guiLog) {
         this.logger = guiLog;
         // TODO: Initialize start screen
         getStartScreen();
@@ -133,7 +130,7 @@ class PasswordGUI implements Runner {
         // TODO: Display text telling user their task is finished, with back button to home screen
 		return 0;
     }
-    //@Override
+    @Override
     public void shutdown() {
         //pM.dispose();
     }
