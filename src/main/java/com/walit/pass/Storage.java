@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.System.*;
-
 /**
  * Storage serves as a helper class to PasswordManager by handling the storage and calling from specific files
  * used by the program.
@@ -30,7 +28,7 @@ import static java.lang.System.*;
  */
 class Storage {
 	private final Logger logger;
-	public final String ls = getProperty("line.separator");
+	public final String ls = System.getProperty("line.separator");
 	private final byte[] initialize = new byte[16];
 	public final String bSlash = File.separator;
 	private final int[] res1 = {85, 74, 78, 78, 90, 45, 48, 45};
@@ -113,7 +111,7 @@ class Storage {
 			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
 			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 			IvParameterSpec ivPS = new IvParameterSpec(initialize);
-			String ls = getProperty("line.separator");
+			String ls = System.getProperty("line.separator");
 			String pad = new Parsed().getPad();
 			Cipher cipher = Cipher.getInstance(pad);
 			if (num == 0) {
@@ -267,11 +265,11 @@ class Storage {
 				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
 			}
 			BufferedReader bR = new BufferedReader(new FileReader(file));
-			out.println();
+			System.out.println();
 			while ((placeholder = bR.readLine()) != null) {
 				if (hasComma(placeholder)) {
 					String[] temp = placeholder.split(", ", 2);
-					out.println(temp[0] + ": " + temp[1]);
+					System.out.println(temp[0] + ": " + temp[1]);
 				}
 			}
 			bR.close();
@@ -279,12 +277,52 @@ class Storage {
 			logger.log(Level.WARNING, ".csv file unable to be read.");
 		} catch (ArrayIndexOutOfBoundsException aE) {
 			logger.log(Level.SEVERE, "Array index out of bound exception in getInfo() method, please restart.");
-			exit(1);
+			System.exit(1);
 		}
 		//encrypt
 		unlockLock(1);
 	}
-	// TODO: Create getInfoGUI() -> protected String[] getInfoGUI() {}
+	protected String[] getInfoUI() {
+		List<String> comboList = new ArrayList<>();
+		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		try {
+			if (!(file.exists() && file.isFile())) {
+				boolean checkFileCreation = file.createNewFile();
+				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+			}
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "File could not be found/created");
+		}
+		//decrypt
+		unlockLock(0);
+		String placeholder;
+		try {
+			if (!(file.exists() && file.isFile())) {
+				boolean checkFileCreation = file.createNewFile();
+				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+			}
+			BufferedReader bR = new BufferedReader(new FileReader(file));
+			while ((placeholder = bR.readLine()) != null) {
+				if (hasComma(placeholder)) {
+					String[] temp = placeholder.split(", ", 2);
+					comboList.add(temp[0] + ": " + temp[1]);
+				}
+			}
+			bR.close();
+		} catch (IOException e) {
+			logger.log(Level.WARNING, ".csv file unable to be read.");
+		} catch (ArrayIndexOutOfBoundsException aE) {
+			logger.log(Level.SEVERE, "Array index out of bound exception in getInfoUI() method, please restart.");
+			System.exit(1);
+		}
+		//encrypt
+		unlockLock(1);
+		String[] combos = new String[comboList.size()];
+		for (int i = 0; i < comboList.size(); i++) {
+			combos[i] = comboList.get(i);
+		}
+		return combos;
+	}
 
 	/**
 	 * Searches through store file for a specific name.

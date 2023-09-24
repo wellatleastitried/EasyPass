@@ -318,7 +318,8 @@ class UI implements Runner {
     @Override
     public void extractInfoFromList() {
 		Storage store = new Storage(logger);
-		store.getInfo(); //pS.getInfoGUI();
+		String[] combos = store.getInfoUI();
+		// TODO: add values from combos to the interface to be displayed with scroll bar if needed
 	}
     @Override
     public void initializeFilesForProgram() {

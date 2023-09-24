@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.System.*;
-
 /**
  * Generator serves as a helper class to PasswordManager by supplying helpful methods that may be necessary to
  * calculate new passwords or test their strength.
@@ -28,7 +26,6 @@ class Generator {
 	private final char[] capLetters = new char[] {'A', 'C', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
 			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 	private final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
-	private final SecureRandom rand = new SecureRandom();
 	private final StringBuilder sB = new StringBuilder();
 	private String pwd = "";
 	private final Logger logger;
@@ -64,7 +61,7 @@ class Generator {
 		}
 		pwd = sB.toString();
 		while (pwd.length() < length) {
-			int temp = rand.nextInt(characters.length);
+			int temp = new SecureRandom().nextInt(characters.length);
 			sB.append(characters[temp]);
 			pwd = sB.toString();
 		}
@@ -129,19 +126,19 @@ class Generator {
 	 * Generates a random single digit number.
 	 * @return Returns the number to be added to the password.
 	 */
-	private char addNumbers() { return numbers[rand.nextInt(numbers.length)]; }
+	private char addNumbers() { return numbers[new SecureRandom().nextInt(numbers.length)]; }
 
 	/**
 	 * Generates a random capital letter.
 	 * @return Returns the letter to be added to the password.
 	 */
-	private char addCap() { return capLetters[rand.nextInt(capLetters.length)];	}
+	private char addCap() { return capLetters[new SecureRandom().nextInt(capLetters.length)];	}
 
 	/**
 	 * Generates a random special character.
 	 * @return Returns the character to be added to the password.
 	 */
-	private char addSC() { return specialCharacters[rand.nextInt(specialCharacters.length)]; }
+	private char addSC() { return specialCharacters[new SecureRandom().nextInt(specialCharacters.length)]; }
 
 	/**
 	 * Checks the number of capital letters to make sure it is not more or less than the intended amount.
@@ -249,7 +246,7 @@ class Generator {
 		//User can add as many word-lists to this folder as they want, but it will impact runtime.
 		File wordDirectory = new File("resources" + bSlash + "WordLists");
 		AtomicBoolean wordWasFound = new AtomicBoolean(false);
-		long start = currentTimeMillis();
+		long start = System.currentTimeMillis();
 		try {
 			File[] wordLists = wordDirectory.listFiles();
 			if (wordLists != null) {
@@ -284,16 +281,16 @@ class Generator {
 					}
 				}
 			}
-			out.println(
+			System.out.println(
 					"Searching through previous password leaks took "
-							+ (currentTimeMillis() - start)
+							+ (System.currentTimeMillis() - start)
 							+ " ms to complete."
 			);
 		} catch (NullPointerException nPE) {
 			logger.log(Level.INFO, "No word-lists to search through.");
 		}
 		if (wordWasFound.get()) {
-			out.println("This password was previously found in a data breach, you may want to change it.");
+			System.out.println("This password was previously found in a data breach, you may want to change it.");
 			return 0;
 		}
 		int score = 0;

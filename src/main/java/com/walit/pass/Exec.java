@@ -10,7 +10,7 @@ public class Exec {
 					
 					Welcome to the help menu for EasyPass!
 					
-					If no argument is passed to the program, the full application will launch.
+					If no argument is passed to the program, the full UI application will launch.
 					
 					Commands:
 						--help           -> Bring up the help menu

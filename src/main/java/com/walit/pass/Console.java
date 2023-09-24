@@ -8,8 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.XMLFormatter;
 
-import static java.lang.System.*;
-
 /**
  * This program allows the user to generate, store, test, and view passwords by implementing an easy-to-use
  * console interface.
@@ -24,7 +22,7 @@ class Console implements Runner {
 	public int capitals = -1;
 	public int numbers = -1;
 	private final Logger logger = Logger.getLogger("ManagerLog");
-	public Scanner s = new Scanner(in);
+	public Scanner s = new Scanner(System.in);
 
 	protected void callInterface() { new UI(logger).run(); }
 
@@ -34,24 +32,24 @@ class Console implements Runner {
 	protected void getVersionInfo() {
 		try {
 			Parsed parser = new Parsed();
-			out.println(parser.getVersion());
+			System.out.println(parser.getVersion());
 		} catch (Exception ignored) {
-			out.println("Error parsing version info.");
+			System.out.println("Error parsing version info.");
 		}
 	}
 	/**
 	 * Overridden run function that starts the program's execution.
 	 */
 	public void run() {
-		String os = getProperty("os.name");
+		String os = System.getProperty("os.name");
         os = os.toLowerCase();
         if (!(os.contains("win"))) {
-        	out.println("Not a windows machine.");
-        	exit(1);
+        	System.out.println("Not a windows machine.");
+        	System.exit(1);
         }
 		initializeFilesForProgram();
 		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		out.println(logFile.getName());
+		System.out.println(logFile.getName());
 		FileHandler fH;
 		try {
 			if (logFile.exists() && logFile.isFile()) {
@@ -69,13 +67,13 @@ class Console implements Runner {
 			fH.setFormatter(xF);
 			logger.log(Level.INFO, "Successful startup.");
 		} catch (IOException e) {
-			out.println("Error in startup.\n\nPlease restart program.");
+			System.out.println("Error in startup.\n\nPlease restart program.");
 		}
 		poundSeparate();
 		printLogo();
 		poundSeparate();
 		int x = displayMenu();
-		out.println();
+		System.out.println();
 		while (x != 7) {
 			switch (x) {
 				case 1 -> {
@@ -103,7 +101,7 @@ class Console implements Runner {
 					x = displayMenu();
 				}
 				case 5 -> {
-					out.println("""
+					System.out.println("""
 						Would you like to:
 						 - Change an existing password
 						 - Remove an existing password
@@ -126,14 +124,14 @@ class Console implements Runner {
 		shutdown();
 		logger.log(Level.INFO, "Successful termination.");
 		poundSeparate();
-		exit(0);
+		System.exit(0);
 	}
 
 	/**
 	 * Prints logo at startup.
 	 */
 	private void printLogo() {
-		out.println("""
+		System.out.println("""
 			
 			|||||||     |||     |||||||  ||   ||  |||||||     |||     |||||||  |||||||
 			||         || ||    ||        || ||   ||   ||    || ||    ||       ||
@@ -147,14 +145,14 @@ class Console implements Runner {
 	 * Line separator during program runtime.
 	 */
 	private void dashSeparate() {
-		out.println("\n--------------------------------------------------------------------------\n");
+		System.out.println("\n--------------------------------------------------------------------------\n");
 	}
 
 	/**
 	 * Line separator during program runtime.
 	 */
 	private void poundSeparate() {
-		out.println("\n##########################################################################\n");
+		System.out.println("\n##########################################################################\n");
 	}
 
 	/**
@@ -189,7 +187,7 @@ class Console implements Runner {
 			} else if (ans.equals("r") || ans.equals("remove")) {
 				choiceMade = true;
 			} else {
-				out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
+				System.out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
 			}
 		}
 		return isChange;
@@ -201,7 +199,7 @@ class Console implements Runner {
 	 */
 	@Override
 	public void changeInfo() {
-		out.println("You chose to change an existing password.");
+		System.out.println("You chose to change an existing password.");
 		String name = getUserNameForAlter(0);
 		Storage store = new Storage(logger);
 		List<String> strings = store.findNameToAlter();
@@ -220,16 +218,16 @@ class Console implements Runner {
 		}
 		if (acceptedStrings.size() > 1) {
 			int index = 1;
-			out.println("\nThere were multiple passwords with the same name, which would you like to change?");
+			System.out.println("\nThere were multiple passwords with the same name, which would you like to change?");
 			for (String x : acceptedStrings) {
-				out.println(index + ") " + x);
+				System.out.println(index + ") " + x);
 				index++;
 			}
-			out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
+			System.out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
 			String choice = s.nextLine();
 			int chosenIndex = Integer.parseInt(choice);
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
-			out.println("You chose to change the password: "
+			System.out.println("You chose to change the password: "
 					+ splitStrings[1] + " for " + splitStrings[0]
 					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
 			String[] temp = getPassFromUser();
@@ -241,7 +239,7 @@ class Console implements Runner {
 			store.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
-			out.println("You chose to change the password: "
+			System.out.println("You chose to change the password: "
 					+ splitStrings[1] + " for " + splitStrings[0]
 					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
 			String[] temp;
@@ -256,9 +254,9 @@ class Console implements Runner {
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
 			store.storeNameFromLists(strings);
-			out.println("\nPassword successfully changed.");
+			System.out.println("\nPassword successfully changed.");
 		} else {
-			out.println("\nName unable to be found, enter a valid name.\n");
+			System.out.println("\nName unable to be found, enter a valid name.\n");
 			changeInfo();
 		}
 	}
@@ -268,7 +266,7 @@ class Console implements Runner {
 	 */
 	@Override
 	public void removeInfo() {
-		out.println("You chose to remove an existing password.");
+		System.out.println("You chose to remove an existing password.");
 		String name = getUserNameForAlter(1);
 		Storage store = new Storage(logger);
 		List<String> strings = store.findNameToAlter();
@@ -287,16 +285,16 @@ class Console implements Runner {
 		}
 		if (acceptedStrings.size() > 1) {
 			int index = 1;
-			out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
+			System.out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
 			for (String x : acceptedStrings) {
-				out.println(index + ") " + x);
+				System.out.println(index + ") " + x);
 				index++;
 			}
-			out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
+			System.out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
 			String choice = s.nextLine().trim();
 			int chosenIndex = Integer.parseInt(choice);
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
-			out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+			System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 			for (int i = 0; i < strings.size(); i++) {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
 			}
@@ -304,7 +302,7 @@ class Console implements Runner {
 			store.storeNameFromLists(strings);
 		} else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
-			out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+			System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 			int index = -1;
 			for (int i = 0; i < strings.size(); i++) {
 				if (strings.get(i).equals(acceptedStrings.get(0))) {
@@ -314,7 +312,7 @@ class Console implements Runner {
 			strings.remove(index);
 			store.storeNameFromLists(strings);
 		} else {
-			out.println("\nName unable to be found, enter a valid name.\n");
+			System.out.println("\nName unable to be found, enter a valid name.\n");
 			removeInfo();
 		}
 	}
@@ -326,8 +324,8 @@ class Console implements Runner {
 	 */
 	@Override
 	public String getUserNameForAlter(int choice) {
-		if (choice == 0) out.println("Enter the name for the password you would like to change.");
-		else if (choice == 1) out.println("Enter the name for the password you would like to remove.");
+		if (choice == 0) System.out.println("Enter the name for the password you would like to change.");
+		else if (choice == 1) System.out.println("Enter the name for the password you would like to remove.");
 		else logger.log(Level.INFO, "There has been an error that I didn't think was possible.");
 		return s.nextLine().trim().toLowerCase();
 	}
@@ -338,7 +336,7 @@ class Console implements Runner {
 	 * will be initialized separately.
 	 */
 	public String[] getPassFromUser() {
-		out.println("Enter the password you would like to store: ");
+		System.out.println("Enter the password you would like to store: ");
 		String[] userPass = new String[2];
 		userPass[1] = s.nextLine().trim();
 		char[] checker = userPass[1].toCharArray();
@@ -352,7 +350,7 @@ class Console implements Runner {
 			}
 		}
 		while (problem) {
-			out.println("\nThere cannot be a comma \",\" or space in the password you are saving, " +
+			System.out.println("\nThere cannot be a comma \",\" or space in the password you are saving, " +
 					"please try a password without a comma.");
 			userPass[1] = s.nextLine().trim();
 			checker = userPass[1].toCharArray();
@@ -376,12 +374,12 @@ class Console implements Runner {
 	 */
 	@Override
 	public void finalizeName(String[] arr) {
-		out.println("\nWhat is this password for? If you don't want it saved, type STOP");
+		System.out.println("\nWhat is this password for? If you don't want it saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
 		boolean problem = false;
 		char[] checker;
 		if (arr[0].equals("stop")) {
-			out.println("ok, fair enough\n");
+			System.out.println("ok, fair enough\n");
 		} else {
 			checker = arr[0].toCharArray();
 			for (char q : checker) {
@@ -393,8 +391,8 @@ class Console implements Runner {
 			boolean fixed = false;
 			while (problem) {
 
-				out.println("\nThere cannot be a comma \",\" in the name you are saving, please try a name without a comma.");
-				out.println("What is this password for? If you don't want it saved, type STOP");
+				System.out.println("\nThere cannot be a comma \",\" in the name you are saving, please try a name without a comma.");
+				System.out.println("What is this password for? If you don't want it saved, type STOP");
 				arr[0] = s.nextLine().toLowerCase().trim();
 				checker = arr[0].toCharArray();
 				for (char x : checker) {
@@ -454,7 +452,7 @@ class Console implements Runner {
 	 * Generates the menu for the user to interact with in the terminal.
 	 */
 	private void startupText() {
-		out.print("""
+		System.out.print("""
 			CHOOSE AN OPTION!
 			1) Generate a new password
 			2) Find password by search
@@ -464,7 +462,7 @@ class Console implements Runner {
 			6) Store existing password
 			7) Exit program
 			Choose an option:""");
-		out.print(" ");
+		System.out.print(" ");
 	}
 
 	/**
@@ -480,7 +478,7 @@ class Console implements Runner {
 			y = Integer.parseInt(x);
 			while (y < 1 || y > 7) {
 				logger.log(Level.WARNING, "You have input an illegal integer for the prompt.");
-				out.println("Pick an option numbered 1 through 7.");
+				System.out.println("Pick an option numbered 1 through 7.");
 				x = s.nextLine();
 				y = Integer.parseInt(x);
 			}
@@ -500,7 +498,7 @@ class Console implements Runner {
 		Generator gen = new Generator(logger);
 		String[] params = new String[2];
 		params[1] = gen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
-		out.println(params[1]);
+		System.out.println(params[1]);
 		return params;
 	}
 
@@ -535,67 +533,67 @@ class Console implements Runner {
 	private void getParams() {
 		resetParams();
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
-			out.println("Enter desired password length: ");
+			System.out.println("Enter desired password length: ");
 			try {
 				String x = s.nextLine().trim();
 				lengthOfPassword = Integer.parseInt(x);
 				if (lengthOfPassword < 0 || lengthOfPassword > 1000) {
 					logger.log(Level.WARNING, "You have input an invalid number.");
-					out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
+					System.out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
 					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				lengthOfPassword = -1;
-				out.println("You must enter a number here.");
+				System.out.println("You must enter a number here.");
 				break;
 			}
-			out.println("Enter num of special chars:");
+			System.out.println("Enter num of special chars:");
 			try {
 				String x = s.nextLine().trim();
 				specialChars = Integer.parseInt(x);
 				if (specialChars < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
-					out.println("Negative numbers cannot be used in the input.");
+					System.out.println("Negative numbers cannot be used in the input.");
 					specialChars = -1;
 					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				specialChars = -1;
-				out.println("You must enter a number.");
+				System.out.println("You must enter a number.");
 				break;
 			}
-			out.println("Enter num of capitals");
+			System.out.println("Enter num of capitals");
 			try {
 				String x = s.nextLine().trim();
 				capitals = Integer.parseInt(x);
 				if (capitals < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
 					capitals = -1;
-					out.println("Negative numbers cannot be used in the input.");
+					System.out.println("Negative numbers cannot be used in the input.");
 					capitals = -1;
 					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
-				out.println("You must enter a number.");
+				System.out.println("You must enter a number.");
 				break;
 			}
-			out.println("Enter num of numbers:");
+			System.out.println("Enter num of numbers:");
 			try {
 				String x = s.nextLine().trim();
 				numbers = Integer.parseInt(x);
 				if (numbers < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
-					out.println("Negative numbers cannot be used in the input.");
+					System.out.println("Negative numbers cannot be used in the input.");
 					numbers = -1;
 					break;
 				}
 			} catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				numbers = -1;
-				out.println("You must enter a number.");
+				System.out.println("You must enter a number.");
 				break;
 			}
 		}
@@ -609,7 +607,7 @@ class Console implements Runner {
 	@Override
 	public void initializeFilesForProgram() {
 
-		String ls = getProperty("line.separator");
+		String ls = System.getProperty("line.separator");
 		File storeDir = new File("resources" + bSlash + "utilities" + bSlash + "log");
 		File logDir = new File("resources" + bSlash + "utilities" + bSlash + "data");
 		File wordLists = new File("resources" + bSlash + "WordLists");
@@ -668,24 +666,24 @@ class Console implements Runner {
 	public void strengthTest() {
 		Generator gen = new Generator(logger);
 		//change this block
-		out.print("Enter the password to test here: ");
+		System.out.print("Enter the password to test here: ");
 		String password = s.nextLine().trim();
-		out.println();
+		System.out.println();
 		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {
-			out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
+			System.out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
 		}
 		else if (score >= 1 && score <= 5) {
-			out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
+			System.out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
 		}
 		else if (score > 5 && score <= 8) {
-			out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
+			System.out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
 		}
 		else if (score == 9) {
-			out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
+			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
 		}
 		else {
-			out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
+			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
 		}
 	}
 
@@ -695,21 +693,21 @@ class Console implements Runner {
 	@Override
 	public void searchFor() {
 		Storage store = new Storage(logger);
-		out.println("Enter the name for the password you are looking for:");
+		System.out.println("Enter the name for the password you are looking for:");
 		String name = s.nextLine().trim().toLowerCase();
-		out.println();
+		System.out.println();
 		ArrayList<String> acceptedStrings = store.findInfo(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
-			out.println("The password for " + name + " is: " + values[1]);
+			System.out.println("The password for " + name + " is: " + values[1]);
 		} else if (acceptedStrings.size() > 1) {
-			out.println("Here's a list of the passwords that match the name you entered:");
+			System.out.println("Here's a list of the passwords that match the name you entered:");
 			for (String matchingPasswords : acceptedStrings) {
-				out.println(matchingPasswords.replace(",", ":"));
+				System.out.println(matchingPasswords.replace(",", ":"));
 				
 			}
 		} else {
-			out.println("""
+			System.out.println("""
 					No passwords matched your search.
 					Would you like to try a different search?
 					Enter "y" for yes, anything else for "no\"""");
