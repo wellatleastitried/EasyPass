@@ -2,6 +2,7 @@ package com.walit.pass;
 
 import java.io.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -630,10 +631,12 @@ class Console implements Runner {
 		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
 		File vec = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
 		File passMan = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		File[] files = new File[3];
+		File inst = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vSTAH");
+		File[] files = new File[4];
 		files[0] = info;
 		files[1] = vec;
 		files[2] = passMan;
+		files[3] = inst;
 		try {
 			for (int i = 0; i < files.length; i++) {
 				if (!(files[i].exists() && files[i].isFile())) {
@@ -652,11 +655,34 @@ class Console implements Runner {
 							logger.log(Level.SEVERE, "Error initializing data file.");
 						}
 					}
+					if (!(files[i].exists() && files[i].isFile())) {
+						boolean checkFileCreation = files[i].createNewFile();
+						if (!checkFileCreation) logger.log(Level.SEVERE, "Could not initialize files for program.");
+					} else if (i == 3 && !(files[i].exists())) {
+						try {
+							BufferedWriter bW = new BufferedWriter(new FileWriter(files[i]));
+							String hex = "3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554462D3822207374616E64616C6F6E653D22796573223F3E0A3C7061727365643E0A202020203C696E666F3E0A20202020202020203C70726F643E45617379506173733C2F70726F643E0A20202020202020203C76657273696F6E3E302E312E303C2F76657273696F6E3E0A20202020202020203C7061643E4145532F4342432F504B43533550414444494E473C2F7061643E0A20202020202020203C7374723E363544343142434145343436304235343138344335393034363644333030304645423742444246324138393841373436453745303642464535333538363846453C2F7374723E0A202020203C2F696E666F3E0A3C2F7061727365643E";
+							bW.write(new String(deHex(hex), StandardCharsets.UTF_8));
+							bW.flush();
+							bW.close();
+						} catch (IOException e) {
+							logger.log(Level.SEVERE, "Error initializing data file.");
+						}
+					}
 				}
 			}
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "IO exception while creating new files for program.");
 		}
+	}
+	private byte[] deHex(String string) {
+		byte[] cipherText = new byte[string.length() / 2];
+		for (int i = 0; i < cipherText.length; i++) {
+        	int index = i * 2;
+	        int val = Integer.parseInt(string.substring(index, index + 2), 16);
+	        cipherText[i] = (byte) val;
+        }
+        return cipherText;
 	}
 
 	/**
