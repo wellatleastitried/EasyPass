@@ -4,4 +4,5 @@ com\walit\pass\Generator.class
 com\walit\pass\Storage.class
 com\walit\pass\Runner.class
 com\walit\pass\Exec.class
+com\walit\pass\Stage.class
 com\walit\pass\UI.class
