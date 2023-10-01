@@ -80,7 +80,7 @@ class UI implements Runner {
 					numCount = params[3];
 					String[] temp = getInformation();
 					finalizeName(temp);
-					x = getCompleteScreen();
+					x = getCompleteScreen(); // TODO: Figure this out
 				}
 				case 2 -> {
 					searchFor();
@@ -208,23 +208,21 @@ class UI implements Runner {
     @Override
     public void searchFor() {
 		Storage store = new Storage(logger);
-		// Enter the name for the password you are looking for
-        String name = ""; // TODO: Change to take value from textField
-		ArrayList<String> acceptedStrings = store.findInfo(name);
-		if (acceptedStrings.size() == 1) {
-			String[] values = acceptedStrings.get(0).split(", ", 2);
-            // TODO: Display password for user
-		} else if (acceptedStrings.size() > 1) {
-
+		String search = s.searchForPass();
+		ArrayList<String> acceptedStrings = store.findInfo(search);
+		if (!acceptedStrings.isEmpty()) {
             acceptedStrings.replaceAll(string -> string.replace(",", ":"));
 			// TODO: Create list of password-username combos for user
+			s.displayResults(acceptedStrings);
 		} else {
             // Prompt user to try a dif search because there were no matches
+			s.noResults(search);
 			String retryString = ""; // TODO: Make button for yes and no
 			if (retryString.toLowerCase().trim().equals("y")) {
 				searchFor();
 			}
 		}
+
 	}
     @Override
     public String[] getInformation() {
@@ -236,15 +234,20 @@ class UI implements Runner {
 	}
     @Override
     public boolean changeOrRem() {
-        return false;
+        String choice = s.cOrR();
+        return choice.equals("c") || choice.equals("change");
     }
     @Override
     public void changeInfo() {
-
+		String val = s.changeVal();
+		// TODO: Finish this
+		s.finalizeChange();
     }
     @Override
     public void removeInfo() {
-
+		String val = s.removeVal();
+		// TODO: Finish this
+		s.finalizeRemove();
     }
     @Override
     public String getUserNameForAlter(int x) {
@@ -252,7 +255,33 @@ class UI implements Runner {
     }
     @Override
     public String[] getPassFromUser() {
-        return new String[0];
+		String[] userPass = new String[2];
+		userPass[1] = s.addExisting();
+		char[] checker = userPass[1].toCharArray();
+		boolean problem = false;
+		boolean fixed = true;
+		for (char x : checker) {
+			if (x == ',' || x == ' ') {
+				problem = true;
+				fixed = false;
+				break;
+			}
+		}
+		while (problem) {
+			// TODO: Proper message (no comma or space in password)
+			userPass[1] = s.addExisting();
+			checker = userPass[1].toCharArray();
+			for (char x : checker) {
+				if (!((x == ',') || (x == ' '))) {
+					fixed = true;
+				} else {
+					fixed = false;
+					break;
+				}
+			}
+			if (fixed) problem = false;
+		}
+		return userPass;
     }
     @Override
     public void finalizeName(String[] arr) {

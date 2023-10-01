@@ -2,6 +2,7 @@ package com.walit.pass;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class Stage extends JFrame {
 
@@ -45,13 +46,25 @@ public class Stage extends JFrame {
         this.setVisible(true);
 
         genPanel.setVisible(false);
+        complete();
     }
-    public void searchForPass() { // TODO: One method for found results, one for no results
+    public void displayResults(List<String> found) {
+        // TODO: Display results from search
+        searchPanel.setVisible(false);
+        complete();
+    }
+    public void noResults(String found) {
+        // TODO: Display message stating no results were found from search
+        searchPanel.setVisible(false);
+        complete();
+    }
+    public String searchForPass() { // TODO: One method for found results, one for no results
+        String search = "";
         this.add(searchPanel);
         this.pack();
         this.setVisible(true);
 
-        searchPanel.setVisible(false);
+        return search;
     }
     public void displayInfo(String[] combos) {
         this.add(infoPanel);
@@ -59,10 +72,12 @@ public class Stage extends JFrame {
         this.setVisible(true);
 
         infoPanel.setVisible(false);
+        complete();
     }
     public void strengthDisplay(int score) {
 
         strengthPanel.setVisible(false);
+        complete();
     }
     public String strengthText() {
         String pass = ""; // TODO
@@ -71,18 +86,42 @@ public class Stage extends JFrame {
         this.setVisible(true);
         return pass;
     }
-    public void cOrR() {
+    public void finalizeChange() {
+        // TODO: Display message confirming change and see if they want to change another
+        cOrRPanel.setVisible(false);
+        complete();
+    }
+    public void finalizeRemove() {
+        // TODO: Display message confirming removal and see if they want to remove another
+        cOrRPanel.setVisible(false);
+        complete();
+    }
+    public String changeVal() { // TODO: Radio buttons near each choice, select the one to change
+        String valToChange = ""; // TODO: Get choice of which to change
+        return valToChange;
+    }
+    public String removeVal() { // TODO: Radio buttons near each choice, select the one to remove
+        String valToRemove = ""; // TODO: Get choice of which to remove
+        return valToRemove;
+    }
+    public String cOrR() {
+        String choice = "";
         this.add(cOrRPanel);
         this.pack();
         this.setVisible(true);
 
-        cOrRPanel.setVisible(false);
+        // TODO: Make sure val is "change, c, r, or remove
+        return choice;
     }
-    public void addExisting() {
+    public String addExisting() {
+        String pass = "";
         this.add(addPanel);
         this.pack();
         this.setVisible(true);
 
         addPanel.setVisible(false);
+        // TODO: Confirm completion and offer to go back to home screen
+        complete();
+        return pass;
     }
 }
