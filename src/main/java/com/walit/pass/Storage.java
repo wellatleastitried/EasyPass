@@ -364,8 +364,7 @@ class Storage {
 	 * @return Returns 'true' if there is a comma found and 'false' if there is not a comma.
 	 */
 	private boolean hasComma(String str) {
-		char[] chars = str.toCharArray();
-		for (char character : chars) {
+		for (char character : str.toCharArray()) {
 			if (character == ',') return true;
 		}
 		return false;
