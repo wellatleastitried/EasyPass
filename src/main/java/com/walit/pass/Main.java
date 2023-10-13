@@ -1,8 +1,9 @@
 package com.walit.pass;
 
-public class Exec {
+public class Main {
     public static void main(String[] args) {
-		Console c = new Console();
+		CLI c = new CLI();
+		// Once interface is completed, change to a prompt that guides user to help menu with no args
 		if (args.length > 0) {
 			switch (args[0]) {
 				case "--console", "-c" -> c.run();

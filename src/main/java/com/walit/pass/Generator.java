@@ -20,14 +20,12 @@ import java.util.logging.Logger;
  */
 class Generator {
 	public final String bSlash = File.separator;
-	private final char[] numbers = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-	private final char[] characters = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-			'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-	private final char[] capLetters = new char[] {'A', 'C', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+	private final char[] numbers = "0123456789".toCharArray();
+	private final char[] characters = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+	private final char[] capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 	private final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
 	private final StringBuilder sB = new StringBuilder();
-	private String pwd = "";
+	private String pwd;
 	private final Logger logger;
 
 	/**
@@ -45,24 +43,20 @@ class Generator {
 	 */
 	protected String generatePassword(int length, int specialChars, int capitals, int numbers) {
 		while (!(numOfNumbers(numbers))) {
-			char curr = addNumbers();
-			sB.append(curr);
+			sB.append(addNumbers());
 			pwd = sB.toString();
 		}
 		while (!(numOfCaps(capitals))) {
-			char curr = addCap();
-			sB.append(curr);
+			sB.append(addCap());
 			pwd = sB.toString();
 		}
 		while (!(numOfSpecChars(specialChars))) {
-			char curr = addSC();
-			sB.append(curr);
+			sB.append(addSC());
 			pwd = sB.toString();
 		}
 		pwd = sB.toString();
 		while (pwd.length() < length) {
-			int temp = new SecureRandom().nextInt(characters.length);
-			sB.append(characters[temp]);
+			sB.append(characters[new SecureRandom().nextInt(characters.length)]);
 			pwd = sB.toString();
 		}
 		List<String> passwordCharsInList = Arrays.asList(pwd.split(""));

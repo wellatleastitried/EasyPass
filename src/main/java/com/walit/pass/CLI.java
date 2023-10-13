@@ -16,7 +16,7 @@ import java.util.logging.XMLFormatter;
  *
  * @author Jackson Swindell
  */
-class Console implements Runner {
+class CLI implements Runner {
 
 	public final String bSlash = File.separator;
 	public int lengthOfPassword = -1;
