@@ -512,11 +512,10 @@ class CLI implements Runner {
 	@Override
 	public void storeInformation(String[] info) {
 		Storage store = new Storage(logger);
-		String[] transferable = new String[2];
-		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
-		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
-		transferable[0] = encodedName;
-		transferable[1] = encodedPwd;
+		String[] transferable = new String[] {
+				Base64.getEncoder().encodeToString(info[0].getBytes()),
+				Base64.getEncoder().encodeToString(info[1].getBytes())
+		};
 		store.storeInfo(transferable);
 	}
 

@@ -37,7 +37,7 @@ public class Stage extends JFrame {
         this.add(completePanel);
         this.pack();
         this.setVisible(true);
-
+        // TODO: Message that operation is complete with back button to go back to home screen.
         completePanel.setVisible(false);
     }
     public void passwordGenerate() {

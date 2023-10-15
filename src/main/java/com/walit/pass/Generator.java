@@ -324,7 +324,7 @@ class Generator {
 	 * @return Returns 'true' if the char is a special character, 'false' otherwise.
 	 */
 	private boolean isSpecChar(char c) {
-		char[] list = {'!', '_', '?', '.', '-', '@', '#', '$', '%', '&', '*', '+'};
+		char[] list = "!_?.-@#$%&*+".toCharArray();
 		for (char x : list) if (c == x) return true;
 		return false;
 	}
