@@ -20,9 +20,10 @@ public class Main {
 					
 					""");
 				case "-v", "--version" -> c.getVersionInfo();
-				default -> System.out.println("Invalid argument provided. Please try again or use the '--help' command.");
+				default -> System.out.println("\nInvalid argument provided. Please try again or use the '--help' command.\n");
 			}
-		} else {
+		}
+		else {
 			c.callInterface();
 		}
 		System.exit(0);

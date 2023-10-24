@@ -69,7 +69,8 @@ class Generator {
 		char[] test = pwd.toCharArray();
 		if (isValidChar(test[0])) {
 			return pwd;
-		} else {
+		}
+		else {
 			pwd = swapChar(test);
 		}
 		return pwd;
@@ -85,9 +86,13 @@ class Generator {
 	private String swapChar(char[] toSwap) {
 		int indexToNote;
 		Set<Character> lowercaseSet = new HashSet<>();
-		for (char c : characters) lowercaseSet.add(c);
+		for (char c : characters) {
+			lowercaseSet.add(c);
+		}
 		Set<Character> uppercaseSet = new HashSet<>();
-		for (char c : capLetters) uppercaseSet.add(c);
+		for (char c : capLetters) {
+			uppercaseSet.add(c);
+		}
 		char normalChar;
 		for (int i = 0; i < toSwap.length; i++) {
 			if (lowercaseSet.contains(toSwap[i]) || uppercaseSet.contains(toSwap[i])) {
@@ -142,17 +147,23 @@ class Generator {
 	private boolean numOfCaps(int capitals) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
-		for (char c : capLetters) charSet.add(c);
+		for (char c : capLetters) {
+			charSet.add(c);
+		}
 		int counter = 0;
 		for (char characterToCheck : passwordStringToCharArray) {
-			if (charSet.contains(characterToCheck)) counter += 1;
+			if (charSet.contains(characterToCheck)) {
+				counter += 1;
+			}
 		}
 		if (counter > capitals || counter == capitals) {
 			int numOfCapitalsToRemove = counter - capitals;
 			if (numOfCapitalsToRemove > 0) {
 				logger.log(Level.WARNING, "Function added too many special characters to password, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
-					if (numOfCapitalsToRemove == 0) break;
+					if (numOfCapitalsToRemove == 0) {
+						break;
+					}
 					if (charSet.contains(passwordStringToCharArray[i])) {
 						passwordStringToCharArray[i] = '$';
 						numOfCapitalsToRemove -= 1;
@@ -174,17 +185,23 @@ class Generator {
 	private boolean numOfSpecChars(int specialChars) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
-		for (char c : specialCharacters) charSet.add(c);
+		for (char c : specialCharacters) {
+			charSet.add(c);
+		}
 		int counter = 0;
 		for (char characterToCheck : passwordStringToCharArray) {
-			if (charSet.contains(characterToCheck)) counter += 1;
+			if (charSet.contains(characterToCheck)) {
+				counter += 1;
+			}
 		}
 		if (counter > specialChars || counter == specialChars) {
 			int numOfSpecCharToRemove = counter - specialChars;
 			if (numOfSpecCharToRemove > 0) {
 				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
-					if (numOfSpecCharToRemove == 0) break;
+					if (numOfSpecCharToRemove == 0) {
+						break;
+					}
 					if (charSet.contains(passwordStringToCharArray[i])) {
 						passwordStringToCharArray[i] = '$';
 						numOfSpecCharToRemove -= 1;
@@ -206,17 +223,23 @@ class Generator {
 	private boolean numOfNumbers(int numberOfNumbers) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
-		for (char c : numbers) charSet.add(c);
+		for (char c : numbers) {
+			charSet.add(c);
+		}
 		int counter = 0;
 		for (char characterToCheck : passwordStringToCharArray) {
-			if (charSet.contains(characterToCheck)) counter += 1;
+			if (charSet.contains(characterToCheck)) {
+				counter += 1;
+			}
 		}
 		if (counter > numberOfNumbers || counter == numberOfNumbers) {
 			int numOfNumbersToRemove = counter - numberOfNumbers;
 			if (numOfNumbersToRemove > 0) {
 				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
-					if (numOfNumbersToRemove == 0) break;
+					if (numOfNumbersToRemove == 0) {
+						break;
+					}
 					if (charSet.contains(passwordStringToCharArray[i])) {
 						passwordStringToCharArray[i] = '$';
 						numOfNumbersToRemove -= 1;
@@ -254,23 +277,29 @@ class Generator {
 							try {
 								BufferedReader bR = new BufferedReader(new FileReader(file));
 								while ((line = bR.readLine()) != null) {
-									if (wordWasFound.get()) return;
+									if (wordWasFound.get()) {
+										return;
+									}
 									if (pass.equals(line)) {
 										wordWasFound.set(true);
 										break;
 									}
 								}
-							} catch (IOException e) {
+							}
+							catch (IOException e) {
 								logger.log(Level.INFO, "Error checking wordlist for matching password.");
 							}
 						}
 					});
 				}
-				for (Thread thread : fileThreads) thread.start();
+				for (Thread thread : fileThreads) {
+					thread.start();
+				}
 				for (Thread thread : fileThreads) {
 					try {
 						thread.join();
-					} catch (InterruptedException iE) {
+					}
+					catch (InterruptedException iE) {
 						logger.log(Level.INFO, "Interrupted Exception in thread.");
 					}
 				}
@@ -280,7 +309,8 @@ class Generator {
 							+ (System.currentTimeMillis() - start)
 							+ " ms to complete."
 			);
-		} catch (NullPointerException nPE) {
+		}
+		catch (NullPointerException nPE) {
 			logger.log(Level.INFO, "No word-lists to search through.");
 		}
 		if (wordWasFound.get()) {
@@ -294,9 +324,15 @@ class Generator {
 		int specCount = 0;
 		int capCount = 0;
 		for (char c : splitPass) {
-			if (isUppercase(c)) capCount++;
-			else if (isSpecChar(c)) specCount++;
-			else if (isNum(c)) numCount++;
+			if (isUppercase(c)) {
+				capCount++;
+			}
+			else if (isSpecChar(c)) {
+				specCount++;
+			}
+			else if (isNum(c)) {
+				numCount++;
+			}
 		}
 		if (passLen == capCount || passLen == numCount ||
 				passLen == specCount || passLen == capCount + 1 ||
@@ -325,7 +361,11 @@ class Generator {
 	 */
 	private boolean isSpecChar(char c) {
 		char[] list = "!_?.-@#$%&*+".toCharArray();
-		for (char x : list) if (c == x) return true;
+		for (char x : list) {
+			if (c == x) {
+				return true;
+			}
+		}
 		return false;
 	}
 

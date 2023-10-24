@@ -62,7 +62,8 @@ class UI implements Runner {
 			XMLFormatter xF = new XMLFormatter();
 			fH.setFormatter(xF);
 			logger.log(Level.INFO, "Successful startup.");
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			System.err.println("Logger could not be initialized.\n\nPlease restart program.");
 		}
 		Stage s = new Stage();
@@ -165,7 +166,8 @@ class UI implements Runner {
             specSet = validateParams(attempt, 2);
             attempt = Integer.parseInt(numbers);
             numSet = validateParams(attempt, 3);
-        } catch (NumberFormatException nFE) {
+        }
+		catch (NumberFormatException nFE) {
             logger.log(Level.INFO, "Integers must be entered for the parameters.");
         }
         while (!lSet || !capSet || !specSet || !numSet) {
@@ -173,25 +175,33 @@ class UI implements Runner {
                 // TODO: display error for user to see
                 int temp = fetchNewVal(0);
                 lSet = validateParams(temp, 0);
-                if (lSet) res[0] = temp;
+                if (lSet) {
+					res[0] = temp;
+				}
             }
             if (!capSet) {
                 // TODO: display error for user to see
                 int temp = fetchNewVal(1);
                 capSet = validateParams(temp, 1);
-                if (lSet) res[1] = temp;
+                if (lSet) {
+					res[1] = temp;
+				}
             }
             if (!specSet) {
                 // TODO: display error for user to see
                 int temp = fetchNewVal(2);
                 specSet = validateParams(temp, 2);
-                if (lSet) res[2] = temp;
+                if (lSet) {
+					res[2] = temp;
+				}
             }
             if (!numSet) {
                 // TODO: display error for user to see
                 int temp = fetchNewVal(3);
                 numSet = validateParams(temp, 3);
-                if (lSet) res[3] = temp;
+                if (lSet) {
+					res[3] = temp;
+				}
             }
         }
 
@@ -214,7 +224,8 @@ class UI implements Runner {
             acceptedStrings.replaceAll(string -> string.replace(",", ":"));
 			// TODO: Create list of password-username combos for user
 			s.displayResults(acceptedStrings);
-		} else {
+		}
+		else {
             // Prompt user to try a dif search because there were no matches
 			s.noResults(search);
 			String retryString = ""; // TODO: Make button for yes and no
@@ -274,12 +285,15 @@ class UI implements Runner {
 			for (char x : checker) {
 				if (!((x == ',') || (x == ' '))) {
 					fixed = true;
-				} else {
+				}
+				else {
 					fixed = false;
 					break;
 				}
 			}
-			if (fixed) problem = false;
+			if (fixed) {
+				problem = false;
+			}
 		}
 		return userPass;
     }
@@ -291,7 +305,8 @@ class UI implements Runner {
 		char[] checker;
 		if (arr[0].equals("stop")) {
 			getCompleteScreen();
-		} else {
+		}
+		else {
 			checker = arr[0].toCharArray();
 			for (char q : checker) {
 				if (q == ',') {
@@ -308,12 +323,15 @@ class UI implements Runner {
 				for (char x : checker) {
 					if (!(x == ',')) {
 						fixed = true;
-					} else {
+					}
+					else {
 						fixed = false;
 						break;
 					}
 				}
-				if (fixed) problem = false;
+				if (fixed) {
+					problem = false;
+				}
 			}
 			if (!arr[0].equals("stop")) {
 				storeInformation(arr);
@@ -359,12 +377,16 @@ class UI implements Runner {
 			for (File directory : dirs) {
 				if (!(directory.exists())) {
 					boolean checkDirCreation = directory.mkdirs();
-					if (!checkDirCreation) logger.log(Level.SEVERE, "Error creating directory, please restart now.");
+					if (!checkDirCreation) {
+						logger.log(Level.SEVERE, "Error creating directory, please restart now.");
+					}
 				}
 			}
-		} catch (SecurityException sE) {
+		}
+		catch (SecurityException sE) {
 			logger.log(Level.WARNING, "IO exception while making directories.");
-		} catch (NullPointerException nPE) {
+		}
+		catch (NullPointerException nPE) {
 			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
 		}
 		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
@@ -380,7 +402,9 @@ class UI implements Runner {
 			for (int i = 0; i < files.length; i++) {
 				if (!(files[i].exists() && files[i].isFile())) {
 					boolean checkFileCreation = files[i].createNewFile();
-					if (!checkFileCreation) logger.log(Level.SEVERE, "Could not initialize files for program.");
+					if (!checkFileCreation) {
+						logger.log(Level.SEVERE, "Could not initialize files for program.");
+					}
 					if (i == 3 && files[i].length() == 0) {
 						try {
 							BufferedWriter bW = new BufferedWriter(new FileWriter(files[i]));
@@ -389,13 +413,15 @@ class UI implements Runner {
 							bW.write(ls);
 							bW.flush();
 							bW.close();
-						} catch (IOException e) {
+						}
+						catch (IOException e) {
 							logger.log(Level.SEVERE, "Error initializing data file.");
 						}
 					}
 				}
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.SEVERE, "IO exception while creating new files for program.");
 		}
     }

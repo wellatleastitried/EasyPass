@@ -88,14 +88,17 @@ class Storage {
 				bW.write(hex(iv));
 				bW.flush();
 				bW.close();
-			} else {
+			}
+			else {
 				byte[] oldIV;
 				oldIV = deHex(line);
 				return oldIV;
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.SEVERE, "Unable to retrieve end bytes!");
-		} catch (NullPointerException nPE) {
+		}
+		catch (NullPointerException nPE) {
 			logger.log(Level.SEVERE, "Null pointer in getIVSpec().");
 		}
 		return iv;
@@ -127,7 +130,8 @@ class Storage {
 						sB.append(line);
 					}
 					bR.close();
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 					logger.log(Level.SEVERE, "Could not read elements from file.");
 				}
 				String cipherTextToDeHex = sB.toString();
@@ -141,11 +145,13 @@ class Storage {
 			            bW.write(plainText);
 						bW.flush();
 			            bW.close();
-			        } catch (IOException e) {
+			        }
+					catch (IOException e) {
 			            logger.log(Level.SEVERE, "Could not write elements to file.");
 			        }
 			    }
-			} else if (num == 1) {
+			}
+			else if (num == 1) {
 				cipher.init(Cipher.ENCRYPT_MODE, y, ivPS);
 				StringBuilder sB = new StringBuilder();
 				try {
@@ -156,7 +162,8 @@ class Storage {
 				            sB.append(ls);
 			            }
 			            bR.close();
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 					logger.log(Level.SEVERE, "Could not read elements from file.");
 				}
 				String plainText = sB.toString();
@@ -166,26 +173,33 @@ class Storage {
 		            bW.write(hex(cipherText));
 					bW.flush();
 		            bW.close();
-		        } catch (IOException e) {
+		        }
+				catch (IOException e) {
 		            logger.log(Level.SEVERE, "Could not write elements to file.");
 		        }
 			}
-		} catch (InvalidKeyException iKE) {
+		}
+		catch (InvalidKeyException iKE) {
 		   	logger.log(Level.SEVERE, "Invalid key exception in unlockLock() method.");
-		} catch (NoSuchAlgorithmException nSAE) {
+		}
+		catch (NoSuchAlgorithmException nSAE) {
 		   	logger.log(Level.SEVERE, "No such algorithm exception in unlockLock() method.");
-		} catch (IllegalBlockSizeException iBSE) {
+		}
+		catch (IllegalBlockSizeException iBSE) {
 		   	logger.log(Level.SEVERE, "Illegal block size exception in unlockLock() method.");
-		} catch (NoSuchPaddingException nSPE){
+		}
+		catch (NoSuchPaddingException nSPE){
 		   	logger.log(Level.SEVERE, "No such padding exception in unlockLock() method.");
-		} catch (InvalidAlgorithmParameterException iAPE) {
+		}
+		catch (InvalidAlgorithmParameterException iAPE) {
 		   	logger.log(Level.SEVERE, "Invalid algorithm parameter exception in unlockLock() method.");
-		} catch (BadPaddingException bPE) {
+		}
+		catch (BadPaddingException bPE) {
 		   	logger.log(Level.SEVERE, "Bad padding exception in unlockLock() method.");
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
             logger.log(Level.SEVERE, "Exception parsing xml.");
         }
-
 		try {
 			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
 			if (file.exists() && file.isFile()) {
@@ -193,7 +207,8 @@ class Storage {
 				app.write(hex(initialize));
 				app.flush();
 				app.close();
-			} else {
+			}
+			else {
 				boolean checkFileCreation = file.createNewFile();
 				if (!checkFileCreation) logger.log(Level.WARNING, "File unable to be created.");
 				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
@@ -201,7 +216,8 @@ class Storage {
 				app.flush();
 				app.close();
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.SEVERE, "IO exception in unlockLock() method.");
 		}
 		//get this done
@@ -217,9 +233,12 @@ class Storage {
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+				if (!checkFileCreation) {
+					logger.log(Level.WARNING, "Issue creating file.");
+				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.log(Level.WARNING, "File could not be found/created");
 		}
 		for (int i = 0; i < transferable.length; i++) {
@@ -237,7 +256,8 @@ class Storage {
 			bW.write(info[1]);
 			bW.newLine();
 			bW.close();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.log(Level.WARNING, "Could not write elements to file.");
 		}
 		//encrypt csv file contents
@@ -252,9 +272,12 @@ class Storage {
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+				if (!checkFileCreation) {
+					logger.log(Level.WARNING, "Issue creating file.");
+				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.log(Level.WARNING, "File could not be found/created");
 		}
 		//decrypt
@@ -263,7 +286,9 @@ class Storage {
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+				if (!checkFileCreation) {
+					logger.log(Level.WARNING, "Issue creating file.");
+				}
 			}
 			BufferedReader bR = new BufferedReader(new FileReader(file));
 			System.out.println();
@@ -274,9 +299,11 @@ class Storage {
 				}
 			}
 			bR.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.WARNING, ".csv file unable to be read.");
-		} catch (ArrayIndexOutOfBoundsException aE) {
+		}
+		catch (ArrayIndexOutOfBoundsException aE) {
 			logger.log(Level.SEVERE, "Array index out of bound exception in getInfo() method, please restart.");
 			System.exit(1);
 		}
@@ -289,9 +316,12 @@ class Storage {
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+				if (!checkFileCreation) {
+					logger.log(Level.WARNING, "Issue creating file.");
+				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.log(Level.WARNING, "File could not be found/created");
 		}
 		//decrypt
@@ -300,7 +330,9 @@ class Storage {
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+				if (!checkFileCreation) {
+					logger.log(Level.WARNING, "Issue creating file.");
+				}
 			}
 			BufferedReader bR = new BufferedReader(new FileReader(file));
 			while ((placeholder = bR.readLine()) != null) {
@@ -310,9 +342,11 @@ class Storage {
 				}
 			}
 			bR.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.WARNING, ".csv file unable to be read.");
-		} catch (ArrayIndexOutOfBoundsException aE) {
+		}
+		catch (ArrayIndexOutOfBoundsException aE) {
 			logger.log(Level.SEVERE, "Array index out of bound exception in getInfoUI() method, please restart.");
 			System.exit(1);
 		}
@@ -336,9 +370,12 @@ class Storage {
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "Issue creating file.");
+				if (!checkFileCreation) {
+					logger.log(Level.WARNING, "Issue creating file.");
+				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.log(Level.WARNING, "File could not be found/created");
 		}
 		unlockLock(0);
@@ -351,7 +388,8 @@ class Storage {
 					acceptedStrings.add(line);
 				}
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.WARNING, "Error searching for name in file.");
 		}
 		unlockLock(1);
@@ -365,7 +403,9 @@ class Storage {
 	 */
 	private boolean hasComma(String str) {
 		for (char character : str.toCharArray()) {
-			if (character == ',') return true;
+			if (character == ',') {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -414,7 +454,8 @@ class Storage {
 			}
 			unlockLock(1);
 			return stringLines;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.WARNING, "Error reading strings from file.");
 		}
 		unlockLock(1);
@@ -436,7 +477,8 @@ class Storage {
 			}
 			bW.flush();
 			bW.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.WARNING, "Error writing new data to info");
 		}
 		unlockLock(1);

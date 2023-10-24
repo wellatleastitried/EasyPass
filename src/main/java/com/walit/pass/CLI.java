@@ -35,7 +35,8 @@ class CLI implements Runner {
 		try {
 			Parsed parser = new Parsed();
 			System.out.println(parser.getVersion());
-		} catch (Exception ignored) {
+		}
+		catch (Exception ignored) {
 			System.out.println("Error parsing version info.");
 		}
 	}
@@ -68,7 +69,8 @@ class CLI implements Runner {
 			XMLFormatter xF = new XMLFormatter();
 			fH.setFormatter(xF);
 			logger.log(Level.INFO, "Successful startup.");
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			System.out.println("Error in startup.\n\nPlease restart program.");
 		}
 		poundSeparate();
@@ -186,9 +188,11 @@ class CLI implements Runner {
 			if (ans.equals("c") || ans.equals("change")) {
 				isChange = true;
 				choiceMade = true;
-			} else if (ans.equals("r") || ans.equals("remove")) {
+			}
+			else if (ans.equals("r") || ans.equals("remove")) {
 				choiceMade = true;
-			} else {
+			}
+			else {
 				System.out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
 			}
 		}
@@ -209,7 +213,8 @@ class CLI implements Runner {
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
 			logger.log(Level.WARNING, "Error retrieving file, please restart.");
-		} else {
+		}
+		else {
 			for (String x : strings) {
 				splitStrings = x.split(", ");
 				splitStrings[0] = splitStrings[0].toLowerCase();
@@ -235,11 +240,14 @@ class CLI implements Runner {
 			String[] temp = getPassFromUser();
 			String newPass = temp[1];
 			for (int i = 0; i < strings.size(); i++) {
-				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
+				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) {
+					index = i;
+				}
 			}
 			strings.set(index, splitStrings[0] + ", " + newPass);
 			store.storeNameFromLists(strings);
-		} else if (acceptedStrings.size() == 1) {
+		}
+		else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
 			System.out.println("You chose to change the password: "
 					+ splitStrings[1] + " for " + splitStrings[0]
@@ -257,7 +265,8 @@ class CLI implements Runner {
 			strings.set(index, splitStrings[0] + ", " + newPass);
 			store.storeNameFromLists(strings);
 			System.out.println("\nPassword successfully changed.");
-		} else {
+		}
+		else {
 			System.out.println("\nName unable to be found, enter a valid name.\n");
 			changeInfo();
 		}
@@ -276,7 +285,8 @@ class CLI implements Runner {
 		String[] splitStrings;
 		if (strings.get(0).equals("There was an error.")) {
 			logger.log(Level.WARNING, "Error retrieving file, please restart.");
-		} else {
+		}
+		else {
 			for (String x : strings) {
 				splitStrings = x.split(", ");
 				splitStrings[0] = splitStrings[0].toLowerCase();
@@ -298,11 +308,14 @@ class CLI implements Runner {
 			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
 			System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 			for (int i = 0; i < strings.size(); i++) {
-				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) index = i;
+				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) {
+					index = i;
+				}
 			}
 			strings.remove(index);
 			store.storeNameFromLists(strings);
-		} else if (acceptedStrings.size() == 1) {
+		}
+		else if (acceptedStrings.size() == 1) {
 			splitStrings = acceptedStrings.get(0).split(", ");
 			System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 			int index = -1;
@@ -313,7 +326,8 @@ class CLI implements Runner {
 			}
 			strings.remove(index);
 			store.storeNameFromLists(strings);
-		} else {
+		}
+		else {
 			System.out.println("\nName unable to be found, enter a valid name.\n");
 			removeInfo();
 		}
@@ -326,9 +340,15 @@ class CLI implements Runner {
 	 */
 	@Override
 	public String getUserNameForAlter(int choice) {
-		if (choice == 0) System.out.println("Enter the name for the password you would like to change.");
-		else if (choice == 1) System.out.println("Enter the name for the password you would like to remove.");
-		else logger.log(Level.INFO, "There has been an error that I didn't think was possible.");
+		if (choice == 0) {
+			System.out.println("Enter the name for the password you would like to change.");
+		}
+		else if (choice == 1) {
+			System.out.println("Enter the name for the password you would like to remove.");
+		}
+		else {
+			logger.log(Level.INFO, "There has been an error that I didn't think was possible.");
+		}
 		return s.nextLine().trim().toLowerCase();
 	}
 
@@ -359,12 +379,15 @@ class CLI implements Runner {
 			for (char x : checker) {
 				if (!((x == ',') || (x == ' '))) {
 					fixed = true;
-				} else {
+				}
+				else {
 					fixed = false;
 					break;
 				}
 			}
-			if (fixed) problem = false;
+			if (fixed) {
+				problem = false;
+			}
 		}
 		return userPass;
 	}
@@ -382,7 +405,8 @@ class CLI implements Runner {
 		char[] checker;
 		if (arr[0].equals("stop")) {
 			System.out.println("ok, fair enough\n");
-		} else {
+		}
+		else {
 			checker = arr[0].toCharArray();
 			for (char q : checker) {
 				if (q == ',') {
@@ -392,7 +416,6 @@ class CLI implements Runner {
 			}
 			boolean fixed = false;
 			while (problem) {
-
 				System.out.println("\nThere cannot be a comma \",\" in the name you are saving, please try a name without a comma.");
 				System.out.println("What is this password for? If you don't want it saved, type STOP");
 				arr[0] = s.nextLine().toLowerCase().trim();
@@ -400,12 +423,15 @@ class CLI implements Runner {
 				for (char x : checker) {
 					if (!(x == ',')) {
 						fixed = true;
-					} else {
+					}
+					else {
 						fixed = false;
 						break;
 					}
 				}
-				if (fixed) problem = false;
+				if (fixed) {
+					problem = false;
+				}
 			}
 			if (!arr[0].equals("stop")) {
 				storeInformation(arr);
@@ -444,7 +470,8 @@ class CLI implements Runner {
 				//make user reenter params
 				getParams();
 			}
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			logger.log(Level.INFO, "User input an illegal character in place of an integer.");
 			getParams();
 		}
@@ -484,7 +511,8 @@ class CLI implements Runner {
 				x = s.nextLine();
 				y = Integer.parseInt(x);
 			}
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			logger.log(Level.WARNING, "You have input an illegal character in place of an integer.");
 			y = displayMenu();
 		}
@@ -543,7 +571,8 @@ class CLI implements Runner {
 					System.out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
 					break;
 				}
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				lengthOfPassword = -1;
 				System.out.println("You must enter a number here.");
@@ -559,7 +588,8 @@ class CLI implements Runner {
 					specialChars = -1;
 					break;
 				}
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				specialChars = -1;
 				System.out.println("You must enter a number.");
@@ -576,7 +606,8 @@ class CLI implements Runner {
 					capitals = -1;
 					break;
 				}
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				System.out.println("You must enter a number.");
 				break;
@@ -591,7 +622,8 @@ class CLI implements Runner {
 					numbers = -1;
 					break;
 				}
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				numbers = -1;
 				System.out.println("You must enter a number.");
@@ -620,12 +652,16 @@ class CLI implements Runner {
 			for (File directory : dirs) {
 				if (!(directory.exists())) {
 					boolean checkDirCreation = directory.mkdirs();
-					if (!checkDirCreation) logger.log(Level.SEVERE, "Error creating directory, please restart now.");
+					if (!checkDirCreation) {
+						logger.log(Level.SEVERE, "Error creating directory, please restart now.");
+					}
 				}
 			}
-		} catch (SecurityException sE) {
+		}
+		catch (SecurityException sE) {
 			logger.log(Level.WARNING, "IO exception while making directories.");
-		} catch (NullPointerException nPE) {
+		}
+		catch (NullPointerException nPE) {
 			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
 		}
 		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
@@ -641,7 +677,9 @@ class CLI implements Runner {
 			for (int i = 0; i < files.length; i++) {
 				if (!(files[i].exists() && files[i].isFile())) {
 					boolean checkFileCreation = files[i].createNewFile();
-					if (!checkFileCreation) logger.log(Level.SEVERE, "Could not initialize files for program.");
+					if (!checkFileCreation) {
+						logger.log(Level.SEVERE, "Could not initialize files for program.");
+					}
 					if (i == 3 && files[i].length() == 0) {
 						try {
 							BufferedWriter bW = new BufferedWriter(new FileWriter(files[i]));
@@ -650,13 +688,15 @@ class CLI implements Runner {
 							bW.write(ls);
 							bW.flush();
 							bW.close();
-						} catch (IOException e) {
+						}
+						catch (IOException e) {
 							logger.log(Level.SEVERE, "Error initializing data file.");
 						}
 					}
 				}
 			}
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			logger.log(Level.SEVERE, "IO exception while creating new files for program.");
 		}
 	}
@@ -711,13 +751,15 @@ class CLI implements Runner {
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
 			System.out.println("The password for " + name + " is: " + values[1]);
-		} else if (acceptedStrings.size() > 1) {
+		}
+		else if (acceptedStrings.size() > 1) {
 			System.out.println("Here's a list of the passwords that match the name you entered:");
 			for (String matchingPasswords : acceptedStrings) {
 				System.out.println(matchingPasswords.replace(",", ":"));
 				
 			}
-		} else {
+		}
+		else {
 			System.out.println("""
 					No passwords matched your search.
 					Would you like to try a different search?
