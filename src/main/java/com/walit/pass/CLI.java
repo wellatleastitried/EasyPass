@@ -2,8 +2,6 @@ package com.walit.pass;
 
 import java.io.*;
 
-import java.nio.charset.StandardCharsets;
-
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -50,7 +48,7 @@ class CLI implements Runner {
         	System.out.println("Not a windows machine.");
         	System.exit(1);
         }
-		initializeFilesForProgram();
+		initializeMissingFilesForProgram();
 		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
 		System.out.println(logFile.getName());
 		FileHandler fH;
@@ -73,9 +71,9 @@ class CLI implements Runner {
 		catch (IOException e) {
 			System.out.println("Error in startup.\n\nPlease restart program.");
 		}
-		poundSeparate();
+		poundLine();
 		printLogo();
-		poundSeparate();
+		poundLine();
 		int x = displayMenu();
 		System.out.println();
 		while (x != 7) {
@@ -83,25 +81,25 @@ class CLI implements Runner {
 				case 1 -> {
 					getParams();
 					checkParams();
-					String[] temp = getInformation();
-					finalizeName(temp);
-					dashSeparate();
+					String[] temp = getUserInformation();
+					getPassIdentifierFromUser(temp);
+					dashLine();
 					resetParams();
 					x = displayMenu();
 				}
 				case 2 -> {
-					searchFor();
-					dashSeparate();
+					findNamePassCombos();
+					dashLine();
 					x = displayMenu();
 				}
 				case 3 -> {
 					extractInfoFromList();
-					dashSeparate();
+					dashLine();
 					x = displayMenu();
 				}
 				case 4 -> {
 					strengthTest();
-					dashSeparate();
+					dashLine();
 					x = displayMenu();
 				}
 				case 5 -> {
@@ -111,23 +109,23 @@ class CLI implements Runner {
 						 - Remove an existing password
 						Enter "c" to change and "r" to remove.
 						""");
-					boolean choice = changeOrRem();
-					if (choice) changeInfo();
-					else removeInfo();
-					dashSeparate();
+					boolean choice = getChangeOrRemoveDecision();
+					if (choice) changeData();
+					else removeData();
+					dashLine();
 					x = displayMenu();
 				}
 				case 6 -> {
-					String[] tempStr = getPassFromUser();
-					finalizeName(tempStr);
-					dashSeparate();
+					String[] tempStr = getPasswordFromUser();
+					getPassIdentifierFromUser(tempStr);
+					dashLine();
 					x = displayMenu();
 				}
 			}
 		}
 		shutdown();
 		logger.log(Level.INFO, "Successful termination.");
-		poundSeparate();
+		poundLine();
 		System.exit(0);
 	}
 
@@ -148,14 +146,14 @@ class CLI implements Runner {
 	/**
 	 * Line separator during program runtime.
 	 */
-	private void dashSeparate() {
+	private void dashLine() {
 		System.out.println("\n--------------------------------------------------------------------------\n");
 	}
 
 	/**
 	 * Line separator during program runtime.
 	 */
-	private void poundSeparate() {
+	private void poundLine() {
 		System.out.println("\n##########################################################################\n");
 	}
 
@@ -180,7 +178,7 @@ class CLI implements Runner {
 	 * @return Returns true if the user chooses 'change' and false if the user chooses 'remove'.
 	 */
 	@Override
-	public boolean changeOrRem() {
+	public boolean getChangeOrRemoveDecision() {
 		boolean choiceMade = false;
 		boolean isChange = false;
 		while (!choiceMade) {
@@ -204,9 +202,9 @@ class CLI implements Runner {
 	 * a new password.
 	 */
 	@Override
-	public void changeInfo() {
+	public void changeData() {
 		System.out.println("You chose to change an existing password.");
-		String name = getUserNameForAlter(0);
+		String name = getPassIdentifierForChangeOrRemove(0);
 		Storage store = new Storage(logger);
 		List<String> strings = store.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
@@ -237,7 +235,7 @@ class CLI implements Runner {
 			System.out.println("You chose to change the password: "
 					+ splitStrings[1] + " for " + splitStrings[0]
 					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
-			String[] temp = getPassFromUser();
+			String[] temp = getPasswordFromUser();
 			String newPass = temp[1];
 			for (int i = 0; i < strings.size(); i++) {
 				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) {
@@ -254,7 +252,7 @@ class CLI implements Runner {
 					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
 			String[] temp;
 			String newPass;
-			temp = getPassFromUser();
+			temp = getPasswordFromUser();
 			newPass = temp[1];
 			int index = -1;
 			for (int i = 0; i < strings.size(); i++) {
@@ -268,7 +266,7 @@ class CLI implements Runner {
 		}
 		else {
 			System.out.println("\nName unable to be found, enter a valid name.\n");
-			changeInfo();
+			changeData();
 		}
 	}
 
@@ -276,9 +274,9 @@ class CLI implements Runner {
 	 * Handles removing the user's password by allowing them to enter the name associated with their password.
 	 */
 	@Override
-	public void removeInfo() {
+	public void removeData() {
 		System.out.println("You chose to remove an existing password.");
-		String name = getUserNameForAlter(1);
+		String name = getPassIdentifierForChangeOrRemove(1);
 		Storage store = new Storage(logger);
 		List<String> strings = store.findNameToAlter();
 		List<String> acceptedStrings = new ArrayList<>();
@@ -329,7 +327,7 @@ class CLI implements Runner {
 		}
 		else {
 			System.out.println("\nName unable to be found, enter a valid name.\n");
-			removeInfo();
+			removeData();
 		}
 	}
 
@@ -339,7 +337,7 @@ class CLI implements Runner {
 	 * @return Returns a string containing the name that the password belongs to.
 	 */
 	@Override
-	public String getUserNameForAlter(int choice) {
+	public String getPassIdentifierForChangeOrRemove(int choice) {
 		if (choice == 0) {
 			System.out.println("Enter the name for the password you would like to change.");
 		}
@@ -357,7 +355,7 @@ class CLI implements Runner {
 	 * @return Returns the password in the second index of the two index array. The first slot is for the name, which
 	 * will be initialized separately.
 	 */
-	public String[] getPassFromUser() {
+	public String[] getPasswordFromUser() {
 		System.out.println("Enter the password you would like to store: ");
 		String[] userPass = new String[2];
 		userPass[1] = s.nextLine().trim();
@@ -398,7 +396,7 @@ class CLI implements Runner {
 	 * @param arr A two index array holding the user's password and the name associated with it.
 	 */
 	@Override
-	public void finalizeName(String[] arr) {
+	public void getPassIdentifierFromUser(String[] arr) {
 		System.out.println("\nWhat is this password for? If you don't want it saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
 		boolean problem = false;
@@ -524,7 +522,7 @@ class CLI implements Runner {
 	 * @return Returns the new password in a string array that can be handled by other methods to store it.
 	 */
 	@Override
-	public String[] getInformation() {
+	public String[] getUserInformation() {
 		Generator gen = new Generator(logger);
 		String[] params = new String[2];
 		params[1] = gen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
@@ -544,7 +542,7 @@ class CLI implements Runner {
 				Base64.getEncoder().encodeToString(info[0].getBytes()),
 				Base64.getEncoder().encodeToString(info[1].getBytes())
 		};
-		store.storeInfo(transferable);
+		store.storeData(transferable);
 	}
 
 	/**
@@ -553,7 +551,7 @@ class CLI implements Runner {
 	@Override
 	public void extractInfoFromList() {
 		Storage store = new Storage(logger);
-		store.getInfo();
+		store.displayUserPassCombos();
 	}
 
 	/**
@@ -635,82 +633,6 @@ class CLI implements Runner {
 		}
 	}
 	/**
-	 * Creates any directories and files that have either not been made yet or have been deleted and need to be remade.
-	 */
-	@Override
-	public void initializeFilesForProgram() {
-
-		String ls = System.getProperty("line.separator");
-		File storeDir = new File("resources" + bSlash + "utilities" + bSlash + "log");
-		File logDir = new File("resources" + bSlash + "utilities" + bSlash + "data");
-		File wordLists = new File("resources" + bSlash + "WordLists");
-		File[] dirs = new File[3];
-		dirs[0] = storeDir;
-		dirs[1] = logDir;
-		dirs[2] = wordLists;
-		try {
-			for (File directory : dirs) {
-				if (!(directory.exists())) {
-					boolean checkDirCreation = directory.mkdirs();
-					if (!checkDirCreation) {
-						logger.log(Level.SEVERE, "Error creating directory, please restart now.");
-					}
-				}
-			}
-		}
-		catch (SecurityException sE) {
-			logger.log(Level.WARNING, "IO exception while making directories.");
-		}
-		catch (NullPointerException nPE) {
-			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
-		}
-		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
-		File vec = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
-		File passMan = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		File inst = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vSTAH");
-		File[] files = new File[4];
-		files[0] = info;
-		files[1] = vec;
-		files[2] = passMan;
-		files[3] = inst;
-		try {
-			for (int i = 0; i < files.length; i++) {
-				if (!(files[i].exists() && files[i].isFile())) {
-					boolean checkFileCreation = files[i].createNewFile();
-					if (!checkFileCreation) {
-						logger.log(Level.SEVERE, "Could not initialize files for program.");
-					}
-					if (i == 3 && files[i].length() == 0) {
-						try {
-							BufferedWriter bW = new BufferedWriter(new FileWriter(files[i]));
-							String hex = "3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554462D3822207374616E64616C6F6E653D22796573223F3E0A3C7061727365643E0A202020203C696E666F3E0A20202020202020203C70726F643E45617379506173733C2F70726F643E0A20202020202020203C76657273696F6E3E302E312E303C2F76657273696F6E3E0A20202020202020203C7061643E4145532F4342432F504B43533550414444494E473C2F7061643E0A20202020202020203C7374723E363544343142434145343436304235343138344335393034363644333030304645423742444246324138393841373436453745303642464535333538363846453C2F7374723E0A202020203C2F696E666F3E0A3C2F7061727365643E";
-							bW.write(new String(deHex(hex), StandardCharsets.UTF_8));
-							bW.write(ls);
-							bW.flush();
-							bW.close();
-						}
-						catch (IOException e) {
-							logger.log(Level.SEVERE, "Error initializing data file.");
-						}
-					}
-				}
-			}
-		}
-		catch (IOException e) {
-			logger.log(Level.SEVERE, "IO exception while creating new files for program.");
-		}
-	}
-	private byte[] deHex(String string) {
-		byte[] cipherText = new byte[string.length() / 2];
-		for (int i = 0; i < cipherText.length; i++) {
-        	int index = i * 2;
-	        int val = Integer.parseInt(string.substring(index, index + 2), 16);
-	        cipherText[i] = (byte) val;
-        }
-        return cipherText;
-	}
-
-	/**
 	 * Allows the user to test how strong their password is.
 	 */
 	@Override
@@ -742,12 +664,12 @@ class CLI implements Runner {
 	 * Searches for a specific password by looking for the name associated with it.
 	 */
 	@Override
-	public void searchFor() {
+	public void findNamePassCombos() {
 		Storage store = new Storage(logger);
 		System.out.println("Enter the name for the password you are looking for:");
 		String name = s.nextLine().trim().toLowerCase();
 		System.out.println();
-		ArrayList<String> acceptedStrings = store.findInfo(name);
+		ArrayList<String> acceptedStrings = store.checkStoredDataForName(name);
 		if (acceptedStrings.size() == 1) {
 			String[] values = acceptedStrings.get(0).split(", ", 2);
 			System.out.println("The password for " + name + " is: " + values[1]);
@@ -766,7 +688,7 @@ class CLI implements Runner {
 					Enter "y" for yes, anything else for "no\"""");
 			String retryString = s.nextLine();
 			if (retryString.toLowerCase().trim().equals("y")) {
-				searchFor();
+				findNamePassCombos();
 			}
 		}
 	}

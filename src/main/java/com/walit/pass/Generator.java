@@ -42,16 +42,16 @@ class Generator {
 	 * @return Returns the new password for the user.
 	 */
 	protected String generatePassword(int length, int specialChars, int capitals, int numbers) {
-		while (!(numOfNumbers(numbers))) {
-			sB.append(addNumbers());
+		while (!(numberCount(numbers))) {
+			sB.append(addNumber());
 			pwd = sB.toString();
 		}
-		while (!(numOfCaps(capitals))) {
-			sB.append(addCap());
+		while (!(uppercaseCharCount(capitals))) {
+			sB.append(addCapital());
 			pwd = sB.toString();
 		}
-		while (!(numOfSpecChars(specialChars))) {
-			sB.append(addSC());
+		while (!(specialCharCount(specialChars))) {
+			sB.append(addSpecialChar());
 			pwd = sB.toString();
 		}
 		pwd = sB.toString();
@@ -71,7 +71,7 @@ class Generator {
 			return pwd;
 		}
 		else {
-			pwd = swapChar(test);
+			pwd = swapFirstChar(test);
 		}
 		return pwd;
 	}
@@ -83,7 +83,7 @@ class Generator {
 	 * @return Returns the password with the first character swapped for a normal letter instead of a special character
 	 * or number.
 	 */
-	private String swapChar(char[] toSwap) {
+	private String swapFirstChar(char[] toSwap) {
 		int indexToNote;
 		Set<Character> lowercaseSet = new HashSet<>();
 		for (char c : characters) {
@@ -125,26 +125,26 @@ class Generator {
 	 * Generates a random single digit number.
 	 * @return Returns the number to be added to the password.
 	 */
-	private char addNumbers() { return numbers[new SecureRandom().nextInt(numbers.length)]; }
+	private char addNumber() { return numbers[new SecureRandom().nextInt(numbers.length)]; }
 
 	/**
 	 * Generates a random capital letter.
 	 * @return Returns the letter to be added to the password.
 	 */
-	private char addCap() { return capLetters[new SecureRandom().nextInt(capLetters.length)];	}
+	private char addCapital() { return capLetters[new SecureRandom().nextInt(capLetters.length)];	}
 
 	/**
 	 * Generates a random special character.
 	 * @return Returns the character to be added to the password.
 	 */
-	private char addSC() { return specialCharacters[new SecureRandom().nextInt(specialCharacters.length)]; }
+	private char addSpecialChar() { return specialCharacters[new SecureRandom().nextInt(specialCharacters.length)]; }
 
 	/**
 	 * Checks the number of capital letters to make sure it is not more or less than the intended amount.
 	 * @param capitals The number of capital letters the password SHOULD contain.
 	 * @return Returns 'true' if the number of capital letters is equal to 'capitals' and 'false' otherwise.
 	 */
-	private boolean numOfCaps(int capitals) {
+	private boolean uppercaseCharCount(int capitals) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
 		for (char c : capLetters) {
@@ -159,7 +159,7 @@ class Generator {
 		if (counter > capitals || counter == capitals) {
 			int numOfCapitalsToRemove = counter - capitals;
 			if (numOfCapitalsToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many special characters to password, had to manually remove.");
+				logger.log(Level.WARNING, "Function added too many capital letters to password, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfCapitalsToRemove == 0) {
 						break;
@@ -182,7 +182,7 @@ class Generator {
 	 * @param specialChars The number of special characters the password SHOULD contain.
 	 * @return Returns 'true' if the number of special characters is correct and 'false' otherwise.
 	 */
-	private boolean numOfSpecChars(int specialChars) {
+	private boolean specialCharCount(int specialChars) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
 		for (char c : specialCharacters) {
@@ -220,7 +220,7 @@ class Generator {
 	 * @param numberOfNumbers The number of numbers that SHOULD be in the password.
 	 * @return Returns 'true' if the amount is correct, 'false' otherwise.
 	 */
-	private boolean numOfNumbers(int numberOfNumbers) {
+	private boolean numberCount(int numberOfNumbers) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> charSet = new HashSet<>();
 		for (char c : numbers) {
@@ -235,7 +235,7 @@ class Generator {
 		if (counter > numberOfNumbers || counter == numberOfNumbers) {
 			int numOfNumbersToRemove = counter - numberOfNumbers;
 			if (numOfNumbersToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
+				logger.log(Level.WARNING, "Function added too many numbers characters to pwd, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfNumbersToRemove == 0) {
 						break;
@@ -327,10 +327,10 @@ class Generator {
 			if (isUppercase(c)) {
 				capCount++;
 			}
-			else if (isSpecChar(c)) {
+			else if (isSpecialChar(c)) {
 				specCount++;
 			}
-			else if (isNum(c)) {
+			else if (isNumber(c)) {
 				numCount++;
 			}
 		}
@@ -359,7 +359,7 @@ class Generator {
 	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a special character, 'false' otherwise.
 	 */
-	private boolean isSpecChar(char c) {
+	private boolean isSpecialChar(char c) {
 		char[] list = "!_?.-@#$%&*+".toCharArray();
 		for (char x : list) {
 			if (c == x) {
@@ -374,5 +374,5 @@ class Generator {
 	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a number, 'false' otherwise.
 	 */
-	private boolean isNum(char c) { return Character.isDigit(c); }
+	private boolean isNumber(char c) { return Character.isDigit(c); }
 }

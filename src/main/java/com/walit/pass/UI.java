@@ -1,11 +1,8 @@
 package com.walit.pass;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import java.nio.charset.StandardCharsets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +42,7 @@ class UI implements Runner {
 			System.err.println("Not a windows machine.");
 			System.exit(1);
 		}
-		initializeFilesForProgram();
+		initializeMissingFilesForProgram();
 		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
 		System.err.println(logFile.getName());
 		FileHandler fH;
@@ -79,12 +76,12 @@ class UI implements Runner {
 					capCount = params[1];
 					specialCharCount = params[2];
 					numCount = params[3];
-					String[] temp = getInformation();
-					finalizeName(temp);
+					String[] temp = getUserInformation();
+					getPassIdentifierFromUser(temp);
 					x = getCompleteScreen(); // TODO: Figure this out
 				}
 				case 2 -> {
-					searchFor();
+					findNamePassCombos();
 					x = getCompleteScreen();
 				}
 				case 3 -> {
@@ -96,14 +93,14 @@ class UI implements Runner {
 					x = getCompleteScreen();
 				}
 				case 5 -> {
-					boolean choice = changeOrRem();
-					if (choice) changeInfo();
-					else removeInfo();
+					boolean choice = getChangeOrRemoveDecision();
+					if (choice) changeData();
+					else removeData();
 					x = getCompleteScreen();
 				}
 				case 6 -> {
-					String[] tempStr = getPassFromUser();
-					finalizeName(tempStr);
+					String[] tempStr = getPasswordFromUser();
+					getPassIdentifierFromUser(tempStr);
 					x = getCompleteScreen();
 				}
 			}
@@ -216,10 +213,10 @@ class UI implements Runner {
         return true;
     }
     @Override
-    public void searchFor() {
+    public void findNamePassCombos() {
 		Storage store = new Storage(logger);
 		String search = s.searchForPass();
-		ArrayList<String> acceptedStrings = store.findInfo(search);
+		ArrayList<String> acceptedStrings = store.checkStoredDataForName(search);
 		if (!acceptedStrings.isEmpty()) {
             acceptedStrings.replaceAll(string -> string.replace(",", ":"));
 			// TODO: Create list of password-username combos for user
@@ -230,13 +227,13 @@ class UI implements Runner {
 			s.noResults(search);
 			String retryString = ""; // TODO: Make button for yes and no
 			if (retryString.toLowerCase().trim().equals("y")) {
-				searchFor();
+				findNamePassCombos();
 			}
 		}
 
 	}
     @Override
-    public String[] getInformation() {
+    public String[] getUserInformation() {
 		Generator gen = new Generator(logger);
 		String[] params = new String[2];
 		params[1] = gen.generatePassword(length, specialCharCount, capCount, numCount);
@@ -244,28 +241,28 @@ class UI implements Runner {
 		return params;
 	}
     @Override
-    public boolean changeOrRem() {
+    public boolean getChangeOrRemoveDecision() {
         String choice = s.cOrR();
         return choice.equals("c") || choice.equals("change");
     }
     @Override
-    public void changeInfo() {
+    public void changeData() {
 		String val = s.changeVal();
 		// TODO: Finish this
 		s.finalizeChange();
     }
     @Override
-    public void removeInfo() {
+    public void removeData() {
 		String val = s.removeVal();
 		// TODO: Finish this
 		s.finalizeRemove();
     }
     @Override
-    public String getUserNameForAlter(int x) {
+    public String getPassIdentifierForChangeOrRemove(int x) {
         return null;
     }
     @Override
-    public String[] getPassFromUser() {
+    public String[] getPasswordFromUser() {
 		String[] userPass = new String[2];
 		userPass[1] = s.addExisting();
 		char[] checker = userPass[1].toCharArray();
@@ -298,7 +295,7 @@ class UI implements Runner {
 		return userPass;
     }
     @Override
-    public void finalizeName(String[] arr) {
+    public void getPassIdentifierFromUser(String[] arr) {
         // TODO: Prompt user on whether they want to save the password (Button for save, button for back
 		arr[0] = s.nameGetter.getText(); // TODO: Get val from textField
 		boolean problem = false;
@@ -346,7 +343,7 @@ class UI implements Runner {
 		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
 		transferable[0] = encodedName;
 		transferable[1] = encodedPwd;
-		store.storeInfo(transferable);
+		store.storeData(transferable);
 	}
     @Override
     public void strengthTest() {
@@ -359,79 +356,8 @@ class UI implements Runner {
     @Override
     public void extractInfoFromList() {
 		Storage store = new Storage(logger);
-		String[] combos = store.getInfoUI();
+		String[] combos = store.getUserPassCombosForUI();
 		s.displayInfo(combos);
 		// TODO: add values from combos to the interface to be displayed with scroll bar if needed
-	}
-    @Override
-    public void initializeFilesForProgram() {
-		String ls = System.getProperty("line.separator");
-		File storeDir = new File("resources" + bSlash + "utilities" + bSlash + "log");
-		File logDir = new File("resources" + bSlash + "utilities" + bSlash + "data");
-		File wordLists = new File("resources" + bSlash + "WordLists");
-		File[] dirs = new File[3];
-		dirs[0] = storeDir;
-		dirs[1] = logDir;
-		dirs[2] = wordLists;
-		try {
-			for (File directory : dirs) {
-				if (!(directory.exists())) {
-					boolean checkDirCreation = directory.mkdirs();
-					if (!checkDirCreation) {
-						logger.log(Level.SEVERE, "Error creating directory, please restart now.");
-					}
-				}
-			}
-		}
-		catch (SecurityException sE) {
-			logger.log(Level.WARNING, "IO exception while making directories.");
-		}
-		catch (NullPointerException nPE) {
-			logger.log(Level.WARNING, "Null pointer exception while initializing directories.");
-		}
-		File info = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
-		File vec = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
-		File passMan = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		File inst = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "vSTAH");
-		File[] files = new File[4];
-		files[0] = info;
-		files[1] = vec;
-		files[2] = passMan;
-		files[3] = inst;
-		try {
-			for (int i = 0; i < files.length; i++) {
-				if (!(files[i].exists() && files[i].isFile())) {
-					boolean checkFileCreation = files[i].createNewFile();
-					if (!checkFileCreation) {
-						logger.log(Level.SEVERE, "Could not initialize files for program.");
-					}
-					if (i == 3 && files[i].length() == 0) {
-						try {
-							BufferedWriter bW = new BufferedWriter(new FileWriter(files[i]));
-							String hex = "3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554462D3822207374616E64616C6F6E653D22796573223F3E0A3C7061727365643E0A202020203C696E666F3E0A20202020202020203C70726F643E45617379506173733C2F70726F643E0A20202020202020203C76657273696F6E3E302E312E303C2F76657273696F6E3E0A20202020202020203C7061643E4145532F4342432F504B43533550414444494E473C2F7061643E0A20202020202020203C7374723E363544343142434145343436304235343138344335393034363644333030304645423742444246324138393841373436453745303642464535333538363846453C2F7374723E0A202020203C2F696E666F3E0A3C2F7061727365643E";
-							bW.write(new String(deHex(hex), StandardCharsets.UTF_8));
-							bW.write(ls);
-							bW.flush();
-							bW.close();
-						}
-						catch (IOException e) {
-							logger.log(Level.SEVERE, "Error initializing data file.");
-						}
-					}
-				}
-			}
-		}
-		catch (IOException e) {
-			logger.log(Level.SEVERE, "IO exception while creating new files for program.");
-		}
-    }
-	private byte[] deHex(String string) {
-		byte[] cipherText = new byte[string.length() / 2];
-		for (int i = 0; i < cipherText.length; i++) {
-        	int index = i * 2;
-	        int val = Integer.parseInt(string.substring(index, index + 2), 16);
-	        cipherText[i] = (byte) val;
-        }
-        return cipherText;
 	}
 }
