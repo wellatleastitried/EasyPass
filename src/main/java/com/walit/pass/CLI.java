@@ -16,7 +16,6 @@ import java.util.logging.XMLFormatter;
  */
 class CLI implements Runner {
 
-	public final String bSlash = File.separator;
 	public int lengthOfPassword = -1;
 	public int specialChars = -1;
 	public int capitals = -1;
@@ -29,36 +28,38 @@ class CLI implements Runner {
 	/**
 	 * Prints the version information of the program.
 	 */
-	protected void getVersionInfo() {
+	protected String getVersionInfo() {
+		String version;
 		try {
 			Parsed parser = new Parsed();
-			System.out.println(parser.getVersion());
+			version = parser.getVersion();
+			System.out.println(version);
+
 		}
 		catch (Exception ignored) {
-			System.out.println("Error parsing version info.");
+			version = "Error parsing version info.";
+			System.err.println(version);
 		}
+		return version;
 	}
 	/**
-	 * Overridden run function that starts the program's execution.
+	 * Run function that starts the program's execution.
 	 */
 	public void run() {
 		String os = System.getProperty("os.name");
         os = os.toLowerCase();
         if (!(os.contains("win"))) {
-        	System.out.println("Not a windows machine.");
+        	System.err.println("Not a windows machine.");
         	System.exit(1);
         }
 		initializeMissingFilesForProgram();
-		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
-		System.out.println(logFile.getName());
+		File logFile = new File(logFilePath);
 		FileHandler fH;
 		try {
 			if (logFile.exists() && logFile.isFile()) {
 				new FileWriter(logFile, false).close();
 			}
-			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log",
-					true
-			);
+			fH = new FileHandler(logFilePath, true);
 			while (logger.getHandlers().length > 0) {
 				logger.removeHandler(logger.getHandlers()[0]);
 			}
@@ -647,10 +648,10 @@ class CLI implements Runner {
 			System.out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
 		}
 		else if (score >= 1 && score <= 5) {
-			System.out.println("Your password is quite weak -> " + score + "/" + 10 + "\n{[][][]..............}");
+			System.out.println("Your password is somewhat weak -> " + score + "/" + 10 + "\n{[][][]..............}");
 		}
 		else if (score > 5 && score <= 8) {
-			System.out.println("Your password is quite strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
+			System.out.println("Your password is somewhat strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
 		}
 		else if (score == 9) {
 			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");

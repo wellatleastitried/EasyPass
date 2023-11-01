@@ -7,8 +7,7 @@ import org.junit.Test;
 public class XMLTest {
     @Test
     public void checkStrings() throws Exception {
-        Parsed p = new Parsed();
-        String pad = p.getPad();
+        String pad = new Parsed().getPad();
         MatcherAssert.assertThat(pad, is("AES/CBC/PKCS5PADDING"));
     }
 }

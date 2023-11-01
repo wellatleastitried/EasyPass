@@ -29,9 +29,10 @@ import java.util.logging.Logger;
  */
 class Storage {
 	private final Logger logger;
+	private final String pSAHFilePath = "resources\\utilities\\data\\pSAH";
+	private final String iVSTAHFilePath = "resources\\utilities\\data\\iVSTAH";
 	public final String ls = System.getProperty("line.separator");
 	private final byte[] initialize = new byte[16];
-	public final String bSlash = File.separator;
 	private final int[] res1 = {85, 74, 78, 78, 90, 45, 48, 45};
 
 	/**
@@ -76,13 +77,12 @@ class Storage {
 	 */
 	private byte[] getIVSpec() {
 		byte[] iv = new byte[16];
-		File vecFil = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
+		File vecFil = new File(iVSTAHFilePath);
 		try {
 			BufferedReader bR = new BufferedReader(new FileReader(vecFil));
 			String line = bR.readLine();
 			if (line == null) {
-				SecureRandom sR = new SecureRandom();
-				sR.nextBytes(iv);
+				new SecureRandom().nextBytes(iv);
 				BufferedWriter bW = new BufferedWriter(new FileWriter(vecFil, false));
 				bW.write(toHex(iv));
 				bW.flush();
@@ -112,7 +112,7 @@ class Storage {
 			String x = calcStr();
 			byte[] bytesOfKVector = fromHex(x);
 			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
-			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+			File file = new File(pSAHFilePath);
 			IvParameterSpec ivPS = new IvParameterSpec(initialize);
 			String ls = System.getProperty("line.separator");
 			String pad = new Parsed().getPad();
@@ -200,7 +200,7 @@ class Storage {
             logger.log(Level.SEVERE, "Exception parsing xml.");
         }
 		try {
-			File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "iVSTAH");
+			File file = new File(iVSTAHFilePath);
 			if (file.exists() && file.isFile()) {
 				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
 				app.write(toHex(initialize));
@@ -228,7 +228,7 @@ class Storage {
 	 */
 	protected void storeData(String[] transferable) {
 		String[] info = new String[2];
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File file = new File(pSAHFilePath);
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -267,7 +267,7 @@ class Storage {
 	 * Displays all passwords and associated names for the user.
 	 */
 	protected void displayUserPassCombos() {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File file = new File(pSAHFilePath);
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -311,7 +311,7 @@ class Storage {
 	}
 	protected String[] getUserPassCombosForUI() {
 		List<String> comboList = new ArrayList<>();
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File file = new File(pSAHFilePath);
 		try {
 			if (!(file.exists() && file.isFile())) {
 				boolean checkFileCreation = file.createNewFile();
@@ -364,7 +364,7 @@ class Storage {
 	 * @return Returns a list of all lines that have a name matching the given one.
 	 */
 	protected ArrayList<String> checkStoredDataForName(String name) {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File file = new File(pSAHFilePath);
 		ArrayList<String> acceptedStrings = new ArrayList<>();
 		try {
 			if (!(file.exists() && file.isFile())) {
@@ -443,7 +443,7 @@ class Storage {
 	 */
 	protected List<String> findNameToAlter() {
 		unlockOrLock(0);
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File file = new File(pSAHFilePath);
 		List<String> stringLines = new ArrayList<>();
 		String line;
 		try {
@@ -466,7 +466,7 @@ class Storage {
 	 * @param infoToStore The list containing the necessary information to store.
 	 */
 	protected void storeNameFromLists(List<String> infoToStore) {
-		File file = new File("resources" + bSlash + "utilities" + bSlash + "data" + bSlash + "pSAH");
+		File file = new File(pSAHFilePath);
 		unlockOrLock(0);
 		try {
 			BufferedWriter bW = new BufferedWriter(new FileWriter(file, false));

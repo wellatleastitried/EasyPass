@@ -19,7 +19,6 @@ import java.util.logging.Logger;
  * @author Jackson Swindell
  */
 class Generator {
-	public final String bSlash = File.separator;
 	private final char[] numbers = "0123456789".toCharArray();
 	private final char[] characters = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 	private final char[] capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
@@ -254,14 +253,13 @@ class Generator {
 	}
 
 	/**
-	 * Checks the strength of a given password by running it through commonly used password word-lists, and, if it is
-	 * not present in them, grading it by using specific criteria.
-	 * @param pass The password to scan word-lists for and test the strength of.
-	 * @return Returns the score on a scale of 1-10 based on how strong the password appears to be.
+	 * Searches through the provided word-lists for the given password to see if there is a match.
+	 * @param pass The password to search for.
+	 * @return Returns "true" if the password is found in the word-lists, "false" otherwise.
 	 */
-	protected int passwordStrengthScoring(String pass) {
+	protected boolean checkForPassInLists(String pass) {
 		//User can add as many word-lists to this folder as they want, but it will impact runtime.
-		File wordDirectory = new File("resources" + bSlash + "WordLists");
+		File wordDirectory = new File("resources\\WordLists");
 		AtomicBoolean wordWasFound = new AtomicBoolean(false);
 		long start = System.currentTimeMillis();
 		try {
@@ -315,6 +313,18 @@ class Generator {
 		}
 		if (wordWasFound.get()) {
 			System.out.println("This password was previously found in a data breach, you may want to change it.");
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Checks the strength of a given password by grading it by using specific criteria.
+	 * @param pass The password to test the strength of.
+	 * @return Returns the score on a scale of 1-10 based on how strong the password appears to be, returns 0 if the password is found in a provided word-list.
+	 */
+	protected int passwordStrengthScoring(String pass) {
+		boolean foundInList = checkForPassInLists(pass);
+		if (foundInList) {
 			return 0;
 		}
 		int score = 0;
@@ -346,7 +356,6 @@ class Generator {
 		score = (numCount == 0) ? score : (numCount < 2) ? (score + 1) : (numCount < 4) ? (score + 2) : (score + 3);
 		return score < 0 ? 0 : Math.min(score, 10);
 	}
-
 	/**
 	 * Checks to see if a given char is uppercase.
 	 * @param c The character to check.

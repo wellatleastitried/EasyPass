@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public interface Runner {
+	String logFilePath = "resources\\utilities\\log\\PassMan.log";
     void shutdown();
     boolean getChangeOrRemoveDecision();
     void changeData();
@@ -19,10 +20,9 @@ public interface Runner {
     void extractInfoFromList();
     default void initializeMissingFilesForProgram() {
 		String ls = System.getProperty("line.separator");
-        String sep = File.separator;
-		File storeDir = new File("resources" + sep + "utilities" + sep + "log");
-		File logDir = new File("resources" + sep + "utilities" + sep + "data");
-		File wordLists = new File("resources" + sep + "WordLists");
+		File storeDir = new File("resources\\utilities\\log");
+		File logDir = new File("resources\\utilities\\data");
+		File wordLists = new File("resources\\WordLists");
 		File[] dirs = new File[3];
 		dirs[0] = storeDir;
 		dirs[1] = logDir;
@@ -43,10 +43,10 @@ public interface Runner {
 		catch (NullPointerException nPE) {
 			System.err.println("Null pointer exception while initializing directories.");
 		}
-		File info = new File("resources" + sep + "utilities" + sep + "data" + sep + "pSAH");
-		File vec = new File("resources" + sep + "utilities" + sep + "data" + sep + "iVSTAH");
-		File passMan = new File("resources" + sep + "utilities" + sep + "log" + sep + "PassMan.log");
-		File inst = new File("resources" + sep + "utilities" + sep + "data" + sep + "vSTAH");
+		File info = new File("resources\\utilities\\data\\pSAH");
+		File vec = new File("resources\\utilities\\data\\iVSTAH");
+		File passMan = new File(logFilePath);
+		File inst = new File("resources\\utilities\\data\\vSTAH");
 		File[] files = new File[4];
 		files[0] = info;
 		files[1] = vec;

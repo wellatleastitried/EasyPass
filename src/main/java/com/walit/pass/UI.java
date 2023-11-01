@@ -14,7 +14,6 @@ import java.util.logging.XMLFormatter;
 
 class UI implements Runner {
 
-    public String bSlash = File.separator;
     protected int length = -1;
     protected int specialCharCount = -1;
     protected int capCount = -1;
@@ -43,14 +42,14 @@ class UI implements Runner {
 			System.exit(1);
 		}
 		initializeMissingFilesForProgram();
-		File logFile = new File("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log");
+		File logFile = new File(logFilePath);
 		System.err.println(logFile.getName());
 		FileHandler fH;
 		try {
 			if (logFile.exists() && logFile.isFile()) {
 				new FileWriter(logFile, false).close();
 			}
-			fH = new FileHandler("resources" + bSlash + "utilities" + bSlash + "log" + bSlash + "PassMan.log", true);
+			fH = new FileHandler(logFilePath, true);
 			while (logger.getHandlers().length > 0) {
 				logger.removeHandler(logger.getHandlers()[0]);
 			}

@@ -7,17 +7,81 @@ import java.util.List;
 public class Stage extends JFrame {
 
     //TODO: Probably need a class for each of these panels, too much detail for them to all be put in this constructor.
-    JPanel startPanel, homePanel, completePanel, genPanel, searchPanel, infoPanel, strengthPanel, cOrRPanel, addPanel;
+    JPanel startPanel, homePanel, completePanel, genPanel, searchPanel, infoPanel, strengthPanel, cOrRPanel, additionPanel;
     JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
     JButton genPass, search, displayInfo, strength, changeOrRem, addExist; // For home menu
     public boolean[] checker = new boolean[6];
     public Stage() {
-        Arrays.fill(checker, false);
+        Arrays.fill(checker, false); //on button click, becomes true, after operation, becomes false again.
         this.setTitle("EasyPass");
         this.setResizable(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // Initialize panels
+        startPanel = buildStartPanel();
+        homePanel = buildHomePanel();
+        completePanel = buildCompletePanel();
+        genPanel = buildGenPanel();
+        searchPanel = buildSearchPanel();
+        infoPanel = buildInfoPanel();
+        strengthPanel = buildStrengthPanel();
+        cOrRPanel = buildCOrRPanel();
+        additionPanel = buildAdditionPanel();
     }
+
+    private JPanel buildAdditionPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildCOrRPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildStrengthPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildInfoPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildSearchPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildGenPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildCompletePanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildHomePanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
+    private JPanel buildStartPanel() {
+        JPanel panel = new JPanel();
+
+        return panel;
+    }
+
     public void start() {
         this.add(startPanel);
         this.pack();
@@ -115,11 +179,11 @@ public class Stage extends JFrame {
     }
     public String addExisting() {
         String pass = "";
-        this.add(addPanel);
+        this.add(additionPanel);
         this.pack();
         this.setVisible(true);
 
-        addPanel.setVisible(false);
+        additionPanel.setVisible(false);
         // TODO: Confirm completion and offer to go back to home screen
         complete();
         return pass;
