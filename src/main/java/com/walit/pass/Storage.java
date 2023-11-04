@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Storage serves as a helper class to PasswordManager by handling the storage and calling from specific files
+ * Storage serves as a helper class to CLI and UI by handling the storage and calling from specific files
  * used by the program.
  *
  * @author Jackson Swindell

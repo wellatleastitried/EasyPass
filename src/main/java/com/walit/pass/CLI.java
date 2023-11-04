@@ -403,7 +403,7 @@ class CLI implements Runner {
 		boolean problem = false;
 		char[] checker;
 		if (arr[0].equals("stop")) {
-			System.out.println("ok, fair enough\n");
+			System.out.println("\nReturning to menu...\n");
 		}
 		else {
 			checker = arr[0].toCharArray();
@@ -651,10 +651,10 @@ class CLI implements Runner {
 			System.out.println("Your password is somewhat weak -> " + score + "/" + 10 + "\n{[][][]..............}");
 		}
 		else if (score > 5 && score <= 8) {
-			System.out.println("Your password is somewhat strong -> " + score + "/" + 10 + "\n{[][][][][][][]......}");
+			System.out.println("Your password is somewhat strong -> " + score + "/" + 10 + "\n{[][][][][]..........}");
 		}
 		else if (score == 9) {
-			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][]..}");
+			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][]....}");
 		}
 		else {
 			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
@@ -679,7 +679,6 @@ class CLI implements Runner {
 			System.out.println("Here's a list of the passwords that match the name you entered:");
 			for (String matchingPasswords : acceptedStrings) {
 				System.out.println(matchingPasswords.replace(",", ":"));
-				
 			}
 		}
 		else {

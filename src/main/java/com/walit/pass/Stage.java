@@ -1,22 +1,38 @@
 package com.walit.pass;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class Stage extends JFrame {
 
-    //TODO: Probably need a class for each of these panels, too much detail for them to all be put in this constructor.
     JPanel startPanel, homePanel, completePanel, genPanel, searchPanel, infoPanel, strengthPanel, cOrRPanel, additionPanel;
     JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
     JButton genPass, search, displayInfo, strength, changeOrRem, addExist; // For home menu
+    volatile boolean keyWasTyped = false;
+    Dimension dim = new Dimension(750, 750);
     public boolean[] checker = new boolean[6];
+
     public Stage() {
-        Arrays.fill(checker, false); //on button click, becomes true, after operation, becomes false again.
+        // Array to handle choices, may change later
+        Arrays.fill(checker, false);
+
+        // Build frame
         this.setTitle("EasyPass");
-        this.setResizable(true);
+        this.setResizable(false);
+        this.setPreferredSize(dim);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        // Initialize panels
+        this.setIconImage(getApplicationIcon().getImage());
+
+        // Build panels
         startPanel = buildStartPanel();
         homePanel = buildHomePanel();
         completePanel = buildCompletePanel();
@@ -26,6 +42,67 @@ public class Stage extends JFrame {
         strengthPanel = buildStrengthPanel();
         cOrRPanel = buildCOrRPanel();
         additionPanel = buildAdditionPanel();
+    }
+
+    protected ImageIcon getApplicationIcon() {
+        BufferedImage icon = null;
+        try {
+            icon = ImageIO.read(new File("resources\\images\\lock.png"));
+        }
+        catch (IOException e) {
+            System.err.println("Couldn't render image.");
+        }
+        assert icon != null;
+        return new ImageIcon(icon);
+    }
+    protected JLabel getApplicationLogo() {
+        BufferedImage logo = null;
+        try {
+            logo = ImageIO.read(new File("resources\\images\\logo.png"));
+        }
+        catch (IOException e) {
+            System.err.println("Couldn't render images.");
+        }
+        assert logo != null;
+        return new JLabel(new ImageIcon(new ImageIcon(logo).getImage().getScaledInstance(450, 450, Image.SCALE_DEFAULT)), SwingConstants.CENTER);
+    }
+    private JPanel buildStartPanel() {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(dim);
+        panel.setLayout(new BorderLayout());
+        panel.setFocusable(true);
+        panel.requestFocusInWindow();
+        panel.setBackground(Color.LIGHT_GRAY);
+        panel.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                keyWasTyped = true;
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        JLabel startText = new JLabel("Press any key to continue...");
+        startText.setFont (startText.getFont ().deriveFont (36.0f));
+        panel.add(startText, BorderLayout.PAGE_END);
+        JLabel logo = getApplicationLogo();
+        logo.setPreferredSize(new Dimension(500, 500));
+        panel.add(logo);
+        panel.setVisible(true);
+        return panel;
+    }
+
+    public void start() {
+        this.add(startPanel);
+        this.pack();
+        this.setVisible(true);
+        while (!keyWasTyped) {
+            Thread.onSpinWait();
+        }
+        System.out.println("Key was pressed: Application opening.");
+        home();
+        //startPanel.setVisible(false);
     }
 
     private JPanel buildAdditionPanel() {
@@ -76,23 +153,12 @@ public class Stage extends JFrame {
         return panel;
     }
 
-    private JPanel buildStartPanel() {
-        JPanel panel = new JPanel();
 
-        return panel;
-    }
-
-    public void start() {
-        this.add(startPanel);
-        this.pack();
-        this.setVisible(true);
-
-        startPanel.setVisible(false);
-    }
     public void home() {
         // TODO: On button press, change corresponding val to true
         this.add(homePanel);
         this.pack();
+        //p.setVisible(false);
         this.setVisible(true);
 
         homePanel.setVisible(false);

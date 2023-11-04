@@ -19,22 +19,17 @@ class UI implements Runner {
     protected int capCount = -1;
     protected int numCount = -1;
     // TODO: Initialize local buttons, text-fields, etc for Manager to access
-
-
     private final Logger logger;
 	private final Stage s;
 
     protected UI(Logger guiLog) {
 		s = new Stage();
         this.logger = guiLog;
-        // TODO: Initialize start screen
-        getStartScreen();
+		s.start();
+
     }
     @Override
     public void run() {
-        // TODO: Remove this block, only here while testing
-        System.out.println("Called.");
-		System.exit(0);
 
         String os = System.getProperty("os.name");
 		if (!(os.toLowerCase().contains("win"))) {
@@ -62,8 +57,6 @@ class UI implements Runner {
 		catch (IOException e) {
 			System.err.println("Logger could not be initialized.\n\nPlease restart program.");
 		}
-		Stage s = new Stage();
-		getStartScreen();
 		getHomeScreen();
 		int x = getOption();
 		while (x != 7) {
@@ -114,10 +107,6 @@ class UI implements Runner {
         specialCharCount = -1;
         capCount = -1;
         numCount = -1;
-    }
-    protected void getStartScreen() {
-		s.start();
-        // TODO: Display logo, action listener on all keys, if pressed -> run() -> getHomeScreen()
     }
     protected void getHomeScreen() {
 		s.home();

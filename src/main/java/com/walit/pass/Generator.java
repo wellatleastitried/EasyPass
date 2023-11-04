@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Generator serves as a helper class to PasswordManager by supplying helpful methods that may be necessary to
+ * Generator serves as a helper class to CLI and UI by supplying helpful methods that may be necessary to
  * calculate new passwords or test their strength.
  *
  * @author Jackson Swindell
@@ -24,7 +24,7 @@ class Generator {
 	private final char[] capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 	private final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
 	private final StringBuilder sB = new StringBuilder();
-	private String pwd;
+	private String pwd = "";
 	private final Logger logger;
 
 	/**
