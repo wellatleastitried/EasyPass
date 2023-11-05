@@ -2,7 +2,6 @@ package com.walit.pass;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,28 +13,34 @@ import java.util.List;
 
 public class Stage extends JFrame {
 
-    JPanel startPanel, homePanel, completePanel, genPanel, searchPanel, infoPanel, strengthPanel, cOrRPanel, additionPanel;
+    private final String resourceFolder = "resources\\images\\";
+    JPanel startPanel, homePanel, genPanel, searchPanel, infoPanel, strengthPanel, cOrRPanel, additionPanel;
     JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
-    JButton genPass, search, displayInfo, strength, changeOrRem, addExist; // For home menu
+    JButton genPass, search, displayInfo, strength, changeOrRem, addExist, exitApp;
+    String searchPass = "~Not~yet~entered~by~user";
     volatile boolean keyWasTyped = false;
+    volatile boolean buttonPressed = false;
     Dimension dim = new Dimension(750, 750);
-    public boolean[] checker = new boolean[6];
+    public boolean[] checker = new boolean[7];
 
     public Stage() {
         // Array to handle choices, may change later
         Arrays.fill(checker, false);
-
         // Build frame
         this.setTitle("EasyPass");
         this.setResizable(false);
         this.setPreferredSize(dim);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setIconImage(getApplicationIcon().getImage());
-
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.err.println("Look and feel error.");
+        }
         // Build panels
         startPanel = buildStartPanel();
         homePanel = buildHomePanel();
-        completePanel = buildCompletePanel();
         genPanel = buildGenPanel();
         searchPanel = buildSearchPanel();
         infoPanel = buildInfoPanel();
@@ -43,11 +48,10 @@ public class Stage extends JFrame {
         cOrRPanel = buildCOrRPanel();
         additionPanel = buildAdditionPanel();
     }
-
     protected ImageIcon getApplicationIcon() {
         BufferedImage icon = null;
         try {
-            icon = ImageIO.read(new File("resources\\images\\lock.png"));
+            icon = ImageIO.read(new File(resourceFolder + "lock.png"));
         }
         catch (IOException e) {
             System.err.println("Couldn't render image.");
@@ -58,7 +62,7 @@ public class Stage extends JFrame {
     protected JLabel getApplicationLogo() {
         BufferedImage logo = null;
         try {
-            logo = ImageIO.read(new File("resources\\images\\logo.png"));
+            logo = ImageIO.read(new File(resourceFolder + "logo.png"));
         }
         catch (IOException e) {
             System.err.println("Couldn't render images.");
@@ -75,16 +79,14 @@ public class Stage extends JFrame {
         panel.setBackground(Color.LIGHT_GRAY);
         panel.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                keyWasTyped = true;
-            }
+            public void keyTyped(KeyEvent e) { keyWasTyped = true; }
             @Override
             public void keyPressed(KeyEvent e) {}
             @Override
             public void keyReleased(KeyEvent e) {}
         });
         JLabel startText = new JLabel("Press any key to continue...");
-        startText.setFont (startText.getFont ().deriveFont (36.0f));
+        startText.setFont(startText.getFont ().deriveFont (36.0f));
         panel.add(startText, BorderLayout.PAGE_END);
         JLabel logo = getApplicationLogo();
         logo.setPreferredSize(new Dimension(500, 500));
@@ -92,7 +94,96 @@ public class Stage extends JFrame {
         panel.setVisible(true);
         return panel;
     }
-
+    private JPanel buildHomePanel() {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(dim);
+        panel.setLayout(new BorderLayout());
+        panel.setFocusable(true);
+        panel.requestFocusInWindow();
+        panel.setBackground(Color.LIGHT_GRAY);
+        int ROW = 7;
+        int COL = 1;
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.LIGHT_GRAY);
+        buttonPanel.setLayout(new GridLayout(ROW, COL));
+        buttonPanel.setPreferredSize(new Dimension(450, 500));
+        genPass = new JButton("Generate password");
+        setButtonStyle(genPass);
+        genPass.addActionListener(e -> {
+            buttonPressed = true;
+            checker[0] = true;
+        });
+        buttonPanel.add(genPass);
+        search = new JButton("Search for existing password");
+        setButtonStyle(search);
+        search.addActionListener(e -> {
+            buttonPressed = true;
+            checker[1] = true;
+        });
+        buttonPanel.add(search);
+        displayInfo = new JButton("Display stored passwords");
+        setButtonStyle(displayInfo);
+        displayInfo.addActionListener(e -> {
+            buttonPressed = true;
+            checker[2] = true;
+        });
+        buttonPanel.add(displayInfo);
+        strength = new JButton("Test password strength");
+        setButtonStyle(strength);
+        strength.addActionListener(e -> {
+            buttonPressed = true;
+            checker[3] = true;
+        });
+        buttonPanel.add(strength);
+        changeOrRem = new JButton("Change or remove existing password");
+        setButtonStyle(changeOrRem);
+        changeOrRem.addActionListener(e -> {
+            buttonPressed = true;
+            checker[4] = true;
+        });
+        buttonPanel.add(changeOrRem);
+        addExist = new JButton("Add existing password");
+        setButtonStyle(addExist);
+        addExist.addActionListener(e -> {
+            buttonPressed = true;
+            checker[5] = true;
+        });
+        buttonPanel.add(addExist);
+        exitApp = new JButton("Exit");
+        setButtonStyle(exitApp);
+        exitApp.addActionListener(e -> {
+            buttonPressed = true;
+            checker[6] = true;
+        });
+        buttonPanel.add(exitApp);
+        buttonPanel.setVisible(true);
+        panel.add(buttonPanel, BorderLayout.LINE_START);
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(Color.LIGHT_GRAY);
+        titlePanel.setLayout(new BorderLayout());
+        titlePanel.setPreferredSize(new Dimension(750, 150));
+        JLabel title = new JLabel("Manage your passwords here!");
+        title.setFont(title.getFont().deriveFont(36.0f));
+        titlePanel.add(title, BorderLayout.CENTER);
+        panel.add(titlePanel, BorderLayout.PAGE_START);
+        return panel;
+    }
+    private void setButtonStyle(JButton p) {
+        p.setForeground(Color.BLACK);
+        p.setBorder(BorderFactory.createBevelBorder(1, Color.BLACK, Color.WHITE));
+        p.setFocusPainted(false);
+        p.setFont(new Font("Tahoma", Font.BOLD, 20));
+    }
+    public void home() {
+        this.add(homePanel);
+        this.pack();
+        this.setVisible(true);
+        while (!buttonPressed) {
+            Thread.onSpinWait();
+        }
+        System.out.println("Button pressed.");
+        this.remove(homePanel);
+    }
     public void start() {
         this.add(startPanel);
         this.pack();
@@ -101,74 +192,25 @@ public class Stage extends JFrame {
             Thread.onSpinWait();
         }
         System.out.println("Key was pressed: Application opening.");
-        home();
-        //startPanel.setVisible(false);
+        this.remove(startPanel);
     }
-
     private JPanel buildAdditionPanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
+        return new JPanel();
     }
-
     private JPanel buildCOrRPanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
+        return new JPanel();
     }
-
     private JPanel buildStrengthPanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
+        return new JPanel();
     }
-
     private JPanel buildInfoPanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
+        return new JPanel();
     }
-
     private JPanel buildSearchPanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
+        return new JPanel();
     }
-
     private JPanel buildGenPanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
-    }
-
-    private JPanel buildCompletePanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
-    }
-
-    private JPanel buildHomePanel() {
-        JPanel panel = new JPanel();
-
-        return panel;
-    }
-
-
-    public void home() {
-        // TODO: On button press, change corresponding val to true
-        this.add(homePanel);
-        this.pack();
-        //p.setVisible(false);
-        this.setVisible(true);
-
-        homePanel.setVisible(false);
-    }
-    public void complete() {
-        this.add(completePanel);
-        this.pack();
-        this.setVisible(true);
-        // TODO: Message that operation is complete with back button to go back to home screen.
-        completePanel.setVisible(false);
+        return new JPanel();
     }
     public void passwordGenerate() {
         this.add(genPanel);
@@ -176,25 +218,26 @@ public class Stage extends JFrame {
         this.setVisible(true);
 
         genPanel.setVisible(false);
-        complete();
+        this.remove(genPanel);
     }
     public void displayResults(List<String> found) {
         // TODO: Display results from search
         searchPanel.setVisible(false);
-        complete();
     }
     public void noResults(String found) {
         // TODO: Display message stating no results were found from search
         searchPanel.setVisible(false);
-        complete();
     }
-    public String searchForPass() { // TODO: One method for found results, one for no results
-        String search = "";
+    public void searchHandle() {
         this.add(searchPanel);
         this.pack();
         this.setVisible(true);
 
-        return search;
+        this.remove(searchPanel);
+    }
+    public String searchForPass() { // TODO: One method for found results, one for no results
+        // Pull typed info and return it for UI
+        return "";
     }
     public void displayInfo(String[] combos) {
         this.add(infoPanel);
@@ -202,12 +245,11 @@ public class Stage extends JFrame {
         this.setVisible(true);
 
         infoPanel.setVisible(false);
-        complete();
+        this.remove(infoPanel);
     }
     public void strengthDisplay(int score) {
 
         strengthPanel.setVisible(false);
-        complete();
     }
     public String strengthText() {
         String pass = ""; // TODO
@@ -219,12 +261,10 @@ public class Stage extends JFrame {
     public void finalizeChange() {
         // TODO: Display message confirming change and see if they want to change another
         cOrRPanel.setVisible(false);
-        complete();
     }
     public void finalizeRemove() {
         // TODO: Display message confirming removal and see if they want to remove another
         cOrRPanel.setVisible(false);
-        complete();
     }
     public String changeVal() { // TODO: Radio buttons near each choice, select the one to change
         String valToChange = ""; // TODO: Get choice of which to change
@@ -251,7 +291,6 @@ public class Stage extends JFrame {
 
         additionPanel.setVisible(false);
         // TODO: Confirm completion and offer to go back to home screen
-        complete();
         return pass;
     }
 }

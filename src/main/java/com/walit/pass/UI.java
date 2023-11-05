@@ -30,7 +30,6 @@ class UI implements Runner {
     }
     @Override
     public void run() {
-
         String os = System.getProperty("os.name");
 		if (!(os.toLowerCase().contains("win"))) {
 			System.err.println("Not a windows machine.");
@@ -57,7 +56,6 @@ class UI implements Runner {
 		catch (IOException e) {
 			System.err.println("Logger could not be initialized.\n\nPlease restart program.");
 		}
-		getHomeScreen();
 		int x = getOption();
 		while (x != 7) {
 			switch (x) {
@@ -70,30 +68,31 @@ class UI implements Runner {
 					numCount = params[3];
 					String[] temp = getUserInformation();
 					getPassIdentifierFromUser(temp);
-					x = getCompleteScreen(); // TODO: Figure this out
+					x = getOption();
 				}
 				case 2 -> {
+					s.searchHandle();
 					findNamePassCombos();
-					x = getCompleteScreen();
+					x = getOption();
 				}
 				case 3 -> {
 					extractInfoFromList();
-					x = getCompleteScreen();
+					x = getOption();
 				}
 				case 4 -> {
 					strengthTest();
-					x = getCompleteScreen();
+					x = getOption();
 				}
 				case 5 -> {
 					boolean choice = getChangeOrRemoveDecision();
 					if (choice) changeData();
 					else removeData();
-					x = getCompleteScreen();
+					x = getOption();
 				}
 				case 6 -> {
 					String[] tempStr = getPasswordFromUser();
 					getPassIdentifierFromUser(tempStr);
-					x = getCompleteScreen();
+					x = getOption();
 				}
 			}
 		}
@@ -108,24 +107,30 @@ class UI implements Runner {
         capCount = -1;
         numCount = -1;
     }
-    protected void getHomeScreen() {
-		s.home();
-        // TODO: Display home menu where user can choose different functions of manager
-    }
     protected int getOption() {
-		for (int i = 0; i < 6; i++) {
-			if (s.checker[i]) {
-				Arrays.fill(s.checker, false);
-				return i + 1;
-			}
+		Arrays.fill(s.checker, false);
+		s.home();
+		Object[] testArrAndGetIndex = checkArr();
+		boolean isPressed = (boolean) testArrAndGetIndex[0];
+		int index = (int) testArrAndGetIndex[1];
+		while (!isPressed) {
+			testArrAndGetIndex = checkArr();
+			isPressed = (boolean) testArrAndGetIndex[0];
+			index = (int) testArrAndGetIndex[1];
+		}
+		if (index >= 0 && index <=6) {
+			return index;
 		}
         return 7;
     }
-    protected int getCompleteScreen() {
-		s.complete();
-        // TODO: Display text telling user their task is finished, with back button to home screen
-		return 0;
-    }
+	private Object[] checkArr() {
+		for (int i = 0; i < s.checker.length; i++) {
+			if (s.checker[i]) {
+				return new Object[] {true, i + 1};
+			}
+		}
+		return new Object[] {false, -1};
+	}
     @Override
     public void shutdown() {
 		s.dispose();
@@ -202,6 +207,7 @@ class UI implements Runner {
     }
     @Override
     public void findNamePassCombos() {
+		// TODO: wait on boolean JButton before trying to parse entry
 		Storage store = new Storage(logger);
 		String search = s.searchForPass();
 		ArrayList<String> acceptedStrings = store.checkStoredDataForName(search);
@@ -218,7 +224,6 @@ class UI implements Runner {
 				findNamePassCombos();
 			}
 		}
-
 	}
     @Override
     public String[] getUserInformation() {
@@ -288,10 +293,7 @@ class UI implements Runner {
 		arr[0] = s.nameGetter.getText(); // TODO: Get val from textField
 		boolean problem = false;
 		char[] checker;
-		if (arr[0].equals("stop")) {
-			getCompleteScreen();
-		}
-		else {
+		if (!arr[0].equals("stop")) {
 			checker = arr[0].toCharArray();
 			for (char q : checker) {
 				if (q == ',') {
