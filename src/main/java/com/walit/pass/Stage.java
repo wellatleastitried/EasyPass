@@ -195,22 +195,63 @@ public class Stage extends JFrame {
         this.remove(startPanel);
     }
     private JPanel buildAdditionPanel() {
+        /* TODO:
+        Give the user username and password text fields to input their information, once they click a go button,
+            confirm that the information is correct and store it.
+         */
         return new JPanel();
     }
     private JPanel buildCOrRPanel() {
+        /* TODO:
+        Have two radio buttons at the top, depending which one is checked (c or r), change the below panel to fit the
+            needs.
+        For the c panel, there will need to be something similar to the search panel where the storage can check if
+            the given search is even in the storage, if not re-prompt, else give the user a way to change it.
+        For the r panel, there will need to be something similar to the above panel, but without the changing
+            functionality at the end, instead removing it and displaying a confirmation.
+         */
         return new JPanel();
     }
     private JPanel buildStrengthPanel() {
+        /* TODO:
+        Have a text field at the top, similar to the searchPanel search bar where the user can input a password to be
+            assessed for its strength.
+        Have a result panel, again, similar to the searchPanel, where the results are displayed.
+         */
         return new JPanel();
     }
     private JPanel buildInfoPanel() {
+        /* TODO:
+        Display all user/pass combos in a scrollable (if needed) list for the user to look through.
+         */
         return new JPanel();
     }
     private JPanel buildSearchPanel() {
+        /* TODO:
+        Search bar toward the top for the user to enter the associated name to search for its corresponding password.
+        If found, display a list of user/pass combos that reflect the results, otherwise display message stating that
+            there was not a username that fit the search.
+         */
         return new JPanel();
     }
     private JPanel buildGenPanel() {
-        return new JPanel();
+        /* TODO:
+        Text fields for user to fill in the parameters in the top middle, labeled.
+        Panel spanning the bottom 2/3 of the window that displays the generated password (once created) and
+            how to store or discard it.
+        Back button in the very top left that routes back to the main menu
+         */
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(dim);
+        panel.setLayout(new BorderLayout());
+        panel.setFocusable(true);
+        panel.requestFocusInWindow();
+        panel.setBackground(Color.LIGHT_GRAY);
+
+
+
+        panel.setVisible(true);
+        return panel;
     }
     public void passwordGenerate() {
         this.add(genPanel);
