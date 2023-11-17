@@ -20,7 +20,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+// TODO: Change the storage method from file storage to a local db (probably SQL-lite)
 /**
  * Storage serves as a helper class to CLI and UI by handling the storage and calling from specific files
  * used by the program.
