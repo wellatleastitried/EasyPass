@@ -1,6 +1,6 @@
 package com.walit.pass;
 
-public class Main {
+public class Main { //TODO: Generate more tests, the two current ones are dumb and useless
     public static void main(String[] args) {
 		CLI c = new CLI();
 		// Once interface is completed, change to a prompt that guides user to help menu with no args

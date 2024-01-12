@@ -1,12 +1,8 @@
 package com.walit.pass;
 
-import org.xml.sax.SAXException;
-
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.*;
 
@@ -20,7 +16,12 @@ import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 // TODO: Change the storage method from file storage to a local db (probably SQL-lite)
+// TODO: Encryption key inside db will be generated from a string inside the password list
 /**
  * Storage serves as a helper class to CLI and UI by handling the storage and calling from specific files
  * used by the program.

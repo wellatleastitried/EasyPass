@@ -1,8 +1,9 @@
 package com.walit.pass;
 
 import org.hamcrest.MatcherAssert;
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
 
 public class XMLTest {
     @Test

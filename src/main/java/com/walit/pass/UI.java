@@ -1,11 +1,6 @@
 package com.walit.pass;
 
-import javax.imageio.ImageIO;
-
-import javax.swing.*;
-
 import java.awt.*;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -22,6 +17,10 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.XMLFormatter;
+
+import javax.imageio.ImageIO;
+
+import javax.swing.*;
 
 class UI extends JFrame implements Runner {
 
