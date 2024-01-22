@@ -23,6 +23,9 @@ class CLI implements Runner {
 	private final Logger logger = Logger.getLogger("ManagerLog");
 	public Scanner s = new Scanner(System.in);
 
+	protected Logger getLogger() {
+		return logger;
+	}
 	protected void callInterface() { new UI(logger).run(); }
 
 	/**
@@ -33,7 +36,7 @@ class CLI implements Runner {
 		try {
 			Parsed parser = new Parsed();
 			version = parser.getVersion();
-			System.out.println(version);
+			return version;
 		}
 		catch (Exception ignored) {
 			version = "Error parsing version info.";
@@ -230,17 +233,21 @@ class CLI implements Runner {
 				int chosenIndex = getValidNumber(1, acceptedStrings.size());
 				splitStrings = acceptedStrings.get(chosenIndex - 1).split("~~SEPARATOR~~");
 				System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
-				store.changeRow(splitStrings[0], getPasswordFromUser()[1], splitStrings[0], splitStrings[1]);
-			} else if (acceptedStrings.size() == 1) {
+				store.changeRow(splitStrings[0], splitStrings[1], splitStrings[0], getPasswordFromUser()[1]);
+			}
+			else if (acceptedStrings.size() == 1) {
 				splitStrings = acceptedStrings.get(0).split("~~SEPARATOR~~");
 				System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
-				store.changeRow(splitStrings[0], getPasswordFromUser()[1], splitStrings[0], splitStrings[1]);
-			} else {
+				System.out.println(splitStrings[0] + " " + splitStrings[1]);
+				store.changeRow(splitStrings[0], splitStrings[1], splitStrings[0], getPasswordFromUser()[1]);
+			}
+			else {
 				System.out.println("\nName unable to be found, enter a valid name.\n");
 				changeData();
 			}
 			store.closeConnections();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}
@@ -276,16 +283,19 @@ class CLI implements Runner {
 				splitStrings = acceptedStrings.get(chosenIndex - 1).split("~~SEPARATOR~~");
 				System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 				store.removeRow(splitStrings[0], splitStrings[1]);
-			} else if (acceptedStrings.size() == 1) {
+			}
+			else if (acceptedStrings.size() == 1) {
 				splitStrings = acceptedStrings.get(0).split("~~SEPARATOR~~");
 				System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 				store.removeRow(splitStrings[0], splitStrings[1]);
-			} else {
+			}
+			else {
 				System.out.println("\nName unable to be found, enter a valid name.\n");
 				removeData();
 			}
 			store.closeConnections();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}
@@ -297,12 +307,13 @@ class CLI implements Runner {
 			index = Integer.parseInt(choice);
 			if (index >= start && index <= end) {
 				return index;
-			} else {
-				System.out.println("The number that was entered was invalid. Enter a number within the given range.");
+			}
+			else {
 				throw new Exception();
 			}
 		}
 		catch (Exception e) {
+			System.out.println("The number that was entered was invalid. Enter a number within " + start + " and " + end + ".");
 			index = getValidNumber(start, end);
 		}
 		return index;
@@ -350,7 +361,8 @@ class CLI implements Runner {
 		arr[0] = s.nextLine().toLowerCase().trim();
 		if (!arr[0].equals("stop")) {
 			storeInformation(arr);
-		} else {
+		}
+		else {
 			System.out.println("\nReturning to menu...\n");
 		}
 	}
@@ -416,16 +428,13 @@ class CLI implements Runner {
 	 */
 	private int displayMenu() {
 		startupText();
-		String x;
 		int y;
 		try {
-			x = s.nextLine().trim();
-			y = Integer.parseInt(x);
+			y = getValidNumber(1, 7);
 			while (y < 1 || y > 7) {
 				logger.log(Level.WARNING, "You have input an illegal integer for the prompt.");
 				System.out.println("Pick an option numbered 1 through 7.");
-				x = s.nextLine();
-				y = Integer.parseInt(x);
+				y = getValidNumber(1, 7);
 			}
 		}
 		catch (NumberFormatException e) {
@@ -459,7 +468,8 @@ class CLI implements Runner {
 			Storage store = new Storage(logger);
 			store.storeData(info);
 			store.closeConnections();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}
@@ -473,7 +483,8 @@ class CLI implements Runner {
 			Storage store = new Storage(logger);
 			store.displayUserPassCombos();
 			store.closeConnections();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}
@@ -486,8 +497,7 @@ class CLI implements Runner {
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
 			System.out.println("Enter desired password length: ");
 			try {
-				String x = s.nextLine().trim();
-				lengthOfPassword = Integer.parseInt(x);
+				lengthOfPassword = getValidNumber(0, 1000);
 				if (lengthOfPassword < 0 || lengthOfPassword > 1000) {
 					logger.log(Level.WARNING, "You have input an invalid number.");
 					System.out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
@@ -502,8 +512,7 @@ class CLI implements Runner {
 			}
 			System.out.println("Enter num of special chars:");
 			try {
-				String x = s.nextLine().trim();
-				specialChars = Integer.parseInt(x);
+				specialChars = getValidNumber(0, lengthOfPassword);
 				if (specialChars < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
 					System.out.println("Negative numbers cannot be used in the input.");
@@ -519,8 +528,7 @@ class CLI implements Runner {
 			}
 			System.out.println("Enter num of capitals");
 			try {
-				String x = s.nextLine().trim();
-				capitals = Integer.parseInt(x);
+				capitals = getValidNumber(0, lengthOfPassword);
 				if (capitals < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
 					capitals = -1;
@@ -536,8 +544,7 @@ class CLI implements Runner {
 			}
 			System.out.println("Enter num of numbers:");
 			try {
-				String x = s.nextLine().trim();
-				numbers = Integer.parseInt(x);
+				numbers = getValidNumber(0, lengthOfPassword);
 				if (numbers < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
 					System.out.println("Negative numbers cannot be used in the input.");
@@ -598,12 +605,14 @@ class CLI implements Runner {
 			if (acceptedStrings.size() == 1) {
 				String[] values = acceptedStrings.get(0).split("~~SEPARATOR~~", 2);
 				System.out.println("The password for " + name + " is: " + values[1]);
-			} else if (acceptedStrings.size() > 1) {
+			}
+			else if (acceptedStrings.size() > 1) {
 				System.out.println("Here's a list of the passwords that match the name you entered:");
 				for (String matchingPasswords : acceptedStrings) {
 					System.out.println(matchingPasswords.replace("~~SEPARATOR~~", ": "));
 				}
-			} else {
+			}
+			else {
 				System.out.println("""
 						No passwords matched your search.
 						Would you like to try a different search?
@@ -614,7 +623,8 @@ class CLI implements Runner {
 				}
 			}
 			store.closeConnections();
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}

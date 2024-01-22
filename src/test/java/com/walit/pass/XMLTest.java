@@ -7,8 +7,8 @@ import static org.hamcrest.CoreMatchers.is;
 
 public class XMLTest {
     @Test
-    public void checkStrings() throws Exception {
-        String pad = new Parsed().getPad();
-        MatcherAssert.assertThat(pad, is("AES/CBC/PKCS5PADDING"));
+    public void checkProdName() throws Exception {
+        String str = new Parsed().getNameOfProd();
+        MatcherAssert.assertThat(str, is("EasyPass"));
     }
 }

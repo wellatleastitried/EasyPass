@@ -28,6 +28,8 @@ public class Storage {
 		this.logger = logger;
 		Class.forName("org.sqlite.JDBC");
 		try {
+			Parsed parsed = new Parsed();
+			String str = parsed.getStr();
 			connection = DriverManager.getConnection("jdbc:sqlite:userData.db");
 			connection.setAutoCommit(true);
 			Statement statement = connection.createStatement();
@@ -36,6 +38,10 @@ public class Storage {
 		}
 		catch (SQLException e) {
 			logger.log(Level.SEVERE, e.getMessage());
+		}
+		catch (Exception e) {
+			logger.log(Level.SEVERE, "Unable to parse database credentials.");
+			System.exit(1);
 		}
 	}
 
@@ -125,7 +131,8 @@ public class Storage {
 					acceptedStrings.add(rs.getString("user") + "~~SEPARATOR~~" + rs.getString("pass"));
 				}
 			}
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			logger.log(Level.SEVERE, "Unable to read the database.");
 		}
 		return acceptedStrings;

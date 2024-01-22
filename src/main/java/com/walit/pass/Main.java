@@ -19,11 +19,15 @@ public class Main { //TODO: Generate more tests, the two current ones are dumb a
 						-c, --console    -> Starts the command line interface
 					
 					""");
-				case "-v", "--version" -> c.getVersionInfo();
+				case "-v", "--version" -> {
+					System.out.println(c.getVersionInfo());
+				}
 				default -> System.out.println("\nInvalid argument provided. Please try again or use the '--help' command.\n");
 			}
 		}
 		else {
+			System.err.println("UI is still under development!\nUse \"-c\" or \"--console\" to use EasyPass.");
+			System.exit(0);
 			c.callInterface();
 		}
 		System.exit(0);

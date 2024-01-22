@@ -361,14 +361,14 @@ class Generator {
 	 * @param c The character to check.
 	 * @return Returns 'true' if uppercase, 'false' otherwise.
 	 */
-	private boolean isUppercase(char c) { return ((int) c) >= 65 && ((int) c) <= 90; }
+	protected boolean isUppercase(char c) { return ((int) c) >= 65 && ((int) c) <= 90; }
 
 	/**
 	 * Checks to see if a given char is a special character.
 	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a special character, 'false' otherwise.
 	 */
-	private boolean isSpecialChar(char c) {
+	protected boolean isSpecialChar(char c) {
 		char[] list = "!_?.-@#$%&*+".toCharArray();
 		for (char x : list) {
 			if (c == x) {
@@ -383,5 +383,5 @@ class Generator {
 	 * @param c The character to check.
 	 * @return Returns 'true' if the char is a number, 'false' otherwise.
 	 */
-	private boolean isNumber(char c) { return Character.isDigit(c); }
+	protected boolean isNumber(char c) { return Character.isDigit(c); }
 }

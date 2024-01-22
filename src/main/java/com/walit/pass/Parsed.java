@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 class Parsed {
 
     private String str;
-    private String pad;
     private String version;
     private String nameOfProd;
 
@@ -42,22 +41,26 @@ class Parsed {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             Element elem = (Element) node;
             this.str = elem.getElementsByTagName("str").item(0).getTextContent();
-            this.pad = elem.getElementsByTagName("pad").item(0).getTextContent();
             this.version = elem.getElementsByTagName("version").item(0).getTextContent();
             this.nameOfProd = elem.getElementsByTagName("prod").item(0).getTextContent();
         }
     }
-
+    protected String getNameOfProd() { return nameOfProd; }
     /**
      * @return Returns the String str.
      */
-    protected String getStr() { return str; }
-
-    /**
-     * @return Returns the String pad.
-     */
-    protected String getPad() { return pad; }
-
+    protected String getStr() {
+        return new String(deHex(str));
+    }
+    private byte[] deHex(String string) {
+        byte[] cipherText = new byte[string.length() / 2];
+        for (int i = 0; i < cipherText.length; i++) {
+            int index = i * 2;
+            int val = Integer.parseInt(string.substring(index, index + 2), 16);
+            cipherText[i] = (byte) val;
+        }
+        return cipherText;
+    }
     /**
      * @return Returns the version information for the program.
      */

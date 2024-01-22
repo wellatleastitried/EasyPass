@@ -3,7 +3,6 @@
     <info>
         <prod>EasyPass</prod>
         <version>0.1.0</version>
-        <pad>AES/CBC/PKCS5PADDING</pad>
-        <str>65D41BCAE4460B54184C590466D3000FEB7BDBF2A898A746E7E06BFE535868FE</str>
+        <str>596f75276c6c206e6576657220677565737320746869732070617373776f726421</str>
     </info>
 </parsed>

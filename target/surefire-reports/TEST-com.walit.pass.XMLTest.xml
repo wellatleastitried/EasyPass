@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-19\bin"/>
-    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire13727000728790015404\surefirebooter-20240122005337639_3.jar C:\Users\user\AppData\Local\Temp\surefire13727000728790015404 2024-01-22T00-53-37_543-jvmRun1 surefire-20240122005337639_1tmp surefire_0-20240122005337639_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire11467263770588924388\surefirebooter-20240122154136180_3.jar C:\Users\user\AppData\Local\Temp\surefire11467263770588924388 2024-01-22T15-41-36_082-jvmRun1 surefire-20240122154136180_1tmp surefire_0-20240122154136180_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\user\OneDrive\Documents\GitHub\EasyPass\target\test-classes;C:\Users\user\OneDrive\Documents\GitHub\EasyPass\target\classes;C:\Users\user\.m2\repository\junit\junit\4.13.1\junit-4.13.1.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\user\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar;C:\Users\user\.m2\repository\org\xerial\sqlite-jdbc\3.42.0.0\sqlite-jdbc-3.42.0.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire13727000728790015404\surefirebooter-20240122005337639_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire11467263770588924388\surefirebooter-20240122154136180_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="19.0.1+10-21"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="63.0"/>
   </properties>
-  <testcase name="checkStrings" classname="com.walit.pass.XMLTest" time="0.0"/>
+  <testcase name="checkProdName" classname="com.walit.pass.XMLTest" time="0.0"/>
 </testsuite>
