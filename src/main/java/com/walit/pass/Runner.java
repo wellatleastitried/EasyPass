@@ -20,8 +20,8 @@ public interface Runner {
     void extractInfoFromList();
     default void initializeMissingFilesForProgram() {
 		String ls = System.getProperty("line.separator");
-		File storeDir = new File("resources\\utilities\\log");
-		File logDir = new File("resources\\utilities\\data");
+		File logDir = new File("resources\\utilities\\log");
+		File storeDir = new File("resources\\utilities\\data");
 		File wordLists = new File("resources\\WordLists");
 		File[] dirs = new File[3];
 		dirs[0] = storeDir;
@@ -43,15 +43,11 @@ public interface Runner {
 		catch (NullPointerException nPE) {
 			System.err.println("Null pointer exception while initializing directories.");
 		}
-		File info = new File("resources\\utilities\\data\\pSAH");
-		File vec = new File("resources\\utilities\\data\\iVSTAH");
 		File passMan = new File(logFilePath);
 		File inst = new File("resources\\utilities\\data\\vSTAH");
-		File[] files = new File[4];
-		files[0] = info;
-		files[1] = vec;
-		files[2] = passMan;
-		files[3] = inst;
+		File[] files = new File[2];
+		files[0] = passMan;
+		files[1] = inst;
 		try {
 			for (int i = 0; i < files.length; i++) {
 				if (!(files[i].exists() && files[i].isFile())) {
@@ -59,7 +55,7 @@ public interface Runner {
 					if (!checkFileCreation) {
 						System.err.println("Could not initialize files for program.");
 					}
-					if (i == 3 && files[i].length() == 0) {
+					if (i == 1 && files[i].length() == 0) {
 						try {
 							BufferedWriter bW = new BufferedWriter(new FileWriter(files[i]));
 							String hex = "3C3F786D6C2076657273696F6E3D22312E302220656E636F64696E673D225554462D3822207374616E64616C6F6E653D22796573223F3E0A3C7061727365643E0A202020203C696E666F3E0A20202020202020203C70726F643E45617379506173733C2F70726F643E0A20202020202020203C76657273696F6E3E302E312E303C2F76657273696F6E3E0A20202020202020203C7061643E4145532F4342432F504B43533550414444494E473C2F7061643E0A20202020202020203C7374723E363544343142434145343436304235343138344335393034363644333030304645423742444246324138393841373436453745303642464535333538363846453C2F7374723E0A202020203C2F696E666F3E0A3C2F7061727365643E";

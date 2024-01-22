@@ -1,486 +1,190 @@
 package com.walit.pass;
 
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-import java.io.*;
-
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-// TODO: Change the storage method from file storage to a local db (probably SQL-lite)
-// TODO: Encryption key inside db will be generated from a string inside the password list
 /**
  * Storage serves as a helper class to CLI and UI by handling the storage and calling from specific files
  * used by the program.
  *
  * @author Jackson Swindell
  */
-class Storage {
+public class Storage {
 	private final Logger logger;
-	private final String pSAHFilePath = "resources\\utilities\\data\\pSAH";
-	private final String iVSTAHFilePath = "resources\\utilities\\data\\iVSTAH";
-	public final String ls = System.getProperty("line.separator");
-	private final byte[] initialize = new byte[16];
-	private final int[] res1 = {85, 74, 78, 78, 90, 45, 48, 45};
+	protected Connection connection = null;
 
 	/**
-	 * Sets the logger for program the duration of the program's runtime and initializes a new iv.
+	 * Sets the logger for program the duration of the program's runtime and set up the database connection.
 	 */
-	protected Storage(Logger logger) {
+	protected Storage(Logger logger) throws ClassNotFoundException {
 		this.logger = logger;
-		new SecureRandom().nextBytes(initialize);
-	}
-
-	/**
-	 * @return Returns the key to be used in the encryption of passwords.
-	 */
-	private String calcStr() throws ParserConfigurationException, IOException, SAXException {
-		Parsed par = new Parsed();
-		return getVal(par.getStr());
-	}
-
-	/**
-	 * Calculates string to return.
-	 * @param change String to pass through operations.
-	 * @return Resulting string after operations.
-	 */
-	private String getVal(String change) {
-		StringBuilder sB = new StringBuilder();
-		for (int n : res1) {
-			n += 31;
-			sB.append((char) n);
-		}
-		byte[] kB = fromHex(change);
-		byte[] w = sB.toString().getBytes();
-		byte[] res = new byte[kB.length];
-		for (int i = 0; i < kB.length; i++) {
-			res[i] = (byte) (kB[i] ^ w[i % w.length]);
-		}
-		return toHex(res);
-	}
-
-	/**
-	 * Gets the previously used initialization vector from its file, if it doesn't exist, creates a new one to be stored.
-	 * @return Returns the old initialization vector if present, returns a new one if not.
-	 */
-	private byte[] getIVSpec() {
-		byte[] iv = new byte[16];
-		File vecFil = new File(iVSTAHFilePath);
+		Class.forName("org.sqlite.JDBC");
 		try {
-			BufferedReader bR = new BufferedReader(new FileReader(vecFil));
-			String line = bR.readLine();
-			if (line == null) {
-				new SecureRandom().nextBytes(iv);
-				BufferedWriter bW = new BufferedWriter(new FileWriter(vecFil, false));
-				bW.write(toHex(iv));
-				bW.flush();
-				bW.close();
-			}
-			else {
-				byte[] oldIV;
-				oldIV = fromHex(line);
-				return oldIV;
-			}
+			connection = DriverManager.getConnection("jdbc:sqlite:userData.db");
+			connection.setAutoCommit(true);
+			Statement statement = connection.createStatement();
+			statement.setQueryTimeout(30);
+			statement.executeUpdate("create table if not exists userDetails (user varchar(255), pass varchar(255));");
 		}
-		catch (IOException e) {
-			logger.log(Level.SEVERE, "Unable to retrieve end bytes!");
+		catch (SQLException e) {
+			logger.log(Level.SEVERE, e.getMessage());
 		}
-		catch (NullPointerException nPE) {
-			logger.log(Level.SEVERE, "Null pointer in getIVSpec().");
-		}
-		return iv;
 	}
 
 	/**
-	 * Method to handle encrypting and decrypting the store file.
-	 * @param num If num is '0' the file will be decrypted, if it is '1' the file will be encrypted.
+	 * Closes the database connection.
 	 */
-	private void unlockOrLock(int num) {
+	protected void closeConnections() {
 		try {
-			String x = calcStr();
-			byte[] bytesOfKVector = fromHex(x);
-			SecretKey y = new SecretKeySpec(bytesOfKVector, 0, bytesOfKVector.length, "AES");
-			File file = new File(pSAHFilePath);
-			IvParameterSpec ivPS = new IvParameterSpec(initialize);
-			String ls = System.getProperty("line.separator");
-			String pad = new Parsed().getPad();
-			Cipher cipher = Cipher.getInstance(pad);
-			if (num == 0) {
-				byte[] oldIVBytes;
-				oldIVBytes = getIVSpec();
-				IvParameterSpec oldIV = new IvParameterSpec(oldIVBytes);
-				StringBuilder sB = new StringBuilder();
-				try {
-					String line;
-					BufferedReader bR = new BufferedReader(new FileReader(file));
-					while((line = bR.readLine()) != null) {
-						sB.append(line);
-					}
-					bR.close();
-				}
-				catch (IOException e) {
-					logger.log(Level.SEVERE, "Could not read elements from file.");
-				}
-				String cipherTextToDeHex = sB.toString();
-				if (!cipherTextToDeHex.equals("~#WARNING#~DO NOT EDIT THIS FILE~#WARNING#~")) {
-					byte[] cipherText = fromHex(cipherTextToDeHex);
-					cipher.init(Cipher.DECRYPT_MODE, y, oldIV);
-					byte[] plainBytes = cipher.doFinal(cipherText);
-			        String plainText = new String(plainBytes);
-			        try {
-			            BufferedWriter bW = new BufferedWriter(new FileWriter(file));
-			            bW.write(plainText);
-						bW.flush();
-			            bW.close();
-			        }
-					catch (IOException e) {
-			            logger.log(Level.SEVERE, "Could not write elements to file.");
-			        }
-			    }
-			}
-			else if (num == 1) {
-				cipher.init(Cipher.ENCRYPT_MODE, y, ivPS);
-				StringBuilder sB = new StringBuilder();
-				try {
-					String line;
-					BufferedReader bR = new BufferedReader(new FileReader(file));
-			            while ((line = bR.readLine()) != null) {
-				            sB.append(line);
-				            sB.append(ls);
-			            }
-			            bR.close();
-				}
-				catch (IOException e) {
-					logger.log(Level.SEVERE, "Could not read elements from file.");
-				}
-				String plainText = sB.toString();
-					byte[] cipherText = cipher.doFinal(plainText.getBytes());
-		        try {
-		            BufferedWriter bW = new BufferedWriter(new FileWriter(file));
-		            bW.write(toHex(cipherText));
-					bW.flush();
-		            bW.close();
-		        }
-				catch (IOException e) {
-		            logger.log(Level.SEVERE, "Could not write elements to file.");
-		        }
+			if (connection != null) {
+				connection.close();
 			}
 		}
-		catch (InvalidKeyException iKE) {
-		   	logger.log(Level.SEVERE, "Invalid key exception in unlockOrLock() method.");
+		catch (SQLException e) {
+			logger.log(Level.WARNING, "Unable to close database connection.");
 		}
-		catch (NoSuchAlgorithmException nSAE) {
-		   	logger.log(Level.SEVERE, "No such algorithm exception in unlockOrLock() method.");
-		}
-		catch (IllegalBlockSizeException iBSE) {
-		   	logger.log(Level.SEVERE, "Illegal block size exception in unlockOrLock() method.");
-		}
-		catch (NoSuchPaddingException nSPE){
-		   	logger.log(Level.SEVERE, "No such padding exception in unlockOrLock() method.");
-		}
-		catch (InvalidAlgorithmParameterException iAPE) {
-		   	logger.log(Level.SEVERE, "Invalid algorithm parameter exception in unlockOrLock() method.");
-		}
-		catch (BadPaddingException bPE) {
-		   	logger.log(Level.SEVERE, "Bad padding exception in unlockOrLock() method.");
-		}
-		catch (Exception e) {
-            logger.log(Level.SEVERE, "Exception parsing xml.");
-        }
-		try {
-			File file = new File(iVSTAHFilePath);
-			if (file.exists() && file.isFile()) {
-				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
-				app.write(toHex(initialize));
-				app.flush();
-				app.close();
-			}
-			else {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) logger.log(Level.WARNING, "File unable to be created.");
-				BufferedWriter app = new BufferedWriter(new FileWriter(file, false));
-				app.write(toHex(initialize));
-				app.flush();
-				app.close();
-			}
-		}
-		catch (IOException e) {
-			logger.log(Level.SEVERE, "IO exception in unlockOrLock() method.");
-		}
-		//get this done
 	}
-
 	/**
 	 * Stores the name and password for the user.
-	 * @param transferable Encoded user information to be stored.
+	 * @param info User information to be stored.
 	 */
-	protected void storeData(String[] transferable) {
-		String[] info = new String[2];
-		File file = new File(pSAHFilePath);
+	protected void storeData(String[] info) {
+		PreparedStatement statement;
 		try {
-			if (!(file.exists() && file.isFile())) {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) {
-					logger.log(Level.WARNING, "Issue creating file.");
-				}
-			}
+			statement = connection.prepareStatement("INSERT INTO userDetails (user, pass) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM userDetails WHERE lower(user) = ? AND pass = ?)");
+			statement.setString(1, info[0]);
+			statement.setString(2, info[1]);
+			statement.setString(3, info[0]);
+			statement.setString(4, info[1]);
+			statement.executeUpdate();
 		}
-		catch (Exception e) {
-			logger.log(Level.WARNING, "File could not be found/created");
+		catch (SQLException e) {
+			logger.log(Level.WARNING, "Could not write elements to database.");
 		}
-		for (int i = 0; i < transferable.length; i++) {
-			byte[] decodedBytes = Base64.getDecoder().decode(transferable[i]);
-			info[i] = new String(decodedBytes);
-		}
-		//decrypt csv file contents
-		unlockOrLock(0);
-
-		//store name and password into csv file
-		try {
-			BufferedWriter bW = new BufferedWriter(new FileWriter(file, true));
-			bW.write(info[0]);
-			bW.write(", ");
-			bW.write(info[1]);
-			bW.newLine();
-			bW.close();
-		}
-		catch (Exception e) {
-			logger.log(Level.WARNING, "Could not write elements to file.");
-		}
-		//encrypt csv file contents
-		unlockOrLock(1);
 	}
-
 	/**
 	 * Displays all passwords and associated names for the user.
 	 */
 	protected void displayUserPassCombos() {
-		File file = new File(pSAHFilePath);
+		System.out.println();
 		try {
-			if (!(file.exists() && file.isFile())) {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) {
-					logger.log(Level.WARNING, "Issue creating file.");
-				}
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from userDetails order by lower(user)");
+			for (int i = 1; rs.next(); i++) {
+				System.out.println("[" + i + "] Username = " + rs.getString("user") + ", Password = " + rs.getString("pass"));
 			}
 		}
-		catch (Exception e) {
-			logger.log(Level.WARNING, "File could not be found/created");
+		catch (SQLException e) {
+			logger.log(Level.SEVERE, "Unable to read the database.");
 		}
-		//decrypt
-		unlockOrLock(0);
-		String placeholder;
-		try {
-			if (!(file.exists() && file.isFile())) {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) {
-					logger.log(Level.WARNING, "Issue creating file.");
-				}
-			}
-			BufferedReader bR = new BufferedReader(new FileReader(file));
-			System.out.println();
-			while ((placeholder = bR.readLine()) != null) {
-				if (hasComma(placeholder)) {
-					String[] temp = placeholder.split(", ", 2);
-					System.out.println(temp[0] + ": " + temp[1]);
-				}
-			}
-			bR.close();
-		}
-		catch (IOException e) {
-			logger.log(Level.WARNING, ".csv file unable to be read.");
-		}
-		catch (ArrayIndexOutOfBoundsException aE) {
-			logger.log(Level.SEVERE, "Array index out of bound exception in displayUserPassCombos() method, please restart.");
-			System.exit(1);
-		}
-		//encrypt
-		unlockOrLock(1);
 	}
+	/**
+	 * Queries all usernames and passwords from the database.
+	 * @return Returns a string array containing all username and password combinations.
+	 */
 	protected String[] getUserPassCombosForUI() {
 		List<String> comboList = new ArrayList<>();
-		File file = new File(pSAHFilePath);
 		try {
-			if (!(file.exists() && file.isFile())) {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) {
-					logger.log(Level.WARNING, "Issue creating file.");
-				}
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from userDetails order by lower(user)");
+			while (rs.next()) {
+				comboList.add(rs.getString("user") + "~~SEPARATOR~~" + rs.getString("pass"));
 			}
 		}
-		catch (Exception e) {
-			logger.log(Level.WARNING, "File could not be found/created");
+		catch (SQLException e) {
+			logger.log(Level.SEVERE, "Unable to read the database.");
 		}
-		//decrypt
-		unlockOrLock(0);
-		String placeholder;
-		try {
-			if (!(file.exists() && file.isFile())) {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) {
-					logger.log(Level.WARNING, "Issue creating file.");
-				}
-			}
-			BufferedReader bR = new BufferedReader(new FileReader(file));
-			while ((placeholder = bR.readLine()) != null) {
-				if (hasComma(placeholder)) {
-					String[] temp = placeholder.split(", ", 2);
-					comboList.add(temp[0] + ": " + temp[1]);
-				}
-			}
-			bR.close();
-		}
-		catch (IOException e) {
-			logger.log(Level.WARNING, ".csv file unable to be read.");
-		}
-		catch (ArrayIndexOutOfBoundsException aE) {
-			logger.log(Level.SEVERE, "Array index out of bound exception in getUserPassCombosForUI() method, please restart.");
-			System.exit(1);
-		}
-		//encrypt
-		unlockOrLock(1);
 		String[] combos = new String[comboList.size()];
-		for (int i = 0; i < comboList.size(); i++) {
+		for (int i = 0; i < combos.length; i++) {
 			combos[i] = comboList.get(i);
 		}
 		return combos;
 	}
-
 	/**
-	 * Searches through store file for a specific name.
-	 * @param name The specific name to find in the file's contents.
+	 * Searches through the database for a specific name.
+	 * @param name The specific name to find in the database.
 	 * @return Returns a list of all lines that have a name matching the given one.
 	 */
 	protected ArrayList<String> checkStoredDataForName(String name) {
-		File file = new File(pSAHFilePath);
 		ArrayList<String> acceptedStrings = new ArrayList<>();
+		PreparedStatement statement;
 		try {
-			if (!(file.exists() && file.isFile())) {
-				boolean checkFileCreation = file.createNewFile();
-				if (!checkFileCreation) {
-					logger.log(Level.WARNING, "Issue creating file.");
+			statement = connection.prepareStatement("select * from userDetails where lower(user) = ? order by lower(user)");
+			statement.setString(1, name);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				if (rs.getString("user").equalsIgnoreCase(name)) {
+					acceptedStrings.add(rs.getString("user") + "~~SEPARATOR~~" + rs.getString("pass"));
 				}
 			}
+		} catch (SQLException e) {
+			logger.log(Level.SEVERE, "Unable to read the database.");
 		}
-		catch (Exception e) {
-			logger.log(Level.WARNING, "File could not be found/created");
-		}
-		unlockOrLock(0);
-		String line;
-		try {
-			BufferedReader bR = new BufferedReader(new FileReader(file));
-			while ((line = bR.readLine()) != null) {
-				String[] splitValues = line.split(", ", 2);
-				if ((splitValues[0]).equalsIgnoreCase(name)) {
-					acceptedStrings.add(line);
-				}
-			}
-		}
-		catch (IOException e) {
-			logger.log(Level.WARNING, "Error searching for name in file.");
-		}
-		unlockOrLock(1);
 		return acceptedStrings;
 	}
-
 	/**
-	 * Checks to see if the given string has a comma in it.
-	 * @param str The string to search through.
-	 * @return Returns 'true' if there is a comma found and 'false' if there is not a comma.
-	 */
-	private boolean hasComma(String str) {
-		for (char character : str.toCharArray()) {
-			if (character == ',') {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Converts bytes to hexadecimal.
-	 * @param bytes The byte array that will be converted to hex.
-	 * @return Returns the hex value in the form of a string.
-	 */
-	private String toHex(byte[] bytes) {
-		StringBuilder end = new StringBuilder();
-		for (byte x : bytes) {
-			end.append(String.format("%02X", x));
-		}
-		return end.toString();
-	}
-
-	/**
-	 * Converts toHex values back to bytes.
-	 * @param string The string representation of the toHex value.
-	 * @return Returns the byte array representation of the value after being converted from hex.
-	 */
-	private byte[] fromHex(String string) {
-		byte[] cipherText = new byte[string.length() / 2];
-		for (int i = 0; i < cipherText.length; i++) {
-        	int index = i * 2;
-	        int val = Integer.parseInt(string.substring(index, index + 2), 16);
-	        cipherText[i] = (byte) val;
-        }
-        return cipherText;
-	}
-
-	/**
-	 * Searches the store file for all contents.
-	 * @return Returns the contents of the file for the Manager to search through for a specific name.
+	 * Searches the database for all contents.
+	 * @return Returns the contents of the database for the Manager to search through for a specific name.
 	 */
 	protected List<String> findNameToAlter() {
-		unlockOrLock(0);
-		File file = new File(pSAHFilePath);
-		List<String> stringLines = new ArrayList<>();
-		String line;
+		List<String> comboList = new ArrayList<>();
 		try {
-			BufferedReader bR = new BufferedReader(new FileReader(file));
-			while ((line = bR.readLine()) != null) {
-				stringLines.add(line);
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from userDetails order by lower(user)");
+			while (rs.next()) {
+				comboList.add(rs.getString("user") + "~~SEPARATOR~~" + rs.getString("pass"));
 			}
-			unlockOrLock(1);
-			return stringLines;
 		}
-		catch (IOException e) {
-			logger.log(Level.WARNING, "Error reading strings from file.");
+		catch (SQLException e) {
+			logger.log(Level.SEVERE, "Unable to read the database.");
 		}
-		unlockOrLock(1);
-		return stringLines;
+		return comboList;
+
 	}
 
 	/**
-	 * Stores the password and name associated with it into the store file.
-	 * @param infoToStore The list containing the necessary information to store.
+	 * Removes a row from the database.
+	 * @param user The username to remove from the database.
+	 * @param pass The password to remove from the database.
 	 */
-	protected void storeNameFromLists(List<String> infoToStore) {
-		File file = new File(pSAHFilePath);
-		unlockOrLock(0);
+	protected void removeRow(String user, String pass) {
 		try {
-			BufferedWriter bW = new BufferedWriter(new FileWriter(file, false));
-			for (String line : infoToStore) {
-				bW.write(line);
-				bW.write(ls);
-			}
-			bW.flush();
-			bW.close();
+			PreparedStatement statement = connection.prepareStatement("delete from userDetails where lower(user) = ? and pass = ?");
+			statement.setString(1, user);
+			statement.setString(2, pass);
+			statement.executeUpdate();
 		}
-		catch (IOException e) {
-			logger.log(Level.WARNING, "Error writing new data to info");
+		catch (SQLException e) {
+			logger.log(Level.SEVERE, "Unable to remove element from the database.");
 		}
-		unlockOrLock(1);
+	}
+
+	/**
+	 * Changes a row within the database.
+	 * @param oldUser The old username to query form the database.
+	 * @param oldPass The old password to query form the database.
+	 * @param newUser The new username to update the database to.
+	 * @param newPass The new password to update the database to.
+	 */
+	protected void changeRow(String oldUser, String oldPass, String newUser, String newPass) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("update userDetails set user = ?, pass = ? where user = ? and pass = ?");
+			statement.setString(1, newUser);
+			statement.setString(2, newPass);
+			statement.setString(3, oldUser);
+			statement.setString(4, oldPass);
+			statement.executeUpdate();
+		}
+		catch (SQLException e) {
+			logger.log(Level.SEVERE, "Unable to change element from the database.");
+		}
 	}
 }

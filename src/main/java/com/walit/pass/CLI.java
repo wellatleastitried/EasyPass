@@ -34,7 +34,6 @@ class CLI implements Runner {
 			Parsed parser = new Parsed();
 			version = parser.getVersion();
 			System.out.println(version);
-
 		}
 		catch (Exception ignored) {
 			version = "Error parsing version info.";
@@ -204,73 +203,47 @@ class CLI implements Runner {
 	 */
 	@Override
 	public void changeData() {
+		// TODO: FIX THIS METHOD
 		System.out.println("You chose to change an existing password.");
 		String name = getPassIdentifierForChangeOrRemove(0);
-		Storage store = new Storage(logger);
-		List<String> strings = store.findNameToAlter();
-		List<String> acceptedStrings = new ArrayList<>();
-		String[] splitStrings;
-		if (strings.get(0).equals("There was an error.")) {
-			logger.log(Level.WARNING, "Error retrieving file, please restart.");
-		}
-		else {
+		try {
+			Storage store = new Storage(logger);
+			List<String> strings = store.findNameToAlter();
+			List<String> acceptedStrings = new ArrayList<>();
+			String[] splitStrings;
 			for (String x : strings) {
-				splitStrings = x.split(", ");
+				splitStrings = x.split("~~SEPARATOR~~");
 				splitStrings[0] = splitStrings[0].toLowerCase();
 				if (splitStrings[0].equals(name)) {
 					acceptedStrings.add(x);
 				}
 			}
-		}
-		if (acceptedStrings.size() > 1) {
-			int index = 1;
-			System.out.println("\nThere were multiple passwords with the same name, which would you like to change?");
-			for (String x : acceptedStrings) {
-				System.out.println(index + ") " + x);
-				index++;
-			}
-			System.out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
-			String choice = s.nextLine();
-			int chosenIndex = Integer.parseInt(choice);
-			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
-			System.out.println("You chose to change the password: "
-					+ splitStrings[1] + " for " + splitStrings[0]
-					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
-			String[] temp = getPasswordFromUser();
-			String newPass = temp[1];
-			for (int i = 0; i < strings.size(); i++) {
-				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) {
-					index = i;
+			if (acceptedStrings.size() > 1) {
+				int index = 1;
+				System.out.println("\nThere were multiple passwords with the same name, which would you like to change?");
+				for (String x : acceptedStrings) {
+					splitStrings = x.split("~~SEPARATOR~~");
+					System.out.println(index + ") " + splitStrings[0] + ": " + splitStrings[1]);
+					index++;
 				}
+				System.out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
+				int chosenIndex = getValidNumber(1, acceptedStrings.size());
+				splitStrings = acceptedStrings.get(chosenIndex - 1).split("~~SEPARATOR~~");
+				System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				store.changeRow(splitStrings[0], getPasswordFromUser()[1], splitStrings[0], splitStrings[1]);
+			} else if (acceptedStrings.size() == 1) {
+				splitStrings = acceptedStrings.get(0).split("~~SEPARATOR~~");
+				System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				store.changeRow(splitStrings[0], getPasswordFromUser()[1], splitStrings[0], splitStrings[1]);
+			} else {
+				System.out.println("\nName unable to be found, enter a valid name.\n");
+				changeData();
 			}
-			strings.set(index, splitStrings[0] + ", " + newPass);
-			store.storeNameFromLists(strings);
-		}
-		else if (acceptedStrings.size() == 1) {
-			splitStrings = acceptedStrings.get(0).split(", ");
-			System.out.println("You chose to change the password: "
-					+ splitStrings[1] + " for " + splitStrings[0]
-					+ ".\nWhat would you like the new password to be? (ENTER BELOW)");
-			String[] temp;
-			String newPass;
-			temp = getPasswordFromUser();
-			newPass = temp[1];
-			int index = -1;
-			for (int i = 0; i < strings.size(); i++) {
-				if (strings.get(i).equals(acceptedStrings.get(0))) {
-					index = i;
-				}
-			}
-			strings.set(index, splitStrings[0] + ", " + newPass);
-			store.storeNameFromLists(strings);
-			System.out.println("\nPassword successfully changed.");
-		}
-		else {
-			System.out.println("\nName unable to be found, enter a valid name.\n");
-			changeData();
+			store.closeConnections();
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}
-
 	/**
 	 * Handles removing the user's password by allowing them to enter the name associated with their password.
 	 */
@@ -278,58 +251,61 @@ class CLI implements Runner {
 	public void removeData() {
 		System.out.println("You chose to remove an existing password.");
 		String name = getPassIdentifierForChangeOrRemove(1);
-		Storage store = new Storage(logger);
-		List<String> strings = store.findNameToAlter();
-		List<String> acceptedStrings = new ArrayList<>();
-		String[] splitStrings;
-		if (strings.get(0).equals("There was an error.")) {
-			logger.log(Level.WARNING, "Error retrieving file, please restart.");
-		}
-		else {
+		try {
+			Storage store = new Storage(logger);
+			List<String> strings = store.findNameToAlter();
+			List<String> acceptedStrings = new ArrayList<>();
+			String[] splitStrings;
 			for (String x : strings) {
-				splitStrings = x.split(", ");
+				splitStrings = x.split("~~SEPARATOR~~");
 				splitStrings[0] = splitStrings[0].toLowerCase();
 				if (splitStrings[0].equals(name)) {
 					acceptedStrings.add(x);
 				}
 			}
-		}
-		if (acceptedStrings.size() > 1) {
-			int index = 1;
-			System.out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
-			for (String x : acceptedStrings) {
-				System.out.println(index + ") " + x);
-				index++;
+			if (acceptedStrings.size() > 1) {
+				int index = 1;
+				System.out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
+				for (String x : acceptedStrings) {
+					splitStrings = x.split("~~SEPARATOR~~");
+					System.out.println(index + ") " + splitStrings[0] + ": " + splitStrings[1]);
+					index++;
+				}
+				System.out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
+				int chosenIndex = getValidNumber(1, acceptedStrings.size());
+				splitStrings = acceptedStrings.get(chosenIndex - 1).split("~~SEPARATOR~~");
+				System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				store.removeRow(splitStrings[0], splitStrings[1]);
+			} else if (acceptedStrings.size() == 1) {
+				splitStrings = acceptedStrings.get(0).split("~~SEPARATOR~~");
+				System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				store.removeRow(splitStrings[0], splitStrings[1]);
+			} else {
+				System.out.println("\nName unable to be found, enter a valid name.\n");
+				removeData();
 			}
-			System.out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
+			store.closeConnections();
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+		}
+	}
+
+	public int getValidNumber(int start, int end) {
+		int index;
+		try {
 			String choice = s.nextLine().trim();
-			int chosenIndex = Integer.parseInt(choice);
-			splitStrings = acceptedStrings.get(chosenIndex - 1).split(", ");
-			System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
-			for (int i = 0; i < strings.size(); i++) {
-				if (strings.get(i).equals(acceptedStrings.get(chosenIndex - 1))) {
-					index = i;
-				}
+			index = Integer.parseInt(choice);
+			if (index >= start && index <= end) {
+				return index;
+			} else {
+				System.out.println("The number that was entered was invalid. Enter a number within the given range.");
+				throw new Exception();
 			}
-			strings.remove(index);
-			store.storeNameFromLists(strings);
 		}
-		else if (acceptedStrings.size() == 1) {
-			splitStrings = acceptedStrings.get(0).split(", ");
-			System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
-			int index = -1;
-			for (int i = 0; i < strings.size(); i++) {
-				if (strings.get(i).equals(acceptedStrings.get(0))) {
-					index = i;
-				}
-			}
-			strings.remove(index);
-			store.storeNameFromLists(strings);
+		catch (Exception e) {
+			index = getValidNumber(start, end);
 		}
-		else {
-			System.out.println("\nName unable to be found, enter a valid name.\n");
-			removeData();
-		}
+		return index;
 	}
 
 	/**
@@ -360,34 +336,6 @@ class CLI implements Runner {
 		System.out.println("Enter the password you would like to store: ");
 		String[] userPass = new String[2];
 		userPass[1] = s.nextLine().trim();
-		char[] checker = userPass[1].toCharArray();
-		boolean problem = false;
-		boolean fixed = true;
-		for (char x : checker) {
-			if (x == ',' || x == ' ') {
-				problem = true;
-				fixed = false;
-				break;
-			}
-		}
-		while (problem) {
-			System.out.println("\nThere cannot be a comma \",\" or space in the password you are saving, " +
-					"please try a password without a comma.");
-			userPass[1] = s.nextLine().trim();
-			checker = userPass[1].toCharArray();
-			for (char x : checker) {
-				if (!((x == ',') || (x == ' '))) {
-					fixed = true;
-				}
-				else {
-					fixed = false;
-					break;
-				}
-			}
-			if (fixed) {
-				problem = false;
-			}
-		}
 		return userPass;
 	}
 
@@ -398,43 +346,12 @@ class CLI implements Runner {
 	 */
 	@Override
 	public void getPassIdentifierFromUser(String[] arr) {
-		System.out.println("\nWhat is this password for? If you don't want it saved, type STOP");
+		System.out.println("\nWhat is this password for? If you don't want it to be saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
-		boolean problem = false;
-		char[] checker;
-		if (arr[0].equals("stop")) {
+		if (!arr[0].equals("stop")) {
+			storeInformation(arr);
+		} else {
 			System.out.println("\nReturning to menu...\n");
-		}
-		else {
-			checker = arr[0].toCharArray();
-			for (char q : checker) {
-				if (q == ',') {
-					problem = true;
-					break;
-				}
-			}
-			boolean fixed = false;
-			while (problem) {
-				System.out.println("\nThere cannot be a comma \",\" in the name you are saving, please try a name without a comma.");
-				System.out.println("What is this password for? If you don't want it saved, type STOP");
-				arr[0] = s.nextLine().toLowerCase().trim();
-				checker = arr[0].toCharArray();
-				for (char x : checker) {
-					if (!(x == ',')) {
-						fixed = true;
-					}
-					else {
-						fixed = false;
-						break;
-					}
-				}
-				if (fixed) {
-					problem = false;
-				}
-			}
-			if (!arr[0].equals("stop")) {
-				storeInformation(arr);
-			}
 		}
 	}
 
@@ -538,12 +455,13 @@ class CLI implements Runner {
 	 */
 	@Override
 	public void storeInformation(String[] info) {
-		Storage store = new Storage(logger);
-		String[] transferable = new String[] {
-				Base64.getEncoder().encodeToString(info[0].getBytes()),
-				Base64.getEncoder().encodeToString(info[1].getBytes())
-		};
-		store.storeData(transferable);
+		try {
+			Storage store = new Storage(logger);
+			store.storeData(info);
+			store.closeConnections();
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+		}
 	}
 
 	/**
@@ -551,8 +469,13 @@ class CLI implements Runner {
 	 */
 	@Override
 	public void extractInfoFromList() {
-		Storage store = new Storage(logger);
-		store.displayUserPassCombos();
+		try {
+			Storage store = new Storage(logger);
+			store.displayUserPassCombos();
+			store.closeConnections();
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+		}
 	}
 
 	/**
@@ -666,30 +589,33 @@ class CLI implements Runner {
 	 */
 	@Override
 	public void findNamePassCombos() {
-		Storage store = new Storage(logger);
-		System.out.println("Enter the name for the password you are looking for:");
-		String name = s.nextLine().trim().toLowerCase();
-		System.out.println();
-		ArrayList<String> acceptedStrings = store.checkStoredDataForName(name);
-		if (acceptedStrings.size() == 1) {
-			String[] values = acceptedStrings.get(0).split(", ", 2);
-			System.out.println("The password for " + name + " is: " + values[1]);
-		}
-		else if (acceptedStrings.size() > 1) {
-			System.out.println("Here's a list of the passwords that match the name you entered:");
-			for (String matchingPasswords : acceptedStrings) {
-				System.out.println(matchingPasswords.replace(",", ":"));
+		try {
+			Storage store = new Storage(logger);
+			System.out.println("Enter the name for the password you are looking for:");
+			String name = s.nextLine().trim().toLowerCase();
+			System.out.println();
+			ArrayList<String> acceptedStrings = store.checkStoredDataForName(name);
+			if (acceptedStrings.size() == 1) {
+				String[] values = acceptedStrings.get(0).split("~~SEPARATOR~~", 2);
+				System.out.println("The password for " + name + " is: " + values[1]);
+			} else if (acceptedStrings.size() > 1) {
+				System.out.println("Here's a list of the passwords that match the name you entered:");
+				for (String matchingPasswords : acceptedStrings) {
+					System.out.println(matchingPasswords.replace("~~SEPARATOR~~", ": "));
+				}
+			} else {
+				System.out.println("""
+						No passwords matched your search.
+						Would you like to try a different search?
+						Enter "y" for yes, anything else for "no\"""");
+				String retryString = s.nextLine();
+				if (retryString.toLowerCase().trim().equals("y")) {
+					findNamePassCombos();
+				}
 			}
-		}
-		else {
-			System.out.println("""
-					No passwords matched your search.
-					Would you like to try a different search?
-					Enter "y" for yes, anything else for "no\"""");
-			String retryString = s.nextLine();
-			if (retryString.toLowerCase().trim().equals("y")) {
-				findNamePassCombos();
-			}
+			store.closeConnections();
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.SEVERE, "Error instantiating Storage object.");
 		}
 	}
 }

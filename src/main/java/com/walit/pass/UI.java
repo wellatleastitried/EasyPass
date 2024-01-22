@@ -539,22 +539,27 @@ class UI extends JFrame implements Runner {
     @Override
     public void findNamePassCombos() {
 		// TODO: wait on boolean JButton before trying to parse entry
-		Storage store = new Storage(logger);
-		String search = searchForPass();
-		ArrayList<String> acceptedStrings = store.checkStoredDataForName(search);
-		if (!acceptedStrings.isEmpty()) {
-            acceptedStrings.replaceAll(string -> string.replace(",", ":"));
-			// TODO: Create list of password-username combos for user
-			displayResults(acceptedStrings);
-		}
-		else {
-            // Prompt user to try a dif search because there were no matches
-			noResults(search);
-			String retryString = ""; // TODO: Make button for yes and no
-			if (retryString.toLowerCase().trim().equals("y")) {
-				findNamePassCombos();
-			}
-		}
+        try {
+            Storage store = new Storage(logger);
+            String search = searchForPass();
+            ArrayList<String> acceptedStrings = store.checkStoredDataForName(search);
+            if (!acceptedStrings.isEmpty()) {
+                acceptedStrings.replaceAll(string -> string.replace(",", ":"));
+                // TODO: Create list of password-username combos for user
+                displayResults(acceptedStrings);
+            } else {
+                // Prompt user to try a dif search because there were no matches
+                noResults(search);
+                String retryString = ""; // TODO: Make button for yes and no
+                if (retryString.toLowerCase().trim().equals("y")) {
+                    findNamePassCombos();
+                }
+            }
+            store.closeConnections();
+        }
+        catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, "Error instantiating Storage object.");
+        }
 	}
     @Override
     public String[] getUserInformation() {
@@ -658,13 +663,19 @@ class UI extends JFrame implements Runner {
 	}
     @Override
     public void storeInformation(String[] info) {
-		Storage store = new Storage(logger);
-		String[] transferable = new String[2];
-		String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
-		String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
-		transferable[0] = encodedName;
-		transferable[1] = encodedPwd;
-		store.storeData(transferable);
+        try {
+            Storage store = new Storage(logger);
+            String[] transferable = new String[2];
+            String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
+            String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
+            transferable[0] = encodedName;
+            transferable[1] = encodedPwd;
+            store.storeData(transferable);
+            store.closeConnections();
+        }
+        catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, "Error instantiating Storage object.");
+        }
 	}
     @Override
     public void strengthTest() {
@@ -676,9 +687,15 @@ class UI extends JFrame implements Runner {
 	}
     @Override
     public void extractInfoFromList() {
-		Storage store = new Storage(logger);
-		String[] combos = store.getUserPassCombosForUI();
-		displayInfo(combos);
+        try {
+            Storage store = new Storage(logger);
+            String[] combos = store.getUserPassCombosForUI();
+            displayInfo(combos);
+            store.closeConnections();
+        }
+        catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, "Error instantiating Storage object.");
+        }
 		// TODO: add values from combos to the interface to be displayed with scroll bar if needed
 	}
 	public void displayResults(ArrayList<String> found) {
