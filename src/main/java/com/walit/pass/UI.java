@@ -101,29 +101,47 @@ class UI extends JFrame implements Runner {
         buttonPressed = false;
         this.remove(homePanel);
     }
+    protected JButton genPassBackButton() {
+        JButton button = new JButton("Back");
+        button.addActionListener(e -> {
+            backButtonPressed = true;
+
+        });
+        return button;
+    }
+    protected JButton genPassSubmitButton() {
+        JButton button = new JButton("Submit");
+        button.addActionListener(e -> {
+            submitButtonPressed = true;
+
+        });
+        return button;
+    }
 	public boolean passwordGenerate() {
         backButtonPressed = false;
         this.add(genPanel);
         this.pack();
         this.setVisible(true);
         while (!backButtonPressed) {
-            int[] params = getSpecs();
-            length = params[0];
-            capCount = params[1];
-            specialCharCount = params[2];
-            numCount = params[3];
             if (submitButtonPressed) {
+                int[] params = getSpecs();
+                length = params[0];
+                capCount = params[1];
+                specialCharCount = params[2];
+                numCount = params[3];
                 boolean paramsAreValid = false;
                 // paramsAreValid = validate params
                 if (paramsAreValid) {
                     String[] temp = getUserInformation();
                     getPassIdentifierFromUser(temp);
-                } else {
+                }
+                else {
                     // Display error JLabel above
                 }
                 submitButtonPressed = false;
             }
         }
+        backButtonPressed = false;
         genPanel.setVisible(false);
         this.remove(genPanel);
         return true;
@@ -215,6 +233,8 @@ class UI extends JFrame implements Runner {
         strength.addActionListener(e -> {
             buttonPressed = true;
             checker[3] = true;
+
+
         });
         buttonPanel.add(strength);
         changeOrRem = new JButton("Change or remove existing password");
@@ -329,8 +349,14 @@ class UI extends JFrame implements Runner {
         JPanel buttonPanel = new JPanel(); // PANEL
         buttonPanel.setPreferredSize(new Dimension(750, 200));
         buttonPanel.setLayout(new GridLayout(1, 2));
-        buttonPanel.add(backButton);
-        buttonPanel.add(submitButton);
+
+        JButton passBackButton = new JButton("Back");
+        passBackButton.addActionListener(e -> backButtonPressed = true);
+        buttonPanel.add(passBackButton);
+
+        JButton passSubmitButton = new JButton("Submit");
+        passSubmitButton.addActionListener(e -> submitButtonPressed = true);
+        buttonPanel.add(passSubmitButton);
         buttonPanel.setVisible(true);
 
         JPanel textPanel = new JPanel(); // PANEL
@@ -347,7 +373,7 @@ class UI extends JFrame implements Runner {
         panel.setBackground(Color.LIGHT_GRAY);
 
         GridBagConstraints c = new GridBagConstraints();
-        c.fill=GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 150;
         panel.add(backButton, c);
         c.ipady = 400;
