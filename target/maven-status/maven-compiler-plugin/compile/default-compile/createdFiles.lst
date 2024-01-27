@@ -1,8 +1,8 @@
-com\walit\pass\Parsed.class
-com\walit\pass\Generator.class
-com\walit\pass\Storage.class
-com\walit\pass\Main.class
-com\walit\pass\Runner.class
-com\walit\pass\CLI.class
-com\walit\pass\UI$1.class
-com\walit\pass\UI.class
+com\walit\Tools\Generator.class
+com\walit\Application\UI$1.class
+com\walit\Application\UI.class
+com\walit\Tools\Parsed.class
+com\walit\Application\Runner.class
+com\walit\Driver\Main.class
+com\walit\Application\CLI.class
+com\walit\Tools\Storage.class

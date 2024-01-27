@@ -50,7 +50,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.walit.pass.Main</mainClass>
+                                    <mainClass>com.walit.Driver.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

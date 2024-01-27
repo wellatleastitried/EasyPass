@@ -1,5 +1,7 @@
 package com.walit.pass;
 
+import com.walit.Application.CLI;
+import com.walit.Tools.Parsed;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
