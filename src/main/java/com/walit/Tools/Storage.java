@@ -19,16 +19,17 @@ import java.util.logging.Logger;
  */
 public class Storage {
 	private final Logger logger;
-	protected Connection connection = null;
+	private Connection connection = null;
 
 	/**
 	 * Sets the logger for program the duration of the program's runtime and set up the database connection.
 	 */
 	public Storage(Logger logger) throws ClassNotFoundException {
+		final String dbPath = "resources\\utilities\\data\\userData.db";
 		this.logger = logger;
 		Class.forName("org.sqlite.JDBC");
 		try {
-			connection = DriverManager.getConnection("jdbc:sqlite:userData.db");
+			connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
 			connection.setAutoCommit(true);
 			Statement statement = connection.createStatement();
 			statement.setQueryTimeout(30);

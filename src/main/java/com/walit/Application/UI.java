@@ -62,16 +62,7 @@ class UI extends JFrame implements Runner {
         setBackButton();
         setSubmitButton();
 
-
-		// build panels
 		startPanel = buildStartPanel();
-        homePanel = buildHomePanel();
-        genPanel = buildGenPanel();
-        searchPanel = buildSearchPanel();
-        infoPanel = buildInfoPanel();
-        strengthPanel = buildStrengthPanel();
-        cOrRPanel = buildCOrRPanel();
-        additionPanel = buildAdditionPanel();
 		start();
 
     }
@@ -94,8 +85,10 @@ class UI extends JFrame implements Runner {
         this.remove(startPanel);
     }
 	public void home() {
+        homePanel = buildHomePanel();
         this.add(homePanel);
         this.pack();
+//        SwingUtilities.updateComponentTreeUI(this);
         this.setVisible(true);
         while (!buttonPressed) {
             Thread.onSpinWait();
@@ -103,51 +96,32 @@ class UI extends JFrame implements Runner {
         System.out.println("Button pressed.");
         buttonPressed = false;
         this.remove(homePanel);
+        homePanel.removeAll();
     }
-    protected JButton genPassBackButton() {
-        JButton button = new JButton("Back");
-        button.addActionListener(e -> {
-            backButtonPressed = true;
-
-        });
-        return button;
-    }
-    protected JButton genPassSubmitButton() {
-        JButton button = new JButton("Submit");
-        button.addActionListener(e -> {
-            submitButtonPressed = true;
-
-        });
-        return button;
-    }
-	public boolean passwordGenerate() {
+	public void passwordGenerate() {
+        genPanel = buildGenPanel();
         backButtonPressed = false;
         this.add(genPanel);
         this.pack();
         this.setVisible(true);
         while (!backButtonPressed) {
             if (submitButtonPressed) {
+                System.out.println("SUBMIT PRESSED.");
                 int[] params = getSpecs();
                 length = params[0];
                 capCount = params[1];
                 specialCharCount = params[2];
                 numCount = params[3];
-                boolean paramsAreValid = false;
-                // paramsAreValid = validate params
-                if (paramsAreValid) {
-                    String[] temp = getUserInformation();
-                    getPassIdentifierFromUser(temp);
-                }
-                else {
-                    // Display error JLabel above
-                }
+                String[] temp = getUserInformation();
+                getPassIdentifierFromUser(temp);
                 submitButtonPressed = false;
             }
         }
+        System.out.println("BACK PRESSED");
         backButtonPressed = false;
         genPanel.setVisible(false);
         this.remove(genPanel);
-        return true;
+        genPanel.removeAll();
     }
 	protected JLabel getApplicationLogo() {
         BufferedImage logo = null;
@@ -467,7 +441,7 @@ class UI extends JFrame implements Runner {
         capCount = -1;
         numCount = -1;
     }
-    protected int getOption() {
+    private int getOption() {
 		Arrays.fill(checker, false);
 		home();
 		Object[] testArrAndGetIndex = checkArr();

@@ -49,7 +49,7 @@ public class Parsed {
     /**
      * @return Returns the String str.
      */
-    protected String getStr() {
+    public String getStr() {
         return new String(deHex(str));
     }
     private byte[] deHex(String string) {

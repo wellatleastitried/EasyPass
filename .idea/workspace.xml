@@ -6,18 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/CLI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Generator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Parsed.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Runner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/Storage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/pass/UI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/PasswordGenerationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/pass/PasswordGenerationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/VersionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/pass/VersionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Parsed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Parsed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/PasswordGenerationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/Demo/PasswordGenerationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/VersionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/Demo/VersionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/pass/XMLTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/Demo/XMLTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />

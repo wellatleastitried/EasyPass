@@ -257,7 +257,7 @@ public class Generator {
 	 * @param pass The password to search for.
 	 * @return Returns "true" if the password is found in the word-lists, "false" otherwise.
 	 */
-	protected boolean checkForPassInLists(String pass) {
+	private boolean checkForPassInLists(String pass) {
 		//User can add as many word-lists to this folder as they want, but it will impact runtime.
 		File wordDirectory = new File("resources\\WordLists");
 		AtomicBoolean wordWasFound = new AtomicBoolean(false);
