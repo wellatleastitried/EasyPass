@@ -374,7 +374,7 @@ public class CLI implements Runner {
 	/**
 	 * Checks whether the entered parameters for generating a new password are valid.
 	 */
-	private void checkParams() {
+	public void checkParams() {
 		try {
 			while (lengthOfPassword < specialChars || lengthOfPassword < capitals || lengthOfPassword < numbers) {
 				logger.log(Level.INFO, "Unable to generate password with the given parameters.\n" +
@@ -461,6 +461,10 @@ public class CLI implements Runner {
 		return params;
 	}
 
+	public String quickGenerate() {
+		return new Generator(logger).generatePassword(lengthOfPassword, specialChars, capitals, numbers);
+	}
+
 	/**
 	 * Creates a new Storage object to handle storing the user's password and the name associated with it
 	 * into a secure file.
@@ -496,7 +500,7 @@ public class CLI implements Runner {
 	/**
 	 * Gets the parameters for password generation from the user.
 	 */
-	private void getParams() {
+	public void getParams() {
 		resetParams();
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
 			System.out.println("Enter desired password length: ");

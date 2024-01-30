@@ -16,11 +16,17 @@ public class PasswordGenerationTest {
         int capitals = 2;
         int specialChars = 2;
         int numbers = 2;
-        String passwordToCheck = gen.generatePassword(length, specialChars, capitals, numbers);
-        MatcherAssert.assertThat(passwordToCheck.length(), is(10));
-        MatcherAssert.assertThat(specialChars, is(checkSpecialCharCount(passwordToCheck)));
-        MatcherAssert.assertThat(capitals, is(checkCapitalCharCount(passwordToCheck)));
-        MatcherAssert.assertThat(numbers, is(checkNumberCharCount(passwordToCheck)));
+        while (length < 10000) {
+            String passwordToCheck = gen.generatePassword(length, specialChars, capitals, numbers);
+            MatcherAssert.assertThat(passwordToCheck.length(), is(length));
+            MatcherAssert.assertThat(specialChars, is(checkSpecialCharCount(passwordToCheck)));
+            MatcherAssert.assertThat(capitals, is(checkCapitalCharCount(passwordToCheck)));
+            MatcherAssert.assertThat(numbers, is(checkNumberCharCount(passwordToCheck)));
+            length *= 2;
+            capitals *= 2;
+            specialChars *= 2;
+            numbers *= 2;
+        }
     }
     public int checkSpecialCharCount(String password) {
         int count = 0;
