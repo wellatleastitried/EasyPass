@@ -27,7 +27,7 @@ public class Main {
 						If no argument is passed to the program, the full UI application will launch.
 						
 						Commands:
-							--help           -> Bring up the help menu
+							--help       -> Bring up the help menu
 							--version    -> Output version information and exit
 						
 							--console    -> Starts the command line interface
