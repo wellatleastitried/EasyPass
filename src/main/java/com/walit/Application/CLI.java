@@ -95,7 +95,7 @@ public class CLI implements Runner {
 					x = displayMenu();
 				}
 				case 2 -> {
-					findNamePassCombos();
+					findNamePassCombos(null);
 					dashLine();
 					x = displayMenu();
 				}
@@ -472,6 +472,7 @@ public class CLI implements Runner {
 	 */
 	@Override
 	public void storeInformation(String[] info) {
+		info[0] = info[0].toLowerCase();
 		try {
 			Storage store = new Storage(logger);
 			store.storeData(info);
@@ -603,11 +604,17 @@ public class CLI implements Runner {
 	 * Searches for a specific password by looking for the name associated with it.
 	 */
 	@Override
-	public void findNamePassCombos() {
+	public void findNamePassCombos(String passedName) {
 		try {
 			Storage store = new Storage(logger);
 			System.out.println("Enter the name for the password you are looking for:");
-			String name = s.nextLine().trim().toLowerCase();
+			String name;
+			if (passedName != null) {
+				name = passedName;
+			}
+			else {
+				name = s.nextLine().trim().toLowerCase();
+			}
 			System.out.println();
 			ArrayList<String> acceptedStrings = store.checkStoredDataForName(name);
 			if (acceptedStrings.size() == 1) {
@@ -627,7 +634,7 @@ public class CLI implements Runner {
 						Enter "y" for yes, anything else for "no\"""");
 				String retryString = s.nextLine();
 				if (retryString.toLowerCase().trim().equals("y")) {
-					findNamePassCombos();
+					findNamePassCombos(null);
 				}
 			}
 			store.closeConnections();

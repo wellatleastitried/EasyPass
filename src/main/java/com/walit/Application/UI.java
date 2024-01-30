@@ -406,7 +406,7 @@ class UI extends JFrame implements Runner {
 				}
 				case 2 -> {
 					searchHandle();
-					findNamePassCombos();
+					findNamePassCombos(null);
 					x = getOption();
 				}
 				case 3 -> {
@@ -540,7 +540,7 @@ class UI extends JFrame implements Runner {
         return true;
     }
     @Override
-    public void findNamePassCombos() {
+    public void findNamePassCombos(String passedName) {
 		// TODO: wait on boolean JButton before trying to parse entry
         try {
             Storage store = new Storage(logger);
@@ -555,7 +555,7 @@ class UI extends JFrame implements Runner {
                 noResults(search);
                 String retryString = ""; // TODO: Make button for yes and no
                 if (retryString.toLowerCase().trim().equals("y")) {
-                    findNamePassCombos();
+                    findNamePassCombos(null);
                 }
             }
             store.closeConnections();

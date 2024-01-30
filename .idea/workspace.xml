@@ -6,15 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/utilities/data/userData.db" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/data/userData.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Driver/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Driver/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/walit/Demo/PasswordGenerationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/walit/Demo/PasswordGenerationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Driver/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Driver/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Storage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Tools/Storage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Demo.PasswordGenerationTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Demo.PasswordGenerationTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Demo.VersionTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Demo.VersionTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Demo.XMLTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Demo.XMLTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.walit.Demo.PasswordGenerationTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.walit.Demo.PasswordGenerationTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.walit.Demo.XMLTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.walit.Demo.XMLTest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -85,7 +85,7 @@ public interface Runner {
         return cipherText;
     }
     void strengthTest();
-    void findNamePassCombos();
+    void findNamePassCombos(String passedName);
     void run();
     void resetParams();
 }

@@ -64,7 +64,7 @@ public class Storage {
 	public void storeData(String[] info) {
 		PreparedStatement statement;
 		try {
-			statement = connection.prepareStatement("INSERT INTO userDetails (user, pass) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM userDetails WHERE lower(user) = ? AND pass = ?)");
+			statement = connection.prepareStatement("insert into userDetails (user, pass) select ?, ? where not exists (select 1 from userDetails where lower(user) = ? and pass = ?)");
 			statement.setString(1, info[0]);
 			statement.setString(2, info[1]);
 			statement.setString(3, info[0]);
