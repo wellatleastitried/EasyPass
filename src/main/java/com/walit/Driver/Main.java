@@ -43,11 +43,11 @@ public class Main {
 						
 						""");
 				case "--add" -> {
-					if (1 < argCount) {
+					if (argCount == 2) {
 						String data = args[1];
 						if (data.contains(" ")) {
 							String[] userPass = data.split(" ");
-							if (userPass.length == 2 && userPass[0].length() > 0 && userPass[1].length() > 0) {
+							if (userPass.length == 2 && !userPass[0].isEmpty() && !userPass[1].isEmpty()) {
 								consoleInstance.storeInformation(userPass);
 								System.out.println("\nUsername and password have been stored.\n");
 							}
@@ -74,7 +74,14 @@ public class Main {
 						}
 					}
 					else {
-						System.out.println("\nNo arguments were provided to '--add'\n");
+						System.out.println("""
+							
+							There was a missing space in your command!
+							Usage for --add:
+							
+							easypass --add 'username password'
+							
+							""");
 					}
 				}
 				case "--version" -> System.out.println(consoleInstance.getVersionInfo());
@@ -84,7 +91,21 @@ public class Main {
 					System.out.println("Your password is: " + consoleInstance.quickGenerate());
 				}
 				case "--display" -> consoleInstance.extractInfoFromList();
-				case "--get" -> consoleInstance.findNamePassCombos(args[1]);
+				case "--get" -> {
+					if (argCount == 2) {
+						consoleInstance.findNamePassCombos(args[1]);
+					}
+					else {
+						System.out.println("""
+							
+							There were an incorrect number of arguments in your command.
+							Usage for --get:
+							
+							easypass --get username
+							
+							""");
+					}
+				}
 				default ->
 						System.out.println("\nAn illegal argument was input, use '--help' to display the help menu!\n");
 			}
