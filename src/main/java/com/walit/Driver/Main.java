@@ -13,11 +13,15 @@ public class Main {
 			consoleInstance.callInterface();
 		}
 		String argument = args[0];
-		if (argCount > 1 && !(argument.equals("--add") || argument.equals("--get")) && argCount < 3) {
+		if (argCount > 1 && !(argument.equals("--add") || argument.equals("--get"))) {
 			System.out.println("\nOnly one argument allowed!\n");
 			System.exit(0);
 		}
 		else {
+			if (argCount > 2) {
+				System.out.println("\nOnly two arguments allowed when using the '" + argument + "' command.\n");
+				System.exit(0);
+			}
 			switch (args[0]) {
 				case "--console" -> consoleInstance.run();
 				case "--help" -> System.out.println("""
