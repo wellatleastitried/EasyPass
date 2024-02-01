@@ -27,9 +27,7 @@ public class CLI implements Runner {
 	private final Logger logger = Logger.getLogger("ManagerLog");
 	public Scanner s = new Scanner(System.in);
 
-	public Logger getLogger() {
-		return logger;
-	}
+	public Logger getLogger() { return logger; }
 	public void callInterface() { new UI(logger).run(); }
 
 	/**
