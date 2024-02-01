@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Jackson Swindell
  */
-public class Storage {
+public class Storage implements AutoCloseable {
 	private final Logger logger;
 	private Connection connection = null;
 
@@ -47,7 +47,8 @@ public class Storage {
 	/**
 	 * Closes the database connection.
 	 */
-	public void closeConnections() {
+	@Override
+	public void close() {
 		try {
 			if (connection != null) {
 				connection.close();

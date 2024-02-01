@@ -25,7 +25,7 @@ import javax.imageio.ImageIO;
 
 import javax.swing.*;
 
-class UI extends JFrame implements Runner {
+non-sealed class UI extends JFrame implements Runner {
 
     protected int length = -1;
     protected int specialCharCount = -1;
@@ -542,8 +542,7 @@ class UI extends JFrame implements Runner {
     @Override
     public void findNamePassCombos(String passedName) {
 		// TODO: wait on boolean JButton before trying to parse entry
-        try {
-            Storage store = new Storage(logger);
+        try (Storage store = new Storage(logger)) {
             String search = searchForPass();
             ArrayList<String> acceptedStrings = store.checkStoredDataForName(search);
             if (!acceptedStrings.isEmpty()) {
@@ -558,7 +557,6 @@ class UI extends JFrame implements Runner {
                     findNamePassCombos(null);
                 }
             }
-            store.closeConnections();
         }
         catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Error instantiating Storage object.");
@@ -666,15 +664,13 @@ class UI extends JFrame implements Runner {
 	}
     @Override
     public void storeInformation(String[] info) {
-        try {
-            Storage store = new Storage(logger);
+        try (Storage store = new Storage(logger)) {
             String[] transferable = new String[2];
             String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
             String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
             transferable[0] = encodedName;
             transferable[1] = encodedPwd;
             store.storeData(transferable);
-            store.closeConnections();
         }
         catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Error instantiating Storage object.");
@@ -690,11 +686,9 @@ class UI extends JFrame implements Runner {
 	}
     @Override
     public void extractInfoFromList() {
-        try {
-            Storage store = new Storage(logger);
+        try (Storage store = new Storage(logger)) {
             String[] combos = store.getUserPassCombosForUI();
             displayInfo(combos);
-            store.closeConnections();
         }
         catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Error instantiating Storage object.");

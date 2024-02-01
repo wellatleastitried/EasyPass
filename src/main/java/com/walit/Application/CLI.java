@@ -18,7 +18,7 @@ import java.util.logging.XMLFormatter;
  *
  * @author Jackson Swindell
  */
-public class CLI implements Runner {
+public non-sealed class CLI implements Runner {
 
 	public int lengthOfPassword = -1;
 	public int specialChars = -1;
@@ -137,7 +137,7 @@ public class CLI implements Runner {
 	/**
 	 * Prints logo at startup.
 	 */
-	private void printLogo() {
+	protected void printLogo() {
 		System.out.println("""			
 				 ______     __     __________    __________    __     _______   _______
 				| _____|   /  \\   | ______\\  \\  /  /|   _  |  /  \\   | ______| | ______|
@@ -151,14 +151,14 @@ public class CLI implements Runner {
 	/**
 	 * Line separator during program runtime.
 	 */
-	private void dashLine() {
+	protected void dashLine() {
 		System.out.println("\n--------------------------------------------------------------------------\n");
 	}
 
 	/**
 	 * Line separator during program runtime.
 	 */
-	private void poundLine() {
+	protected void poundLine() {
 		System.out.println("\n##########################################################################\n");
 	}
 
@@ -211,8 +211,8 @@ public class CLI implements Runner {
 		// TODO: FIX THIS METHOD
 		System.out.println("You chose to change an existing password.");
 		String name = getPassIdentifierForChangeOrRemove(0);
-		try {
-			Storage store = new Storage(logger);
+		try (Storage store = new Storage(logger)){
+
 			List<String> strings = store.findNameToAlter();
 			List<String> acceptedStrings = new ArrayList<>();
 			String[] splitStrings;
@@ -247,7 +247,6 @@ public class CLI implements Runner {
 				System.out.println("\nName unable to be found, enter a valid name.\n");
 				changeData();
 			}
-			store.closeConnections();
 		}
 		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
@@ -260,8 +259,7 @@ public class CLI implements Runner {
 	public void removeData() {
 		System.out.println("You chose to remove an existing password.");
 		String name = getPassIdentifierForChangeOrRemove(1);
-		try {
-			Storage store = new Storage(logger);
+		try (Storage store = new Storage(logger)) {
 			List<String> strings = store.findNameToAlter();
 			List<String> acceptedStrings = new ArrayList<>();
 			String[] splitStrings;
@@ -295,7 +293,6 @@ public class CLI implements Runner {
 				System.out.println("\nName unable to be found, enter a valid name.\n");
 				removeData();
 			}
-			store.closeConnections();
 		}
 		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
@@ -471,10 +468,8 @@ public class CLI implements Runner {
 	@Override
 	public void storeInformation(String[] info) {
 		info[0] = info[0].toLowerCase();
-		try {
-			Storage store = new Storage(logger);
+		try (Storage store = new Storage(logger)) {
 			store.storeData(info);
-			store.closeConnections();
 		}
 		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
@@ -486,10 +481,8 @@ public class CLI implements Runner {
 	 */
 	@Override
 	public void extractInfoFromList() {
-		try {
-			Storage store = new Storage(logger);
+		try (Storage store = new Storage(logger)) {
 			store.displayUserPassCombos();
-			store.closeConnections();
 		}
 		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");
@@ -603,8 +596,7 @@ public class CLI implements Runner {
 	 */
 	@Override
 	public void findNamePassCombos(String passedName) {
-		try {
-			Storage store = new Storage(logger);
+		try (Storage store = new Storage(logger)) {
 			System.out.println("Enter the name for the password you are looking for:");
 			String name;
 			if (passedName != null) {
@@ -635,7 +627,6 @@ public class CLI implements Runner {
 					findNamePassCombos(null);
 				}
 			}
-			store.closeConnections();
 		}
 		catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "Error instantiating Storage object.");

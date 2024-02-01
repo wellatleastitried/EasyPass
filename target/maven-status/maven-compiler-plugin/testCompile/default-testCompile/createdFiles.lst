@@ -1,3 +1,5 @@
-com\walit\Demo\VersionTest.class
-com\walit\Demo\XMLTest.class
-com\walit\Demo\PasswordGenerationTest.class
+com\walit\Application\QuickGenerateTest.class
+com\walit\Tools\VersionTest.class
+com\walit\Tools\XMLTest.class
+com\walit\Tools\PasswordGenerationTest.class
+com\walit\Application\ParamResetTest.class
