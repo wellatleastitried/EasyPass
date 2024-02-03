@@ -9,7 +9,7 @@ public class Main {
 		if (argCount == 0) {
 			System.out.println("\nUI is still in development, use '--help' to view available commands!\n");
 			System.exit(0);
-
+			// Uncomment when UI.java is finished
 			consoleInstance.callInterface();
 		}
 		String argument = args[0];

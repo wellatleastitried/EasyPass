@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- * Storage serves as a helper class to CLI and UI by handling the storage and calling from specific files
+ * Storage serves as a helper class to CLI and UI by handling the storage and calling from the database
  * used by the program.
  *
  * @author Jackson Swindell
@@ -22,7 +22,7 @@ public class Storage implements AutoCloseable {
 	private Connection connection = null;
 
 	/**
-	 * Sets the logger for program the duration of the program's runtime and set up the database connection.
+	 * Sets the logger for program the duration of the program's runtime and sets up the database connection.
 	 */
 	public Storage(Logger logger) throws ClassNotFoundException {
 		final String dbPath = "resources\\utilities\\data\\userData.db";
@@ -59,7 +59,7 @@ public class Storage implements AutoCloseable {
 		}
 	}
 	/**
-	 * Stores the name and password for the user.
+	 * Inserts the username and password into the database.
 	 * @param info User information to be stored.
 	 */
 	public void storeData(String[] info) {
@@ -139,7 +139,7 @@ public class Storage implements AutoCloseable {
 	}
 	/**
 	 * Searches the database for all contents.
-	 * @return Returns the contents of the database for the Manager to search through for a specific name.
+	 * @return Returns the contents of the database for CLI to search through for a specific name.
 	 */
 	public List<String> findNameToAlter() {
 		List<String> comboList = new ArrayList<>();
