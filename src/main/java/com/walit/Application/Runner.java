@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-sealed interface Runner permits CLI, UI {
+sealed public interface Runner permits CLI, UI {
 	String logFilePath = "resources\\utilities\\log\\PassMan.log";
     void shutdown();
     boolean getChangeOrRemoveDecision();

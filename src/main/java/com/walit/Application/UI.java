@@ -1,5 +1,6 @@
 package com.walit.Application;
 
+import com.walit.Interface.GeneratorPanel;
 import com.walit.Tools.Generator;
 import com.walit.Tools.Storage;
 
@@ -25,7 +26,7 @@ import javax.imageio.ImageIO;
 
 import javax.swing.*;
 
-non-sealed class UI extends JFrame implements Runner {
+public non-sealed class UI extends JFrame implements Runner {
 
     protected int length = -1;
     protected int specialCharCount = -1;
@@ -43,7 +44,7 @@ non-sealed class UI extends JFrame implements Runner {
     volatile boolean submitButtonPressed = false;
     Dimension dim = new Dimension(750, 750);
     public boolean[] checker = new boolean[7];
-    protected UI(Logger logger) {
+    public UI(Logger logger) {
         this.logger = logger;
 		Arrays.fill(checker, false);
 
@@ -294,72 +295,71 @@ non-sealed class UI extends JFrame implements Runner {
             how to store or discard it.
         Back button in the very top left that routes back to the main menu
          */
-        JPanel panel = new JPanel();
+        JPanel panel = new GeneratorPanel().getPanel();
 
-        JPanel fieldPanel = new JPanel(); // PANEL
-        fieldPanel.setPreferredSize(new Dimension(750, 400));
-        fieldPanel.setLayout(new GridLayout(4, 2));
-        //        JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
-        displayPass = new JTextField("Enter the password constraints below");
-        displayPass.setEditable(false);
-        JLabel lengthLabel = new JLabel("Length: ");
-        lengthField = new JTextField();
-        JLabel capLabel = new JLabel("Capitals: ");
-        capField = new JTextField();
-        JLabel specLabel = new JLabel("Special chars: ");
-        specField = new JTextField();
-        JLabel numLabel = new JLabel("Numbers: ");
-        numField = new JTextField();
-        fieldPanel.add(lengthLabel);
-        fieldPanel.add(lengthField);
-        fieldPanel.add(capLabel);
-        fieldPanel.add(capField);
-        fieldPanel.add(specLabel);
-        fieldPanel.add(specField);
-        fieldPanel.add(numLabel);
-        fieldPanel.add(numField);
-        fieldPanel.setVisible(true);
-        JTextField resultingPass = new JTextField();
-        resultingPass.setEditable(false);
-        fieldPanel.add(resultingPass);
-
-        JPanel buttonPanel = new JPanel(); // PANEL
-        buttonPanel.setPreferredSize(new Dimension(750, 200));
-        buttonPanel.setLayout(new GridLayout(1, 2));
-
-        JButton passBackButton = new JButton("Back");
-        passBackButton.addActionListener(e -> backButtonPressed = true);
-        buttonPanel.add(passBackButton);
-
-        JButton passSubmitButton = new JButton("Submit");
-        passSubmitButton.addActionListener(e -> submitButtonPressed = true);
-        buttonPanel.add(passSubmitButton);
-        buttonPanel.setVisible(true);
-
-        JPanel textPanel = new JPanel(); // PANEL
-        textPanel.setPreferredSize(new Dimension(750, 150));
-        textPanel.setLayout(new BorderLayout());
-        JLabel header = new JLabel("Enter password parameters below.");
-        textPanel.add(header, BorderLayout.CENTER);
-        textPanel.setVisible(true);
-
-        panel.setPreferredSize(dim);
-        panel.setLayout(new GridBagLayout());
-        panel.setFocusable(true);
-        panel.requestFocusInWindow();
-        panel.setBackground(Color.LIGHT_GRAY);
-
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 150;
-        panel.add(backButton, c);
-        c.ipady = 400;
-
-        panel.add(fieldPanel, c);
-        c.ipady = 200;
-
-        panel.add(submitButton, c);
-
+//        JPanel fieldPanel = new JPanel(); // PANEL
+//        fieldPanel.setPreferredSize(new Dimension(750, 400));
+//        fieldPanel.setLayout(new GridLayout(4, 2));
+//        //        JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
+//        displayPass = new JTextField("Enter the password constraints below");
+//        displayPass.setEditable(false);
+//        JLabel lengthLabel = new JLabel("Length: ");
+//        lengthField = new JTextField();
+//        JLabel capLabel = new JLabel("Capitals: ");
+//        capField = new JTextField();
+//        JLabel specLabel = new JLabel("Special chars: ");
+//        specField = new JTextField();
+//        JLabel numLabel = new JLabel("Numbers: ");
+//        numField = new JTextField();
+//        fieldPanel.add(lengthLabel);
+//        fieldPanel.add(lengthField);
+//        fieldPanel.add(capLabel);
+//        fieldPanel.add(capField);
+//        fieldPanel.add(specLabel);
+//        fieldPanel.add(specField);
+//        fieldPanel.add(numLabel);
+//        fieldPanel.add(numField);
+//        fieldPanel.setVisible(true);
+//        JTextField resultingPass = new JTextField();
+//        resultingPass.setEditable(false);
+//        fieldPanel.add(resultingPass);
+//
+//        JPanel buttonPanel = new JPanel(); // PANEL
+//        buttonPanel.setPreferredSize(new Dimension(750, 200));
+//        buttonPanel.setLayout(new GridLayout(1, 2));
+//
+//        JButton passBackButton = new JButton("Back");
+//        passBackButton.addActionListener(e -> backButtonPressed = true);
+//        buttonPanel.add(passBackButton);
+//
+//        JButton passSubmitButton = new JButton("Submit");
+//        passSubmitButton.addActionListener(e -> submitButtonPressed = true);
+//        buttonPanel.add(passSubmitButton);
+//        buttonPanel.setVisible(true);
+//
+//        JPanel textPanel = new JPanel(); // PANEL
+//        textPanel.setPreferredSize(new Dimension(750, 150));
+//        textPanel.setLayout(new BorderLayout());
+//        JLabel header = new JLabel("Enter password parameters below.");
+//        textPanel.add(header, BorderLayout.CENTER);
+//        textPanel.setVisible(true);
+//
+//        panel.setPreferredSize(dim);
+//        panel.setLayout(new GridBagLayout());
+//        panel.setFocusable(true);
+//        panel.requestFocusInWindow();
+//        panel.setBackground(Color.LIGHT_GRAY);
+//
+//        GridBagConstraints c = new GridBagConstraints();
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.ipady = 150;
+//        panel.add(backButton, c);
+//        c.ipady = 400;
+//
+//        panel.add(fieldPanel, c);
+//        c.ipady = 200;
+//
+//        panel.add(submitButton, c);
         panel.setVisible(true);
         return panel;
     }
