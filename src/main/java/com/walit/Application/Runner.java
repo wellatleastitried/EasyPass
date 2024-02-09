@@ -84,7 +84,7 @@ sealed public interface Runner permits CLI, UI {
         }
         return cipherText;
     }
-    void strengthTest();
+    void strengthTest(boolean isConsole, String pass);
     void findNamePassCombos(String passedName);
     void run();
     void resetParams();

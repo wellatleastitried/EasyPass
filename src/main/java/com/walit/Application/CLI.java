@@ -103,7 +103,7 @@ public non-sealed class CLI implements Runner {
 					x = displayMenu();
 				}
 				case 4 -> {
-					strengthTest();
+					strengthTest(true, null);
 					dashLine();
 					x = displayMenu();
 				}
@@ -567,11 +567,15 @@ public non-sealed class CLI implements Runner {
 	 * Allows the user to test how strong their password is.
 	 */
 	@Override
-	public void strengthTest() {
+	public void strengthTest(boolean isConsole, String pass) {
 		Generator gen = new Generator(logger);
-		//change this block
-		System.out.print("Enter the password to test here: ");
-		String password = s.nextLine().trim();
+		String password;
+		if (isConsole) {
+			System.out.print("Enter the password to test here: ");
+			password = s.nextLine().trim();
+		} else {
+			password = pass;
+		}
 		System.out.println();
 		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {

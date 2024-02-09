@@ -5,20 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/GeneratorPanel.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/GeneratorPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/utilities/data/userData.db" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/data/userData.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Driver/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Driver/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/Runner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/Runner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Driver/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Driver/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Storage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Tools/Storage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0-shaded.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/easypass-0.1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-easypass-0.1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Application.ParamResetTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Application.ParamResetTest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Application.QuickGenerateTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.walit.Application.QuickGenerateTest.xml" afterDir="false" />
@@ -114,6 +116,17 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Small tweaks to main and test java files and a few separate files." />

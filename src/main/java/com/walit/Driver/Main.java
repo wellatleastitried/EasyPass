@@ -2,25 +2,27 @@ package com.walit.Driver;
 
 import com.walit.Application.CLI;
 
+import static java.lang.System.exit;
+
 public class Main {
     public static void main(String[] args) {
 		CLI consoleInstance = new CLI();
 		int argCount = args.length;
 		if (argCount == 0) {
 			System.out.println("\nUI is still in development, use '--help' to view available commands!\n");
-			System.exit(0);
+			exit(0);
 			// Delete two lines above when UI.java is finished
 			consoleInstance.callInterface();
 		}
 		String argument = args[0];
-		if (argCount > 1 && !(argument.equals("--add") || argument.equals("--get"))) {
+		if (argCount > 1 && !(argument.equals("--add") || argument.equals("--get") || argument.equals("--test"))) {
 			System.out.println("\nOnly one argument allowed!\n");
-			System.exit(0);
+			exit(0);
 		}
 		else {
 			if (argCount > 2) {
 				System.out.println("\nOnly two arguments allowed when using the '" + argument + "' command.\n");
-				System.exit(0);
+				exit(0);
 			}
 			switch (args[0]) {
 				case "--console" -> consoleInstance.run();
@@ -44,6 +46,9 @@ public class Main {
 							
 							--get        -> Displays password for given username
 								Usage: --get username
+								
+							--test       -> Tests the strength of the given password
+								Usage: --test password
 						
 						""");
 				case "--add" -> {
@@ -110,10 +115,24 @@ public class Main {
 							""");
 					}
 				}
+				case "--test" -> {
+					if (argCount == 2) {
+						consoleInstance.strengthTest(false, args[1]);
+					} else {
+						System.out.println("""
+							
+							There were an incorrect number of arguments in your command.
+							Usage for --test:
+							
+							easypass --test password
+							
+							""");
+					}
+				}
 				default ->
 						System.out.println("\nAn illegal argument was input, use '--help' to display the help menu!\n");
 			}
 		}
-		System.exit(0);
+		exit(0);
 	}
 }

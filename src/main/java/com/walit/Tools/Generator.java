@@ -267,7 +267,7 @@ public class Generator {
 			if (wordLists != null) {
 				Thread[] fileThreads = new Thread[wordLists.length];
 				for (int i = 0; i < fileThreads.length; i++) {
-					int valForThread = i;
+					final int valForThread = i;
 					fileThreads[i] = new Thread(() -> {
 						File file = wordLists[valForThread];
 						if (file.getName().endsWith(".txt")) {

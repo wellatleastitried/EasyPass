@@ -414,7 +414,7 @@ public non-sealed class UI extends JFrame implements Runner {
 					x = getOption();
 				}
 				case 4 -> {
-					strengthTest();
+					strengthTest(true, null);
 					x = getOption();
 				}
 				case 5 -> {
@@ -677,7 +677,7 @@ public non-sealed class UI extends JFrame implements Runner {
         }
 	}
     @Override
-    public void strengthTest() {
+    public void strengthTest(boolean isConsole, String pass) {
 		Generator gen = new Generator(logger);
         // TODO: Prompt user for password to test
 		String password = toStrengthTest.getText();
