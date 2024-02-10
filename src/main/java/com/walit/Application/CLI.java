@@ -41,7 +41,7 @@ public non-sealed class CLI implements Runner {
 			return version;
 		}
 		catch (Exception ignored) {
-			version = "Error parsing version info.";
+			version = "[!] Error parsing version info.";
 			System.err.println(version);
 		}
 		return version;
@@ -53,7 +53,7 @@ public non-sealed class CLI implements Runner {
 		String os = System.getProperty("os.name");
         os = os.toLowerCase();
         if (!(os.contains("win"))) {
-        	System.err.println("Not a windows machine.");
+        	System.err.println("[!] Not a windows machine.");
         	System.exit(1);
         }
 		initializeMissingFilesForProgram();
@@ -74,7 +74,7 @@ public non-sealed class CLI implements Runner {
 			logger.log(Level.INFO, "Successful startup.");
 		}
 		catch (IOException e) {
-			System.out.println("Error in startup.\n\nPlease restart program.");
+			System.out.println("[!] Error in startup.\n\n[!] Please restart program.");
 		}
 		poundLine();
 		printLogo();
@@ -109,10 +109,10 @@ public non-sealed class CLI implements Runner {
 				}
 				case 5 -> {
 					System.out.println("""
-						Would you like to:
-						 - Change an existing password
-						 - Remove an existing password
-						Enter "c" to change and "r" to remove.
+						[*] Would you like to:
+						[*]  - Change an existing password
+						[*]  - Remove an existing password
+						[*] Enter "c" to change and "r" to remove.
 						""");
 					boolean choice = getChangeOrRemoveDecision();
 					if (choice) changeData();
@@ -196,7 +196,7 @@ public non-sealed class CLI implements Runner {
 				choiceMade = true;
 			}
 			else {
-				System.out.println("\nThat was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
+				System.out.println("\n[!] That was not a valid option, enter \"c\" or \"change\" for change OR \"r\" or \"remove\" for remove.");
 			}
 		}
 		return isChange;
@@ -209,7 +209,7 @@ public non-sealed class CLI implements Runner {
 	@Override
 	public void changeData() {
 		// TODO: FIX THIS METHOD
-		System.out.println("You chose to change an existing password.");
+		System.out.println("[*] You chose to change an existing password.");
 		String name = getPassIdentifierForChangeOrRemove(0);
 		try (Storage store = new Storage(logger)){
 
@@ -225,26 +225,26 @@ public non-sealed class CLI implements Runner {
 			}
 			if (acceptedStrings.size() > 1) {
 				int index = 1;
-				System.out.println("\nThere were multiple passwords with the same name, which would you like to change?");
+				System.out.println("\n[*] There were multiple passwords with the same name, which would you like to change?");
 				for (String x : acceptedStrings) {
 					splitStrings = x.split("~~SEPARATOR~~");
 					System.out.println(index + ") " + splitStrings[0] + ": " + splitStrings[1]);
 					index++;
 				}
-				System.out.print("\nEnter the number that corresponds to the password you would like to change from the list: ");
+				System.out.print("\n[*] Enter the number that corresponds to the password you would like to change from the list: ");
 				int chosenIndex = getValidNumber(1, acceptedStrings.size());
 				splitStrings = acceptedStrings.get(chosenIndex - 1).split("~~SEPARATOR~~");
-				System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				System.out.println("[*] You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 				store.changeRow(splitStrings[0], splitStrings[1], splitStrings[0], getPasswordFromUser()[1]);
 			}
 			else if (acceptedStrings.size() == 1) {
 				splitStrings = acceptedStrings.get(0).split("~~SEPARATOR~~");
-				System.out.println("You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				System.out.println("[*] You chose to change the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 				System.out.println(splitStrings[0] + " " + splitStrings[1]);
 				store.changeRow(splitStrings[0], splitStrings[1], splitStrings[0], getPasswordFromUser()[1]);
 			}
 			else {
-				System.out.println("\nName unable to be found, enter a valid name.\n");
+				System.out.println("\n[!] Name unable to be found, enter a valid name.\n");
 				changeData();
 			}
 		}
@@ -257,7 +257,7 @@ public non-sealed class CLI implements Runner {
 	 */
 	@Override
 	public void removeData() {
-		System.out.println("You chose to remove an existing password.");
+		System.out.println("[*] You chose to remove an existing password.");
 		String name = getPassIdentifierForChangeOrRemove(1);
 		try (Storage store = new Storage(logger)) {
 			List<String> strings = store.findNameToAlter();
@@ -272,25 +272,25 @@ public non-sealed class CLI implements Runner {
 			}
 			if (acceptedStrings.size() > 1) {
 				int index = 1;
-				System.out.println("\nThere were multiple passwords with the same name, which would you like to remove?");
+				System.out.println("\n[*] There were multiple passwords with the same name, which would you like to remove?");
 				for (String x : acceptedStrings) {
 					splitStrings = x.split("~~SEPARATOR~~");
 					System.out.println(index + ") " + splitStrings[0] + ": " + splitStrings[1]);
 					index++;
 				}
-				System.out.print("\nEnter the number that corresponds to the password you would like to remove from the list: ");
+				System.out.print("\n[*] Enter the number that corresponds to the password you would like to remove from the list: ");
 				int chosenIndex = getValidNumber(1, acceptedStrings.size());
 				splitStrings = acceptedStrings.get(chosenIndex - 1).split("~~SEPARATOR~~");
-				System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				System.out.println("[*] You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 				store.removeRow(splitStrings[0], splitStrings[1]);
 			}
 			else if (acceptedStrings.size() == 1) {
 				splitStrings = acceptedStrings.get(0).split("~~SEPARATOR~~");
-				System.out.println("You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
+				System.out.println("[*] You chose to remove the password: " + splitStrings[1] + " for " + splitStrings[0] + ".");
 				store.removeRow(splitStrings[0], splitStrings[1]);
 			}
 			else {
-				System.out.println("\nName unable to be found, enter a valid name.\n");
+				System.out.println("\n[!] Name unable to be found, enter a valid name.\n");
 				removeData();
 			}
 		}
@@ -312,7 +312,7 @@ public non-sealed class CLI implements Runner {
 			}
 		}
 		catch (Exception e) {
-			System.out.println("The number that was entered was invalid. Enter a number within " + start + " and " + end + ".");
+			System.out.println("[!] The number that was entered was invalid. Enter a number within " + start + " and " + end + ".");
 			index = getValidNumber(start, end);
 		}
 		return index;
@@ -326,13 +326,13 @@ public non-sealed class CLI implements Runner {
 	@Override
 	public String getPassIdentifierForChangeOrRemove(int choice) {
 		if (choice == 0) {
-			System.out.println("Enter the name for the password you would like to change.");
+			System.out.println("[*] Enter the name for the password you would like to change.");
 		}
 		else if (choice == 1) {
-			System.out.println("Enter the name for the password you would like to remove.");
+			System.out.println("[*] Enter the name for the password you would like to remove.");
 		}
 		else {
-			logger.log(Level.INFO, "There has been an error that I didn't think was possible.");
+			logger.log(Level.INFO, "[!] There has been an error that I didn't think was possible.");
 		}
 		return s.nextLine().trim().toLowerCase();
 	}
@@ -343,7 +343,7 @@ public non-sealed class CLI implements Runner {
 	 * will be initialized separately.
 	 */
 	public String[] getPasswordFromUser() {
-		System.out.println("Enter the password you would like to store: ");
+		System.out.println("[*] Enter the password you would like to store: ");
 		String[] userPass = new String[2];
 		userPass[1] = s.nextLine().trim();
 		return userPass;
@@ -356,13 +356,13 @@ public non-sealed class CLI implements Runner {
 	 */
 	@Override
 	public void getPassIdentifierFromUser(String[] arr) {
-		System.out.println("\nWhat is this password for? If you don't want it to be saved, type STOP");
+		System.out.println("\n[*] What is this password for? If you don't want it to be saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
 		if (!arr[0].equals("stop")) {
 			storeInformation(arr);
 		}
 		else {
-			System.out.println("\nReturning to menu...\n");
+			System.out.println("\n[*] Returning to menu...\n");
 		}
 	}
 
@@ -409,15 +409,15 @@ public non-sealed class CLI implements Runner {
 	 */
 	private void startupText() {
 		System.out.print("""
-			CHOOSE AN OPTION!
-			1) Generate a new password
-			2) Find password by search
-			3) View all passwords
-			4) Check password strength
-			5) Change/remove password
-			6) Store existing password
-			7) Exit program
-			Choose an option:""");
+			[*] CHOOSE AN OPTION!
+			[*] 1) Generate a new password
+			[*] 2) Find password by search
+			[*] 3) View all passwords
+			[*] 4) Check password strength
+			[*] 5) Change/remove password
+			[*] 6) Store existing password
+			[*] 7) Exit program
+			[*] Choose an option:""");
 		System.out.print(" ");
 	}
 
@@ -432,7 +432,7 @@ public non-sealed class CLI implements Runner {
 			y = getValidNumber(1, 7);
 			while (y < 1 || y > 7) {
 				logger.log(Level.WARNING, "You have input an illegal integer for the prompt.");
-				System.out.println("Pick an option numbered 1 through 7.");
+				System.out.println("[*] Pick an option numbered 1 through 7.");
 				y = getValidNumber(1, 7);
 			}
 		}
@@ -452,7 +452,7 @@ public non-sealed class CLI implements Runner {
 		Generator gen = new Generator(logger);
 		String[] params = new String[2];
 		params[1] = gen.generatePassword(lengthOfPassword, specialChars, capitals, numbers);
-		System.out.println(params[1]);
+		System.out.println("\n[*] Your password is: " + params[1]);
 		return params;
 	}
 
@@ -495,27 +495,27 @@ public non-sealed class CLI implements Runner {
 	public void getParams() {
 		resetParams();
 		while (lengthOfPassword == -1 || specialChars == -1 || capitals == -1 || numbers == -1) {
-			System.out.println("Enter desired password length: ");
+			System.out.print("\n[*] Enter desired password length: ");
 			try {
 				lengthOfPassword = getValidNumber(0, 1000);
 				if (lengthOfPassword < 0 || lengthOfPassword > 1000) {
 					logger.log(Level.WARNING, "You have input an invalid number.");
-					System.out.println("Negative numbers and lengths above 1000 cannot be used in the input.");
+					System.out.print("[!] Negative numbers and lengths above 1000 cannot be used in the input.");
 					break;
 				}
 			}
 			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				lengthOfPassword = -1;
-				System.out.println("You must enter a number here.");
+				System.out.println("[!] You must enter a number here.");
 				break;
 			}
-			System.out.println("Enter num of special chars:");
+			System.out.print("\n[*] Enter the number of special characters: ");
 			try {
 				specialChars = getValidNumber(0, lengthOfPassword);
 				if (specialChars < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
-					System.out.println("Negative numbers cannot be used in the input.");
+					System.out.println("[!] Negative numbers cannot be used in the input.");
 					specialChars = -1;
 					break;
 				}
@@ -523,31 +523,31 @@ public non-sealed class CLI implements Runner {
 			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				specialChars = -1;
-				System.out.println("You must enter a number.");
+				System.out.println("[!] You must enter a number.");
 				break;
 			}
-			System.out.println("Enter num of capitals");
+			System.out.print("\n[*] Enter the number of capitals: ");
 			try {
 				capitals = getValidNumber(0, lengthOfPassword);
 				if (capitals < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
 					capitals = -1;
-					System.out.println("Negative numbers cannot be used in the input.");
+					System.out.println("[!] Negative numbers cannot be used in the input.");
 					capitals = -1;
 					break;
 				}
 			}
 			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
-				System.out.println("You must enter a number.");
+				System.out.println("[!] You must enter a number.");
 				break;
 			}
-			System.out.println("Enter num of numbers:");
+			System.out.print("\n[*] Enter the number of digits: ");
 			try {
 				numbers = getValidNumber(0, lengthOfPassword);
 				if (numbers < 0) {
 					logger.log(Level.WARNING, "You have input a negative number.");
-					System.out.println("Negative numbers cannot be used in the input.");
+					System.out.println("[!] Negative numbers cannot be used in the input.");
 					numbers = -1;
 					break;
 				}
@@ -555,7 +555,7 @@ public non-sealed class CLI implements Runner {
 			catch (NumberFormatException e) {
 				logger.log(Level.WARNING, "You have input an illegal character.");
 				numbers = -1;
-				System.out.println("You must enter a number.");
+				System.out.println("[!] You must enter a number.");
 				break;
 			}
 		}
@@ -571,7 +571,7 @@ public non-sealed class CLI implements Runner {
 		Generator gen = new Generator(logger);
 		String password;
 		if (isConsole) {
-			System.out.print("Enter the password to test here: ");
+			System.out.print("[*] Enter the password to test here: ");
 			password = s.nextLine().trim();
 		} else {
 			password = pass;
@@ -579,19 +579,19 @@ public non-sealed class CLI implements Runner {
 		System.out.println();
 		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {
-			System.out.println("Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
+			System.out.println("[*] Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
 		}
 		else if (score >= 1 && score <= 5) {
-			System.out.println("Your password is somewhat weak -> " + score + "/" + 10 + "\n{[][][]..............}");
+			System.out.println("[*] Your password is somewhat weak -> " + score + "/" + 10 + "\n{[][][]..............}");
 		}
 		else if (score > 5 && score <= 8) {
-			System.out.println("Your password is somewhat strong -> " + score + "/" + 10 + "\n{[][][][][]..........}");
+			System.out.println("[*] Your password is somewhat strong -> " + score + "/" + 10 + "\n{[][][][][]..........}");
 		}
 		else if (score == 9) {
-			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][]....}");
+			System.out.println("[*] Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][]....}");
 		}
 		else {
-			System.out.println("Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
+			System.out.println("[*] Your password is very strong -> " + score + "/" + 10 + "\n{[][][][][][][][][][]}");
 		}
 	}
 
@@ -601,7 +601,7 @@ public non-sealed class CLI implements Runner {
 	@Override
 	public void findNamePassCombos(String passedName) {
 		try (Storage store = new Storage(logger)) {
-			System.out.println("Enter the name for the password you are looking for:");
+			System.out.println("[*] Enter the name for the password you are looking for:");
 			String name;
 			if (passedName != null) {
 				name = passedName;
@@ -613,19 +613,19 @@ public non-sealed class CLI implements Runner {
 			ArrayList<String> acceptedStrings = store.checkStoredDataForName(name);
 			if (acceptedStrings.size() == 1) {
 				String[] values = acceptedStrings.get(0).split("~~SEPARATOR~~", 2);
-				System.out.println("The password for " + name + " is: " + values[1]);
+				System.out.println("[*] The password for " + name + " is: " + values[1]);
 			}
 			else if (acceptedStrings.size() > 1) {
-				System.out.println("Here's a list of the passwords that match the name you entered:");
+				System.out.println("[*] Here's a list of the passwords that match the name you entered:");
 				for (String matchingPasswords : acceptedStrings) {
 					System.out.println(matchingPasswords.replace("~~SEPARATOR~~", ": "));
 				}
 			}
 			else {
 				System.out.println("""
-						No passwords matched your search.
-						Would you like to try a different search?
-						Enter "y" for yes, anything else for "no\"""");
+						[*] No passwords matched your search.
+						[*] Would you like to try a different search?
+						[*] Enter "y" for yes, anything else for "no\"""");
 				String retryString = s.nextLine();
 				if (retryString.toLowerCase().trim().equals("y")) {
 					findNamePassCombos(null);

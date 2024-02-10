@@ -41,15 +41,15 @@ public class Generator {
 	 * @return Returns the new password for the user.
 	 */
 	public String generatePassword(int length, int specialChars, int capitals, int numbers) {
-		while (!(numberCount(numbers))) {
+		while (!(validateElementCount(numbers, 2))) {
 			sB.append(addNumber());
 			pwd = sB.toString();
 		}
-		while (!(uppercaseCharCount(capitals))) {
+		while (!(validateElementCount(capitals, 0))) {
 			sB.append(addCapital());
 			pwd = sB.toString();
 		}
-		while (!(specialCharCount(specialChars))) {
+		while (!(validateElementCount(specialChars, 1))) {
 			sB.append(addSpecialChar());
 			pwd = sB.toString();
 		}
@@ -139,109 +139,47 @@ public class Generator {
 	private char addSpecialChar() { return specialCharacters[new SecureRandom().nextInt(specialCharacters.length)]; }
 
 	/**
-	 * Checks the number of capital letters to make sure it is not more or less than the intended amount.
-	 * @param capitals The number of capital letters the password SHOULD contain.
-	 * @return Returns 'true' if the number of capital letters is equal to 'capitals' and 'false' otherwise.
+	 * Checks the number of capital letters, special characters, or digits to make sure it is not more or less than the intended amount.
+	 * @param elementCount The number of elements the password SHOULD contain.
+	 * @return Returns 'true' if the number of elements is equal to the count and 'false' otherwise.
 	 */
-	private boolean uppercaseCharCount(int capitals) {
+	private boolean validateElementCount(int elementCount, int check) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
-		Set<Character> charSet = new HashSet<>();
-		for (char c : capLetters) {
-			charSet.add(c);
+		Set<Character> setOfElements = new HashSet<>();
+		switch (check) {
+			case 0 -> {
+				for (char c : capLetters) {
+					setOfElements.add(c);
+				}
+			}
+			case 1 -> {
+				for (char c : specialCharacters) {
+					setOfElements.add(c);
+				}
+			}
+			case 2 -> {
+				for (char c : numbers) {
+					setOfElements.add(c);
+				}
+			}
 		}
 		int counter = 0;
 		for (char characterToCheck : passwordStringToCharArray) {
-			if (charSet.contains(characterToCheck)) {
+			if (setOfElements.contains(characterToCheck)) {
 				counter += 1;
 			}
 		}
-		if (counter > capitals || counter == capitals) {
-			int numOfCapitalsToRemove = counter - capitals;
+		if (counter > elementCount || counter == elementCount) {
+			int numOfCapitalsToRemove = counter - elementCount;
 			if (numOfCapitalsToRemove > 0) {
 				logger.log(Level.WARNING, "Function added too many capital letters to password, had to manually remove.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfCapitalsToRemove == 0) {
 						break;
 					}
-					if (charSet.contains(passwordStringToCharArray[i])) {
+					if (setOfElements.contains(passwordStringToCharArray[i])) {
 						passwordStringToCharArray[i] = '$';
 						numOfCapitalsToRemove -= 1;
-					}
-				}
-			}
-			pwd = String.valueOf(passwordStringToCharArray);
-			pwd = pwd.replace("$", "");
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Checks the number of special characters to make sure the correct amount are in the password.
-	 * @param specialChars The number of special characters the password SHOULD contain.
-	 * @return Returns 'true' if the number of special characters is correct and 'false' otherwise.
-	 */
-	private boolean specialCharCount(int specialChars) {
-		char[] passwordStringToCharArray = pwd.toCharArray();
-		Set<Character> charSet = new HashSet<>();
-		for (char c : specialCharacters) {
-			charSet.add(c);
-		}
-		int counter = 0;
-		for (char characterToCheck : passwordStringToCharArray) {
-			if (charSet.contains(characterToCheck)) {
-				counter += 1;
-			}
-		}
-		if (counter > specialChars || counter == specialChars) {
-			int numOfSpecCharToRemove = counter - specialChars;
-			if (numOfSpecCharToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many special characters to pwd, had to manually remove.");
-				for (int i = 0; i < passwordStringToCharArray.length; i++) {
-					if (numOfSpecCharToRemove == 0) {
-						break;
-					}
-					if (charSet.contains(passwordStringToCharArray[i])) {
-						passwordStringToCharArray[i] = '$';
-						numOfSpecCharToRemove -= 1;
-					}
-				}
-			}
-			pwd = String.valueOf(passwordStringToCharArray);
-			pwd = pwd.replace("$", "");
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Checks the number of numbers to make sure there are the correct amount in the password.
-	 * @param numberOfNumbers The number of numbers that SHOULD be in the password.
-	 * @return Returns 'true' if the amount is correct, 'false' otherwise.
-	 */
-	private boolean numberCount(int numberOfNumbers) {
-		char[] passwordStringToCharArray = pwd.toCharArray();
-		Set<Character> charSet = new HashSet<>();
-		for (char c : numbers) {
-			charSet.add(c);
-		}
-		int counter = 0;
-		for (char characterToCheck : passwordStringToCharArray) {
-			if (charSet.contains(characterToCheck)) {
-				counter += 1;
-			}
-		}
-		if (counter > numberOfNumbers || counter == numberOfNumbers) {
-			int numOfNumbersToRemove = counter - numberOfNumbers;
-			if (numOfNumbersToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many numbers characters to pwd, had to manually remove.");
-				for (int i = 0; i < passwordStringToCharArray.length; i++) {
-					if (numOfNumbersToRemove == 0) {
-						break;
-					}
-					if (charSet.contains(passwordStringToCharArray[i])) {
-						passwordStringToCharArray[i] = '$';
-						numOfNumbersToRemove -= 1;
 					}
 				}
 			}
@@ -303,7 +241,7 @@ public class Generator {
 				}
 			}
 			System.out.println(
-					"Searching through previous password leaks took "
+					"[*] Searching through previous password leaks took "
 							+ (System.currentTimeMillis() - start)
 							+ " ms to complete."
 			);
@@ -312,11 +250,12 @@ public class Generator {
 			logger.log(Level.INFO, "No word-lists to search through.");
 		}
 		if (wordWasFound.get()) {
-			System.out.println("This password was previously found in a data breach, you may want to change it.");
+			System.out.println("[*] This password was previously found in a data breach, you may want to change it.");
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * Checks the strength of a given password by grading it by using specific criteria.
 	 * @param pass The password to test the strength of.

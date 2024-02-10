@@ -9,7 +9,7 @@ public class Main {
 		CLI consoleInstance = new CLI();
 		int argCount = args.length;
 		if (argCount == 0) {
-			System.out.println("\nUI is still in development, use '--help' to view available commands!\n");
+			System.out.println("\n[*] UI is still in development, use '--help' to view available commands!\n");
 			exit(0);
 			// Delete two lines above when UI.java is finished
 			consoleInstance.callInterface();
@@ -58,7 +58,7 @@ public class Main {
 							String[] userPass = data.split(" ");
 							if (userPass.length == 2 && !userPass[0].isEmpty() && !userPass[1].isEmpty()) {
 								consoleInstance.storeInformation(userPass);
-								System.out.println("\nUsername and password have been stored.\n");
+								System.out.println("\n[*] Username and password have been stored.\n");
 							}
 							else {
 								System.out.println("""
@@ -97,7 +97,7 @@ public class Main {
 				case "--generate" -> {
 					consoleInstance.getParams();
 					consoleInstance.checkParams();
-					System.out.println("Your password is: " + consoleInstance.quickGenerate());
+					System.out.println("[*] Your password is: " + consoleInstance.quickGenerate());
 				}
 				case "--display" -> consoleInstance.extractInfoFromList();
 				case "--get" -> {
