@@ -601,12 +601,12 @@ public non-sealed class CLI implements Runner {
 	@Override
 	public void findNamePassCombos(String passedName) {
 		try (Storage store = new Storage(logger)) {
-			System.out.println("[*] Enter the name for the password you are looking for:");
 			String name;
 			if (passedName != null) {
 				name = passedName;
 			}
 			else {
+				System.out.print("[*] Enter the name for the password you are looking for:");
 				name = s.nextLine().trim().toLowerCase();
 			}
 			System.out.println();
