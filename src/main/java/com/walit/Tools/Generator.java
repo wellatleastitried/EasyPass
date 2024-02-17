@@ -143,10 +143,10 @@ public class Generator {
 	 * @param elementCount The number of elements the password SHOULD contain.
 	 * @return Returns 'true' if the number of elements is equal to the count and 'false' otherwise.
 	 */
-	private boolean validateElementCount(int elementCount, int check) {
+	private boolean validateElementCount(int elementCount, int determineElement) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> setOfElements = new HashSet<>();
-		switch (check) {
+		switch (determineElement) {
 			case 0 -> {
 				for (char c : capLetters) {
 					setOfElements.add(c);
@@ -172,7 +172,7 @@ public class Generator {
 		if (counter > elementCount || counter == elementCount) {
 			int numOfCapitalsToRemove = counter - elementCount;
 			if (numOfCapitalsToRemove > 0) {
-				logger.log(Level.WARNING, "Function added too many capital letters to password, had to manually remove.");
+				logger.log(Level.WARNING, "Function made an error adding elements to password, had to manually remove them.");
 				for (int i = 0; i < passwordStringToCharArray.length; i++) {
 					if (numOfCapitalsToRemove == 0) {
 						break;
@@ -226,18 +226,14 @@ public class Generator {
 								logger.log(Level.INFO, "Error checking wordlist for matching password.");
 							}
 						}
+						else {
+							System.out.println("[!] Word lists must be text files!");
+						}
 					});
+					fileThreads[i].start();
 				}
 				for (Thread thread : fileThreads) {
-					thread.start();
-				}
-				for (Thread thread : fileThreads) {
-					try {
-						thread.join();
-					}
-					catch (InterruptedException iE) {
-						logger.log(Level.INFO, "Interrupted Exception in thread.");
-					}
+					thread.join();
 				}
 			}
 			System.out.println(
@@ -248,6 +244,9 @@ public class Generator {
 		}
 		catch (NullPointerException nPE) {
 			logger.log(Level.INFO, "No word-lists to search through.");
+		}
+		catch (InterruptedException iE) {
+			logger.log(Level.WARNING, "Error synchronizing threads while searching word-lists");
 		}
 		if (wordWasFound.get()) {
 			System.out.println("[*] This password was previously found in a data breach, you may want to change it.");
@@ -286,7 +285,7 @@ public class Generator {
 		if (passLen == capCount || passLen == numCount ||
 				passLen == specCount || passLen == capCount + 1 ||
 				passLen == numCount + 1 || passLen == specCount + 1 ||
-				passLen == numCount + 2 || passLen == specCount + 2) {
+				passLen == numCount + 2 || passLen == specCount + 2 || passLen == capCount + 2) {
 			return 2;
 		}
 		score = (passLen <= 5) ? (score - 2) : (passLen < 8) ? (score - 1) : (passLen <= 10) ? (score + 1) : (score + 2);
