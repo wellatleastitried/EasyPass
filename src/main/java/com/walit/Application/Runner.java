@@ -44,7 +44,7 @@ sealed public interface Runner permits CLI, UI {
 			System.err.println("Null pointer exception while initializing directories.");
 		}
 		File passMan = new File(logFilePath);
-		File inst = new File("resources\\utilities\\data\\vSTAH");
+		File inst = new File("resources\\utilities\\data\\versionData.xml");
 		File[] files = new File[2];
 		files[0] = passMan;
 		files[1] = inst;

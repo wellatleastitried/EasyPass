@@ -3,7 +3,7 @@ com\walit\Application\UI$1.class
 com\walit\Application\UI.class
 com\walit\Tools\Parsed.class
 com\walit\Application\Runner.class
-com\walit\Driver\Main.class
 com\walit\Interface\GeneratorPanel.class
 com\walit\Application\CLI.class
+com\walit\Main.class
 com\walit\Tools\Storage.class

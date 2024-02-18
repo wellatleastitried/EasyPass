@@ -34,14 +34,12 @@ public non-sealed class UI extends JFrame implements Runner {
     protected int numCount = -1;
     private final Logger logger;
 	private final String resourceFolder = "resources\\images\\";
-	JPanel startPanel, homePanel, genPanel, searchPanel, infoPanel, strengthPanel, cOrRPanel, additionPanel;
-    JTextField displayPass, lengthField, capField, specField, numField, nameGetter, toStrengthTest;
-    JButton genPass, search, displayInfo, strength, changeOrRem, addExist, exitApp, backButton, submitButton;
-    String searchPass = "~Not~yet~entered~by~user";
+	private final JPanel startPanel;
     volatile boolean keyWasTyped = false;
     volatile boolean buttonPressed = false;
     volatile boolean backButtonPressed = false;
     volatile boolean submitButtonPressed = false;
+    volatile boolean storeButtonPressed = false;
     Dimension dim = new Dimension(750, 750);
     public boolean[] checker = new boolean[7];
     public UI(Logger logger) {
@@ -60,20 +58,10 @@ public non-sealed class UI extends JFrame implements Runner {
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             System.err.println("Look and feel error.");
         }
-        setBackButton();
-        setSubmitButton();
 
 		startPanel = buildStartPanel();
 		start();
 
-    }
-	private void setBackButton() {
-        backButton = new JButton("Back");
-        backButton.addActionListener(e -> backButtonPressed = true);
-    }
-	private void setSubmitButton() {
-        submitButton = new JButton("Submit");
-        submitButton.addActionListener(e -> submitButtonPressed = true);
     }
 	public void start() {
         this.add(startPanel);
@@ -86,10 +74,9 @@ public non-sealed class UI extends JFrame implements Runner {
         this.remove(startPanel);
     }
 	public void home() {
-        homePanel = buildHomePanel();
+        JPanel homePanel = buildHomePanel();
         this.add(homePanel);
         this.pack();
-//        SwingUtilities.updateComponentTreeUI(this);
         this.setVisible(true);
         while (!buttonPressed) {
             Thread.onSpinWait();
@@ -100,22 +87,86 @@ public non-sealed class UI extends JFrame implements Runner {
         homePanel.removeAll();
     }
 	public void passwordGenerate() {
-        genPanel = buildGenPanel();
-        backButtonPressed = false;
+        GeneratorPanel gP = new GeneratorPanel();
+        JPanel genPanel = gP.getPanel();
+        JButton backButton = gP.getBackButton();
+        backButton.addActionListener(e -> backButtonPressed = true);
+        JButton submitButton = gP.getSubmitButton();
+        submitButton.addActionListener(e -> submitButtonPressed = true);
+        JButton storeButton = gP.getStorePasswordButton();
+        storeButton.addActionListener(e -> storeButtonPressed = true);
+        JLabel passwordLabel = gP.getPasswordLabel();
+        JTextField usernameField = gP.getUsernameToStoreTF();
+
+        JLabel lengthError = gP.getLengthErrorLabel();
+        JLabel capitalError = gP.getCapitalErrorLabel();
+        JLabel specialError = gP.getSpecErrorLabel();
+        JLabel digitError = gP.getDigitErrorLabel();
+
+        JTextField lengthTF = gP.getLengthTF();
+        JTextField capitalTF = gP.getCapitalTF();
+        JTextField specialTF = gP.getSpecTF();
+        JTextField digitTF = gP.getDigitTF();
+
         this.add(genPanel);
         this.pack();
         this.setVisible(true);
         while (!backButtonPressed) {
             if (submitButtonPressed) {
                 System.out.println("SUBMIT PRESSED.");
-                int[] params = getSpecs();
-                length = params[0];
-                capCount = params[1];
-                specialCharCount = params[2];
-                numCount = params[3];
-                String[] temp = getUserInformation();
-                getPassIdentifierFromUser(temp);
+                String lengthText = lengthTF.getText();
+                String capitalText = capitalTF.getText();
+                String specialText = specialTF.getText();
+                String digitText = digitTF.getText();
+                boolean lengthIsNum = isNumeric(lengthText);
+                lengthError.setVisible(!lengthIsNum);
+                boolean capitalIsNum = isNumeric(capitalText);
+                capitalError.setVisible(!capitalIsNum);
+                boolean specIsNum = isNumeric(specialText);
+                specialError.setVisible(!specIsNum);
+                boolean digitIsNum = isNumeric(digitText);
+                digitError.setVisible(!digitIsNum);
+                if (lengthIsNum && capitalIsNum && specIsNum && digitIsNum) {
+                    length = Integer.parseInt(lengthText);
+                    capCount = Integer.parseInt(capitalText);
+                    specialCharCount = Integer.parseInt(specialText);
+                    numCount = Integer.parseInt(digitText);
+                    boolean[] errorCodes = validateParams();
+                    if (errorCodes[4]) {
+                        for (int i = 0; i < errorCodes.length - 1; i++) {
+                            if (i == 0) lengthError.setVisible(errorCodes[i]);
+                            else if (i == 1) capitalError.setVisible(errorCodes[i]);
+                            else if (i == 2) specialError.setVisible(errorCodes[i]);
+                            else if (i == 3) digitError.setVisible(errorCodes[i]);
+                        }
+                    }
+                    else {
+                        lengthError.setVisible(false);
+                        capitalError.setVisible(false);
+                        specialError.setVisible(false);
+                        digitError.setVisible(false);
+                        String password = getUserInformation()[1];
+                        // TODO: Change appended label to non editable JTextField so you can copy
+                        passwordLabel.setText("Password: " + password);
+                    }
+                }
                 submitButtonPressed = false;
+            }
+            if (storeButtonPressed) {
+                if (!passwordLabel.getText().equals("Password:")) {
+                    if (!usernameField.getText().isBlank()) {
+                        System.out.println("STORE PRESSED.");
+                        //TODO: Store user pass
+
+                    }
+                    else {
+                        System.out.println("NO USERNAME TO STORE");
+                    }
+                }
+                else {
+                    System.out.println("NO PASSWORD TO STORE.");
+                }
+                storeButtonPressed = false;
             }
         }
         System.out.println("BACK PRESSED");
@@ -123,6 +174,14 @@ public non-sealed class UI extends JFrame implements Runner {
         genPanel.setVisible(false);
         this.remove(genPanel);
         genPanel.removeAll();
+    }
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 	protected JLabel getApplicationLogo() {
         BufferedImage logo = null;
@@ -185,51 +244,49 @@ public non-sealed class UI extends JFrame implements Runner {
         buttonPanel.setBackground(Color.LIGHT_GRAY);
         buttonPanel.setLayout(new GridLayout(ROW, COL));
         buttonPanel.setPreferredSize(new Dimension(450, 500));
-        genPass = new JButton("Generate password");
+        JButton genPass = new JButton("Generate password");
         setButtonStyle(genPass);
         genPass.addActionListener(e -> {
             buttonPressed = true;
             checker[0] = true;
         });
         buttonPanel.add(genPass);
-        search = new JButton("Search for existing password");
+        JButton search = new JButton("Search for existing password");
         setButtonStyle(search);
         search.addActionListener(e -> {
             buttonPressed = true;
             checker[1] = true;
         });
         buttonPanel.add(search);
-        displayInfo = new JButton("Display stored passwords");
+        JButton displayInfo = new JButton("Display stored passwords");
         setButtonStyle(displayInfo);
         displayInfo.addActionListener(e -> {
             buttonPressed = true;
             checker[2] = true;
         });
         buttonPanel.add(displayInfo);
-        strength = new JButton("Test password strength");
+        JButton strength = new JButton("Test password strength");
         setButtonStyle(strength);
         strength.addActionListener(e -> {
             buttonPressed = true;
             checker[3] = true;
-
-
         });
         buttonPanel.add(strength);
-        changeOrRem = new JButton("Change or remove existing password");
+        JButton changeOrRem = new JButton("Change or remove existing password");
         setButtonStyle(changeOrRem);
         changeOrRem.addActionListener(e -> {
             buttonPressed = true;
             checker[4] = true;
         });
         buttonPanel.add(changeOrRem);
-        addExist = new JButton("Add existing password");
+        JButton addExist = new JButton("Add existing password");
         setButtonStyle(addExist);
         addExist.addActionListener(e -> {
             buttonPressed = true;
             checker[5] = true;
         });
         buttonPanel.add(addExist);
-        exitApp = new JButton("Exit");
+        JButton exitApp = new JButton("Exit");
         setButtonStyle(exitApp);
         exitApp.addActionListener(e -> {
             buttonPressed = true;
@@ -296,70 +353,7 @@ public non-sealed class UI extends JFrame implements Runner {
         Back button in the very top left that routes back to the main menu
          */
         JPanel panel = new GeneratorPanel().getPanel();
-
-//        JPanel fieldPanel = new JPanel(); // PANEL
-//        fieldPanel.setPreferredSize(new Dimension(750, 400));
-//        fieldPanel.setLayout(new GridLayout(4, 2));
-//        //        JTextField lengthField, capField, specField, numField, nameGetter, toStrengthTest;
-//        displayPass = new JTextField("Enter the password constraints below");
-//        displayPass.setEditable(false);
-//        JLabel lengthLabel = new JLabel("Length: ");
-//        lengthField = new JTextField();
-//        JLabel capLabel = new JLabel("Capitals: ");
-//        capField = new JTextField();
-//        JLabel specLabel = new JLabel("Special chars: ");
-//        specField = new JTextField();
-//        JLabel numLabel = new JLabel("Numbers: ");
-//        numField = new JTextField();
-//        fieldPanel.add(lengthLabel);
-//        fieldPanel.add(lengthField);
-//        fieldPanel.add(capLabel);
-//        fieldPanel.add(capField);
-//        fieldPanel.add(specLabel);
-//        fieldPanel.add(specField);
-//        fieldPanel.add(numLabel);
-//        fieldPanel.add(numField);
-//        fieldPanel.setVisible(true);
-//        JTextField resultingPass = new JTextField();
-//        resultingPass.setEditable(false);
-//        fieldPanel.add(resultingPass);
-//
-//        JPanel buttonPanel = new JPanel(); // PANEL
-//        buttonPanel.setPreferredSize(new Dimension(750, 200));
-//        buttonPanel.setLayout(new GridLayout(1, 2));
-//
-//        JButton passBackButton = new JButton("Back");
-//        passBackButton.addActionListener(e -> backButtonPressed = true);
-//        buttonPanel.add(passBackButton);
-//
-//        JButton passSubmitButton = new JButton("Submit");
-//        passSubmitButton.addActionListener(e -> submitButtonPressed = true);
-//        buttonPanel.add(passSubmitButton);
-//        buttonPanel.setVisible(true);
-//
-//        JPanel textPanel = new JPanel(); // PANEL
-//        textPanel.setPreferredSize(new Dimension(750, 150));
-//        textPanel.setLayout(new BorderLayout());
-//        JLabel header = new JLabel("Enter password parameters below.");
-//        textPanel.add(header, BorderLayout.CENTER);
-//        textPanel.setVisible(true);
-//
-//        panel.setPreferredSize(dim);
-//        panel.setLayout(new GridBagLayout());
-//        panel.setFocusable(true);
-//        panel.requestFocusInWindow();
-//        panel.setBackground(Color.LIGHT_GRAY);
-//
-//        GridBagConstraints c = new GridBagConstraints();
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.ipady = 150;
-//        panel.add(backButton, c);
-//        c.ipady = 400;
-//
-//        panel.add(fieldPanel, c);
-//        c.ipady = 200;
-//
-//        panel.add(submitButton, c);
+        this.pack();
         panel.setVisible(true);
         return panel;
     }
@@ -470,74 +464,40 @@ public non-sealed class UI extends JFrame implements Runner {
 		dispose();
         //pM.dispose();
     }
-    protected int[] getSpecs() {
-        int[] res = new int[4];
-        String l = lengthField.getText();
-        String cap = capField.getText();
-        String special = specField.getText();
-        String numbers = numField.getText();
-        boolean lSet = false;
-        boolean capSet = false;
-        boolean specSet = false;
-        boolean numSet = false;
-        int attempt;
-        try {
-            attempt = Integer.parseInt(l);
-            lSet = validateParams(attempt, 0);
-            attempt = Integer.parseInt(cap);
-            capSet = validateParams(attempt, 1);
-            attempt = Integer.parseInt(special);
-            specSet = validateParams(attempt, 2);
-            attempt = Integer.parseInt(numbers);
-            numSet = validateParams(attempt, 3);
-        }
-		catch (NumberFormatException nFE) {
-            logger.log(Level.INFO, "Integers must be entered for the parameters.");
-        }
-        while (!lSet || !capSet || !specSet || !numSet) {
-            if (!lSet) {
-                // TODO: display error for user to see
-                int temp = fetchNewVal(0);
-                lSet = validateParams(temp, 0);
-                if (lSet) {
-					res[0] = temp;
-				}
-            }
-            if (!capSet) {
-                // TODO: display error for user to see
-                int temp = fetchNewVal(1);
-                capSet = validateParams(temp, 1);
-                if (lSet) {
-					res[1] = temp;
-				}
-            }
-            if (!specSet) {
-                // TODO: display error for user to see
-                int temp = fetchNewVal(2);
-                specSet = validateParams(temp, 2);
-                if (lSet) {
-					res[2] = temp;
-				}
-            }
-            if (!numSet) {
-                // TODO: display error for user to see
-                int temp = fetchNewVal(3);
-                numSet = validateParams(temp, 3);
-                if (lSet) {
-					res[3] = temp;
-				}
-            }
-        }
 
-        return res;
-    }
     protected int fetchNewVal(int index) {
         // TODO: Get new value for index given
         return index;
     }
-    protected boolean validateParams(int val, int index) {
-        // TODO: Verify params are ints and within legal range given index in int[]
-        return true;
+    private boolean[] validateParams() {
+        boolean lengthError = false;
+        boolean capitalError = false;
+        boolean specError = false;
+        boolean digitError = false;
+        boolean hasError = false;
+        if (length < 1 || length > 32) {
+            lengthError = true;
+            hasError = true;
+        }
+        if (capCount < 0 || capCount > length) {
+            capitalError = true;
+            hasError = true;
+        }
+        if (specialCharCount < 0 || specialCharCount > length) {
+            specError = true;
+            hasError = true;
+        }
+        if (numCount < 0 || numCount > length) {
+            digitError = true;
+            hasError = true;
+        }
+        if (numCount + capCount + specialCharCount > length && !hasError) {
+            capitalError = true;
+            specError = true;
+            digitError = true;
+            hasError = true;
+        }
+        return new boolean[] {lengthError, capitalError, specError, digitError, hasError};
     }
     @Override
     public void findNamePassCombos(String passedName) {
@@ -567,7 +527,7 @@ public non-sealed class UI extends JFrame implements Runner {
 		Generator gen = new Generator(logger);
 		String[] params = new String[2];
 		params[1] = gen.generatePassword(length, specialCharCount, capCount, numCount);
-        // Display password -> params[1]
+        resetParams();
 		return params;
 	}
     @Override
@@ -627,7 +587,7 @@ public non-sealed class UI extends JFrame implements Runner {
     @Override
     public void getPassIdentifierFromUser(String[] arr) {
         // TODO: Prompt user on whether they want to save the password (Button for save, button for back
-		arr[0] = nameGetter.getText(); // TODO: Get val from textField
+//		arr[0] = nameGetter.getText(); // TODO: Get val from textField
 		boolean problem = false;
 		char[] checker;
 		if (!arr[0].equals("stop")) {
@@ -642,7 +602,7 @@ public non-sealed class UI extends JFrame implements Runner {
 			while (problem) {
                 // TODO: Tell user they cannot have a comma in the name
                 // TODO: Re-prompt user on whether they want to save it
-				arr[0] = nameGetter.getText();
+//				arr[0] = nameGetter.getText();
 				checker = arr[0].toCharArray();
 				for (char x : checker) {
 					if (!(x == ',')) {
@@ -680,9 +640,9 @@ public non-sealed class UI extends JFrame implements Runner {
     public void strengthTest(boolean isConsole, String pass) {
 		Generator gen = new Generator(logger);
         // TODO: Prompt user for password to test
-		String password = toStrengthTest.getText();
-		int score = gen.passwordStrengthScoring(password);
-		strengthDisplay(score);
+//		String password = toStrengthTest.getText();
+//		int score = gen.passwordStrengthScoring(password);
+//		strengthDisplay(score);
 	}
     @Override
     public void extractInfoFromList() {
@@ -697,13 +657,12 @@ public non-sealed class UI extends JFrame implements Runner {
 	}
 	public void displayResults(ArrayList<String> found) {
         // TODO: Display results from search
-        searchPanel.setVisible(false);
     }
     public void noResults(String found) {
         // TODO: Display message stating no results were found from search
-        searchPanel.setVisible(false);
     }
     public void searchHandle() {
+        JPanel searchPanel = new JPanel();
         this.add(searchPanel);
         this.pack();
         this.setVisible(true);
@@ -715,6 +674,7 @@ public non-sealed class UI extends JFrame implements Runner {
         return "";
     }
     public void displayInfo(String[] combos) {
+        JPanel infoPanel = new JPanel();
         this.add(infoPanel);
         this.pack();
         this.setVisible(true);
@@ -723,23 +683,16 @@ public non-sealed class UI extends JFrame implements Runner {
         this.remove(infoPanel);
     }
     public void strengthDisplay(int score) {
-
-        strengthPanel.setVisible(false);
     }
     public String strengthText() {
-        String pass = ""; // TODO
-        this.add(strengthPanel);
-        this.pack();
-        this.setVisible(true);
-        return pass;
+
+        return "";
     }
     public void finalizeChange() {
         // TODO: Display message confirming change and see if they want to change another
-        cOrRPanel.setVisible(false);
     }
     public void finalizeRemove() {
         // TODO: Display message confirming removal and see if they want to remove another
-        cOrRPanel.setVisible(false);
     }
     public String changeVal() { // TODO: Radio buttons near each choice, select the one to change
         String valToChange = ""; // TODO: Get choice of which to change
@@ -750,6 +703,7 @@ public non-sealed class UI extends JFrame implements Runner {
         return valToRemove;
     }
     public String cOrR() {
+        JPanel cOrRPanel = new JPanel();
         String choice = "";
         this.add(cOrRPanel);
         this.pack();
@@ -759,6 +713,7 @@ public non-sealed class UI extends JFrame implements Runner {
         return choice;
     }
     public String addExisting() {
+        JPanel additionPanel = new JPanel();
         String pass = "";
         this.add(additionPanel);
         this.pack();

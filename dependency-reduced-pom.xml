@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.walit.Driver.Main</mainClass>
+                  <mainClass>com.walit.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>

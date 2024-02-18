@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="easypass:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/easypass_jar</output-path>
+    <root id="archive" name="easypass.jar">
+      <element id="module-output" name="easypass" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/javax/activation/activation/1.1.1/activation-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
