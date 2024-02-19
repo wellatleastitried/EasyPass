@@ -65,7 +65,7 @@ public class Storage implements AutoCloseable {
 	public void storeData(String[] info) {
 		PreparedStatement statement;
 		try {
-			statement = connection.prepareStatement("insert into userDetails (user, pass) select ?, ? where not exists (select 1 from userDetails where lower(user) = ? and pass = ?)");
+			statement = connection.prepareStatement("insert into userDetails (user, pass) select ?, ? where not exists (select * from userDetails where lower(user) = lower(?) and pass = ?)");
 			statement.setString(1, info[0]);
 			statement.setString(2, info[1]);
 			statement.setString(3, info[0]);
@@ -141,8 +141,8 @@ public class Storage implements AutoCloseable {
 	 * Searches the database for all contents.
 	 * @return Returns the contents of the database for CLI to search through for a specific name.
 	 */
-	public List<String> findNameToAlter() {
-		List<String> comboList = new ArrayList<>();
+	public ArrayList<String> findNameToAlter() {
+		ArrayList<String> comboList = new ArrayList<>();
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from userDetails order by lower(user)");

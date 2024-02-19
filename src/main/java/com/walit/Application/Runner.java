@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 sealed public interface Runner permits CLI, UI {
-	String logFilePath = "resources\\utilities\\log\\PassMan.log";
+	String fs = File.separator;
+	String logFilePath = "resources" + fs + "utilities" + fs + "log" + fs + "PassMan.log";
     void shutdown();
     boolean getChangeOrRemoveDecision();
     void changeData();
@@ -20,9 +21,9 @@ sealed public interface Runner permits CLI, UI {
     void extractInfoFromList();
     default void initializeMissingFilesForProgram() {
 		String ls = System.getProperty("line.separator");
-		File logDir = new File("resources\\utilities\\log");
-		File storeDir = new File("resources\\utilities\\data");
-		File wordLists = new File("resources\\WordLists");
+		File logDir = new File("resources" + fs + "utilities" + fs + "log");
+		File storeDir = new File("resources" + fs + "utilities" + fs + "data");
+		File wordLists = new File("resources" + fs + "WordLists");
 		File[] dirs = new File[3];
 		dirs[0] = storeDir;
 		dirs[1] = logDir;
@@ -44,7 +45,7 @@ sealed public interface Runner permits CLI, UI {
 			System.err.println("Null pointer exception while initializing directories.");
 		}
 		File passMan = new File(logFilePath);
-		File inst = new File("resources\\utilities\\data\\versionData.xml");
+		File inst = new File("resources" + fs + "utilities" + fs + "data" + fs + "versionData.xml");
 		File[] files = new File[2];
 		files[0] = passMan;
 		files[1] = inst;
