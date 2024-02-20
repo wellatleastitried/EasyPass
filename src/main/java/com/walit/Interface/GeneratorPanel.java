@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GeneratorPanel {
-    public JPanel genPanel;
+    private JPanel genPanel;
     private JLabel titleLabel;
     private JTextField lengthTF;
     private JLabel lengthLabel;

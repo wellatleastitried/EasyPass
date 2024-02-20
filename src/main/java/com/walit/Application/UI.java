@@ -1,5 +1,6 @@
 package com.walit.Application;
 
+import com.walit.Interface.AddExisting;
 import com.walit.Interface.GeneratorPanel;
 import com.walit.Interface.SearchPanel;
 import com.walit.Tools.Generator;
@@ -31,7 +32,7 @@ public non-sealed class UI extends JFrame implements Runner {
     protected int capCount = -1;
     protected int numCount = -1;
     private final Logger logger;
-	private final String resourceFolder = "resources\\images\\";
+	private final String resourceFolder = "resources" + fs + "images" + fs;
 	private final JPanel startPanel;
     volatile boolean keyWasTyped = false;
     volatile boolean buttonPressed = false;
@@ -288,13 +289,25 @@ public non-sealed class UI extends JFrame implements Runner {
                     if (!usernameField.getText().isBlank()) {
                         System.out.println("Storing username and password.");
                         String[] userPassCombo = new String[] {usernameField.getText().toLowerCase(), displayedPassword.getText()};
-                        try (Storage store = new Storage(logger)) {
-                            store.storeData(userPassCombo);
+                        int choice = JOptionPane.showConfirmDialog(
+                                null,
+                                String.format("Is the following information correct?\nUsername: %s\nPassword: %s", userPassCombo[0], userPassCombo[1]),
+                                "Confirmation",
+                                JOptionPane.YES_NO_OPTION
+                        );
+                        if (choice == JOptionPane.YES_OPTION) {
+                            JOptionPane.showMessageDialog(null, "Username and password have been saved.");
+                            try (Storage store = new Storage(logger)) {
+                                store.storeData(userPassCombo);
+                            }
+                            catch (ClassNotFoundException e) {
+                                logger.log(Level.SEVERE, "Error initializing database connection.");
+                                shutdown();
+                                System.exit(1);
+                            }
                         }
-                        catch (ClassNotFoundException e) {
-                            logger.log(Level.SEVERE, "Error initializing database connection.");
-                            shutdown();
-                            System.exit(1);
+                        else {
+                            JOptionPane.showMessageDialog(null, "Your information has been discarded.");
                         }
                     }
                     else {
@@ -401,6 +414,78 @@ public non-sealed class UI extends JFrame implements Runner {
         p.setFocusPainted(false);
         p.setFont(new Font("Tahoma", Font.BOLD, 20));
     }
+
+    public void handleAddition() {
+        AddExisting aE = new AddExisting();
+
+        JPanel addExistingPanel = aE.getAddExistingPanel();
+
+        JTextField usernameTF = aE.getUsernameTF();
+        JTextField passwordTF = aE.getPasswordTF();
+
+        JButton submitButton = aE.getSubmitButton();
+        submitButton.addActionListener(e -> submitButtonPressed = true);
+        JButton backButton = aE.getBackButton();
+        backButton.addActionListener(e -> backButtonPressed = true);
+
+        this.add(addExistingPanel);
+        this.pack();
+        this.setVisible(true);
+        while (!backButtonPressed) {
+            if (submitButtonPressed) {
+                System.out.println("SUBMIT PRESSED");
+                if (!passwordTF.getText().isBlank()) {
+                    if (!usernameTF.getText().isBlank()) {
+                        String[] userPassCombo = new String[] {usernameTF.getText(), passwordTF.getText()};
+                        int choice = JOptionPane.showConfirmDialog(
+                                null,
+                                String.format("Confirm the following information is correct:\nUsername: %s\nPassword: %s", userPassCombo[0], userPassCombo[1]),
+                                "Confirmation",
+                                JOptionPane.YES_NO_OPTION
+                        );
+                        if (choice == JOptionPane.YES_OPTION) {
+                            JOptionPane.showMessageDialog(null, "Information will be saved.");
+                            try (Storage store = new Storage(logger)) {
+                                store.storeData(userPassCombo);
+                            }
+                            catch (ClassNotFoundException e) {
+                                logger.log(Level.SEVERE, "Error initializing database connection.");
+                                shutdown();
+                                System.exit(1);
+                            }
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Operation has been cancelled.");
+                        }
+                    }
+                    else {
+                        System.out.println("No username provided.");
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "You must provide a username to store.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+                }
+                else {
+                    System.out.println("No password provided.");
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "You must provide a password to store.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+                submitButtonPressed = false;
+            }
+        }
+        System.out.println("BACK PRESSED");
+        backButtonPressed = false;
+        addExistingPanel.setVisible(false);
+        this.remove(addExistingPanel);
+        addExistingPanel.removeAll();
+    }
     @Override
     public void run() {
 		int x = getOption();
@@ -412,27 +497,27 @@ public non-sealed class UI extends JFrame implements Runner {
 				}
 				case 2 -> {
 					handleSearch();
-					findNamePassCombos(null);
 					x = getOption();
 				}
 				case 3 -> {
-					extractInfoFromList();
+//					extractInfoFromList();
+                    notYetAvailable();
 					x = getOption();
 				}
 				case 4 -> {
-					strengthTest(true, null);
+//					strengthTest(true, null);
+                    notYetAvailable();
 					x = getOption();
 				}
 				case 5 -> {
-					boolean choice = getChangeOrRemoveDecision();
-					if (choice) changeData();
-					else removeData();
+                    notYetAvailable();
+//					boolean choice = getChangeOrRemoveDecision();
+//					if (choice) changeData();
+//					else removeData();
 					x = getOption();
 				}
 				case 6 -> {
-					String[] tempStr = getPasswordFromUser();
-					getPassIdentifierFromUser(tempStr);
-//                    handleAddition();
+                    handleAddition();
 					x = getOption();
 				}
 			}
@@ -440,6 +525,15 @@ public non-sealed class UI extends JFrame implements Runner {
 		shutdown();
 		logger.log(Level.INFO, "Successful termination.");
 		System.exit(0);
+    }
+
+    public void notYetAvailable() {
+        JOptionPane.showMessageDialog(
+                null,
+                "This is not yet available.",
+                "Alert",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
     @Override
     public void resetParams() {
@@ -693,12 +787,6 @@ public non-sealed class UI extends JFrame implements Runner {
 
         infoPanel.setVisible(false);
         this.remove(infoPanel);
-    }
-    public void strengthDisplay(int score) {
-    }
-    public String strengthText() {
-
-        return "";
     }
     public void finalizeChange() {
         // TODO: Display message confirming change and see if they want to change another

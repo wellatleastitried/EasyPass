@@ -261,7 +261,8 @@ public non-sealed class CLI implements Runner {
 			}
 		}
 		catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+			logger.log(Level.SEVERE, "Error connecting to database.");
+			System.exit(1);
 		}
 	}
 	/**
@@ -307,7 +308,8 @@ public non-sealed class CLI implements Runner {
 			}
 		}
 		catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+			logger.log(Level.SEVERE, "Error connecting to database.");
+			System.exit(1);
 		}
 	}
 
@@ -484,7 +486,8 @@ public non-sealed class CLI implements Runner {
 			store.storeData(info);
 		}
 		catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+			logger.log(Level.SEVERE, "Error connecting to database.");
+			System.exit(1);
 		}
 	}
 
@@ -497,7 +500,8 @@ public non-sealed class CLI implements Runner {
 			store.displayUserPassCombos();
 		}
 		catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+			logger.log(Level.SEVERE, "Error connecting to database.");
+			System.exit(1);
 		}
 	}
 
@@ -645,7 +649,8 @@ public non-sealed class CLI implements Runner {
 			}
 		}
 		catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "Error instantiating Storage object.");
+			logger.log(Level.SEVERE, "Error connecting to database.");
+			System.exit(1);
 		}
 	}
 }
