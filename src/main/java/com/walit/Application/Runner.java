@@ -10,7 +10,6 @@ sealed public interface Runner permits CLI, UI {
 	String fs = File.separator;
 	String logFilePath = "resources" + fs + "utilities" + fs + "log" + fs + "PassMan.log";
     void shutdown();
-    boolean getChangeOrRemoveDecision();
     void changeData();
     void removeData();
     String getPassIdentifierForChangeOrRemove(int x);
@@ -85,8 +84,7 @@ sealed public interface Runner permits CLI, UI {
         }
         return cipherText;
     }
-    void strengthTest(boolean isConsole, String pass);
-    void findNamePassCombos(String passedName);
+    void strengthTest(String pass);
     void run();
     void resetParams();
 }

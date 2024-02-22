@@ -1,6 +1,7 @@
 package com.walit.Application;
 
 import com.walit.Interface.AddExisting;
+import com.walit.Interface.ChangeRemovePanel;
 import com.walit.Interface.GeneratorPanel;
 import com.walit.Interface.SearchPanel;
 import com.walit.Tools.Generator;
@@ -16,8 +17,8 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -79,7 +80,6 @@ public non-sealed class UI extends JFrame implements Runner {
         while (!buttonPressed) {
             Thread.onSpinWait();
         }
-        System.out.println("Button pressed.");
         buttonPressed = false;
         this.remove(homePanel);
         homePanel.removeAll();
@@ -297,25 +297,28 @@ public non-sealed class UI extends JFrame implements Runner {
                         );
                         if (choice == JOptionPane.YES_OPTION) {
                             JOptionPane.showMessageDialog(null, "Username and password have been saved.");
-                            try (Storage store = new Storage(logger)) {
-                                store.storeData(userPassCombo);
-                            }
-                            catch (ClassNotFoundException e) {
-                                logger.log(Level.SEVERE, "Error initializing database connection.");
-                                shutdown();
-                                System.exit(1);
-                            }
+                            storeInformation(userPassCombo);
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Your information has been discarded.");
                         }
                     }
                     else {
-                        System.err.println("NO USERNAME TO STORE");
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "You must enter a username to store.",
+                                "Notice",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
                     }
                 }
                 else {
-                    System.err.println("NO PASSWORD TO STORE.");
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "You must generate a password to be stored.",
+                            "Notice",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                 }
                 storeButtonPressed = false;
             }
@@ -510,10 +513,10 @@ public non-sealed class UI extends JFrame implements Runner {
 					x = getOption();
 				}
 				case 5 -> {
-                    notYetAvailable();
-//					boolean choice = getChangeOrRemoveDecision();
-//					if (choice) changeData();
-//					else removeData();
+//                    notYetAvailable();
+					int choice = getChangeOrRemoveDecision();
+					if (choice == 0) System.out.println("Change pressed.");//changeData();
+					else if (choice == 1) System.out.println("Remove pressed.");//removeData();
 					x = getOption();
 				}
 				case 6 -> {
@@ -568,7 +571,7 @@ public non-sealed class UI extends JFrame implements Runner {
 	}
     @Override
     public void shutdown() {
-		dispose();
+		this.dispose();
     }
 
     private boolean[] validateParams() {
@@ -618,29 +621,6 @@ public non-sealed class UI extends JFrame implements Runner {
         return new boolean[] {lengthError, capitalError, specError, digitError, hasError};
     }
     @Override
-    public void findNamePassCombos(String passedName) {
-		// TODO: wait on boolean JButton before trying to parse entry
-        try (Storage store = new Storage(logger)) {
-            String search = searchForPass();
-            ArrayList<String> acceptedStrings = store.checkStoredDataForName(search);
-            if (!acceptedStrings.isEmpty()) {
-                acceptedStrings.replaceAll(string -> string.replace(",", ":"));
-                // TODO: Create list of password-username combos for user
-                displayResults(acceptedStrings);
-            } else {
-                // Prompt user to try a dif search because there were no matches
-                noResults(search);
-                String retryString = ""; // TODO: Make button for yes and no
-                if (retryString.toLowerCase().trim().equals("y")) {
-                    findNamePassCombos(null);
-                }
-            }
-        }
-        catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, "Error instantiating Storage object.");
-        }
-	}
-    @Override
     public String[] getUserInformation() {
 		Generator gen = new Generator(logger);
 		String[] params = new String[2];
@@ -648,10 +628,28 @@ public non-sealed class UI extends JFrame implements Runner {
         resetParams();
 		return params;
 	}
-    @Override
-    public boolean getChangeOrRemoveDecision() {
-        String choice = cOrR();
-        return choice.equals("c") || choice.equals("change");
+    public int getChangeOrRemoveDecision() {
+        AtomicInteger getButtonPress = new AtomicInteger(-1);
+        ChangeRemovePanel cRP = new ChangeRemovePanel();
+        JPanel changeRemovePanel = cRP.getQuestionPanel();
+
+        JButton removeButton = cRP.getRemoveButton();
+        removeButton.addActionListener(e -> getButtonPress.set(1));
+        JButton changeButton = cRP.getChangeButton();
+        changeButton.addActionListener(e -> getButtonPress.set(0));
+        JButton backButton = cRP.getBackButton();
+        backButton.addActionListener(e -> getButtonPress.set(2));
+
+        this.add(changeRemovePanel);
+        this.pack();
+        this.setVisible(true);
+        while (getButtonPress.get() == -1) {
+            Thread.onSpinWait();
+        }
+        changeRemovePanel.setVisible(false);
+        this.remove(changeRemovePanel);
+        changeRemovePanel.removeAll();
+        return getButtonPress.get();
     }
     @Override
     public void changeData() {
@@ -700,94 +698,34 @@ public non-sealed class UI extends JFrame implements Runner {
     }
     @Override
     public void getPassIdentifierFromUser(String[] arr) {
-        // TODO: Prompt user on whether they want to save the password (Button for save, button for back
-//		arr[0] = nameGetter.getText(); // TODO: Get val from textField
-		boolean problem = false;
-		char[] checker;
-		if (!arr[0].equals("stop")) {
-			checker = arr[0].toCharArray();
-			for (char q : checker) {
-				if (q == ',') {
-					problem = true;
-					break;
-				}
-			}
-			boolean fixed = false;
-			while (problem) {
-                // TODO: Tell user they cannot have a comma in the name
-                // TODO: Re-prompt user on whether they want to save it
-//				arr[0] = nameGetter.getText();
-				checker = arr[0].toCharArray();
-				for (char x : checker) {
-					if (!(x == ',')) {
-						fixed = true;
-					}
-					else {
-						fixed = false;
-						break;
-					}
-				}
-				if (fixed) {
-					problem = false;
-				}
-			}
-			if (!arr[0].equals("stop")) {
-				storeInformation(arr);
-			}
-		}
+        // TODO: Remove from interface
 	}
     @Override
     public void storeInformation(String[] info) {
         try (Storage store = new Storage(logger)) {
-            String[] transferable = new String[2];
-            String encodedName = Base64.getEncoder().encodeToString(info[0].getBytes());
-            String encodedPwd = Base64.getEncoder().encodeToString(info[1].getBytes());
-            transferable[0] = encodedName;
-            transferable[1] = encodedPwd;
-            store.storeData(transferable);
+            store.storeData(info);
         }
         catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, "Error instantiating Storage object.");
+            logger.log(Level.SEVERE, "Error initializing database connection.");
+            shutdown();
+            System.exit(1);
         }
 	}
     @Override
-    public void strengthTest(boolean isConsole, String pass) {
+    public void strengthTest(String pass) {
 		Generator gen = new Generator(logger);
         // TODO: Prompt user for password to test
-//		String password = toStrengthTest.getText();
-//		int score = gen.passwordStrengthScoring(password);
-//		strengthDisplay(score);
 	}
     @Override
     public void extractInfoFromList() {
         try (Storage store = new Storage(logger)) {
             String[] combos = store.getUserPassCombosForUI();
-            displayInfo(combos);
         }
         catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, "Error instantiating Storage object.");
         }
 		// TODO: add values from combos to the interface to be displayed with scroll bar if needed
 	}
-	public void displayResults(ArrayList<String> found) {
-        // TODO: Display results from search
-    }
-    public void noResults(String found) {
-        // TODO: Display message stating no results were found from search
-    }
-    public String searchForPass() { // TODO: One method for found results, one for no results
-        // Pull typed info and return it for UI
-        return "";
-    }
-    public void displayInfo(String[] combos) {
-        JPanel infoPanel = new JPanel();
-        this.add(infoPanel);
-        this.pack();
-        this.setVisible(true);
-
-        infoPanel.setVisible(false);
-        this.remove(infoPanel);
-    }
     public void finalizeChange() {
         // TODO: Display message confirming change and see if they want to change another
     }

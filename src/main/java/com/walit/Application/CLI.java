@@ -115,7 +115,7 @@ public non-sealed class CLI implements Runner {
 					x = displayMenu();
 				}
 				case 4 -> {
-					strengthTest(true, null);
+					strengthTest(null);
 					dashLine();
 					x = displayMenu();
 				}
@@ -194,7 +194,6 @@ public non-sealed class CLI implements Runner {
 	 * Gets the response from the user for whether they want to change or remove a specific password.
 	 * @return Returns true if the user chooses 'change' and false if the user chooses 'remove'.
 	 */
-	@Override
 	public boolean getChangeOrRemoveDecision() {
 		boolean choiceMade = false;
 		boolean isChange = false;
@@ -583,15 +582,10 @@ public non-sealed class CLI implements Runner {
 	 * Allows the user to test how strong their password is.
 	 */
 	@Override
-	public void strengthTest(boolean isConsole, String pass) {
+	public void strengthTest(String pass) {
 		Generator gen = new Generator(logger);
-		String password;
-		if (isConsole) {
-			System.out.print("[*] Enter the password to test here: ");
-			password = s.nextLine().trim();
-		} else {
-			password = pass;
-		}
+		System.out.print("[*] Enter the password to test here: ");
+		String password = s.nextLine().trim();
 		System.out.println();
 		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {
@@ -614,7 +608,6 @@ public non-sealed class CLI implements Runner {
 	/**
 	 * Searches for a specific password by looking for the name associated with it.
 	 */
-	@Override
 	public void findNamePassCombos(String passedName) {
 		try (Storage store = new Storage(logger)) {
 			String name;

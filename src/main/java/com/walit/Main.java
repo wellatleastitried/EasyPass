@@ -117,7 +117,7 @@ public class Main {
 				}
 				case "--test" -> {
 					if (argCount == 2) {
-						consoleInstance.strengthTest(false, args[1]);
+						consoleInstance.strengthTest(args[1]);
 					} else {
 						System.out.println("""
 							
