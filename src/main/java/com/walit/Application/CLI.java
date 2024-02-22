@@ -32,41 +32,11 @@ public non-sealed class CLI implements Runner {
 	}
 
 	public void callInterface() {
-		new UI(logger).run();
+		new UI().run();
 	}
 
 	public CLI() {
-		String os = System.getProperty("os.name");
-        os = os.toLowerCase();
-		if (os.contains("win")) {
-			initializeMissingFilesForProgram();
-			File logFile = new File(logFilePath);
-			FileHandler fH;
-			try {
-				if (logFile.exists() && logFile.isFile()) {
-					new FileWriter(logFile, false).close();
-				}
-				fH = new FileHandler(logFilePath, true);
-				while (logger.getHandlers().length > 0) {
-					logger.removeHandler(logger.getHandlers()[0]);
-				}
-				logger.addHandler(fH);
-				fH.setLevel(Level.INFO);
-				XMLFormatter xF = new XMLFormatter();
-				fH.setFormatter(xF);
-				logger.log(Level.INFO, "Successful startup.");
-			}
-			catch (IOException e) {
-				System.out.println("[!] Error in startup.\n\n[!] Please restart program.");
-			}
-		}
-		else if (os.contains("nix") || os.contains("nux")) {
-			System.out.println("[!] Support for Linux is not yet available.");
-			System.exit(0);
-		}
-		else if (os.contains("mac")) {
-			System.out.println("[!] Support for MacOS is not yet available.");
-		}
+
 	}
 	/**
 	 * Prints the version information of the program.
@@ -88,6 +58,38 @@ public non-sealed class CLI implements Runner {
 	 * Run function that starts the program's execution.
 	 */
 	public void run() {
+		String os = System.getProperty("os.name");
+        os = os.toLowerCase();
+		if (os.contains("win")) {
+			System.out.println("Starting application for windows.");
+		}
+		else if (os.contains("nix") || os.contains("nux")) {
+			System.out.println("[!] Support for Linux is not yet available.");
+			System.exit(0);
+		}
+		else if (os.contains("mac")) {
+			System.out.println("[!] Support for MacOS is not yet available.");
+		}
+		initializeMissingFilesForProgram();
+		File logFile = new File(logFilePath);
+		FileHandler fH;
+		try {
+			if (logFile.exists() && logFile.isFile()) {
+				new FileWriter(logFile, false).close();
+			}
+			fH = new FileHandler(logFilePath, true);
+			while (logger.getHandlers().length > 0) {
+				logger.removeHandler(logger.getHandlers()[0]);
+			}
+			logger.addHandler(fH);
+			fH.setLevel(Level.INFO);
+			XMLFormatter xF = new XMLFormatter();
+			fH.setFormatter(xF);
+			logger.log(Level.INFO, "Successful startup.");
+		}
+		catch (IOException e) {
+			System.out.println("[!] Error in startup.\n\n[!] Please restart program.");
+		}
 		poundLine();
 		printLogo();
 		poundLine();

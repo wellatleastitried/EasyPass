@@ -13,14 +13,22 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.XMLFormatter;
 
 import javax.imageio.ImageIO;
 
@@ -32,7 +40,7 @@ public non-sealed class UI extends JFrame implements Runner {
     protected int specialCharCount = -1;
     protected int capCount = -1;
     protected int numCount = -1;
-    private final Logger logger;
+    private final Logger logger = Logger.getLogger("ManagerLog");
 	private final String resourceFolder = "resources" + fs + "images" + fs;
 	private final JPanel startPanel;
     volatile boolean keyWasTyped = false;
@@ -43,10 +51,28 @@ public non-sealed class UI extends JFrame implements Runner {
     volatile boolean searchButtonPressed = false;
     Dimension dim = new Dimension(750, 750);
     public boolean[] checker = new boolean[7];
-    public UI(Logger logger) {
-        this.logger = logger;
+    public UI() {
+        initializeMissingFilesForProgram();
+		File logFile = new File(logFilePath);
+		FileHandler fH;
+		try {
+			if (logFile.exists() && logFile.isFile()) {
+				new FileWriter(logFile, false).close();
+			}
+			fH = new FileHandler(logFilePath, true);
+			while (logger.getHandlers().length > 0) {
+				logger.removeHandler(logger.getHandlers()[0]);
+			}
+			logger.addHandler(fH);
+			fH.setLevel(Level.INFO);
+			XMLFormatter xF = new XMLFormatter();
+			fH.setFormatter(xF);
+			logger.log(Level.INFO, "Successful startup.");
+		}
+		catch (IOException e) {
+			System.out.println("[!] Error in startup.\n\n[!] Please restart program.");
+		}
 		Arrays.fill(checker, false);
-
         this.setTitle("EasyPass");
         this.setResizable(false);
         this.setPreferredSize(dim);
@@ -58,7 +84,6 @@ public non-sealed class UI extends JFrame implements Runner {
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             System.err.println("Error setting the \"look and feel\".");
         }
-
 		startPanel = buildStartPanel();
 		start();
     }
@@ -140,6 +165,49 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.setVisible(true);
         return panel;
     }
+    private void handleUpdate() {
+        try {
+            URL url = new URL("https://api.github.com/repos/wellatleastitried/EasyPass/releases/latest");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                Scanner scanner = new Scanner(connection.getInputStream());
+                StringBuilder response = new StringBuilder();
+                while (scanner.hasNextLine()) {
+                    response.append(scanner.nextLine());
+                }
+                scanner.close();
+                // TODO: parse the JSON response and extract the version information from it
+                String jsonResponse = response.toString();
+                String latestVersion = "";
+                String currentVersion = "0.1.0";
+                if (!latestVersion.equals(currentVersion)) {
+                    JOptionPane.showConfirmDialog(
+                            null,
+                            "An update is available!\nWould you like to download it now?",
+                            "Update",
+                            JOptionPane.YES_NO_OPTION
+                    );
+                }
+                else {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Your application is up to date.",
+                            "Update",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            }
+        }
+        catch (MalformedURLException mUE) {
+            logger.log(Level.WARNING, "Error reaching URL.");
+        } catch (ProtocolException e) {
+            logger.log(Level.WARNING, "ProtocolException while getting response from Github.");
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error receiving data from http connection.");
+        }
+    }
 	private JPanel buildHomePanel() {
         JPanel panel = new JPanel();
         panel.setPreferredSize(dim);
@@ -147,6 +215,9 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         panel.setBackground(Color.LIGHT_GRAY);
+
+        JMenuBar menuBar = getjMenuBar();
+        this.setJMenuBar(menuBar);
         int ROW = 7;
         int COL = 1;
         JPanel buttonPanel = new JPanel();
@@ -214,6 +285,20 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.add(titlePanel, BorderLayout.PAGE_START);
         return panel;
     }
+
+    private JMenuBar getjMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu settings = new JMenu("Settings");
+        JMenuItem update = new JMenuItem("Check for updates");
+        update.addActionListener(e -> handleUpdate());
+        JMenuItem encryptionSetup = new JMenuItem("Setup password for encryption");
+        // TODO: Add action listener
+        settings.add(update);
+        settings.add(encryptionSetup);
+        menuBar.add(settings);
+        return menuBar;
+    }
+
     public void passwordGenerate() {
         GeneratorPanel gP = new GeneratorPanel();
 
