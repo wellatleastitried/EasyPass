@@ -171,6 +171,7 @@ public non-sealed class UI extends JFrame implements Runner {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             int responseCode = connection.getResponseCode();
+            System.err.printf("Http response code : %d%n", responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 Scanner scanner = new Scanner(connection.getInputStream());
                 StringBuilder response = new StringBuilder();
@@ -199,6 +200,9 @@ public non-sealed class UI extends JFrame implements Runner {
                     );
                 }
             }
+            else {
+                notYetAvailable();
+            }
         }
         catch (MalformedURLException mUE) {
             logger.log(Level.WARNING, "Error reaching URL.");
@@ -208,6 +212,14 @@ public non-sealed class UI extends JFrame implements Runner {
             logger.log(Level.WARNING, "Error receiving data from http connection.");
         }
     }
+
+    private void handleEncryptionSetup() {
+        /*
+        TODO: Take a user input, generate a key with it, save it to a config file,
+         restart program and use it to encrypt and decrypt entries in db
+         */
+        notYetAvailable();
+    }
 	private JPanel buildHomePanel() {
         JPanel panel = new JPanel();
         panel.setPreferredSize(dim);
@@ -215,7 +227,6 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         panel.setBackground(Color.LIGHT_GRAY);
-
         JMenuBar menuBar = getjMenuBar();
         this.setJMenuBar(menuBar);
         int ROW = 7;
@@ -292,7 +303,7 @@ public non-sealed class UI extends JFrame implements Runner {
         JMenuItem update = new JMenuItem("Check for updates");
         update.addActionListener(e -> handleUpdate());
         JMenuItem encryptionSetup = new JMenuItem("Setup password for encryption");
-        // TODO: Add action listener
+        encryptionSetup.addActionListener(e -> handleEncryptionSetup());
         settings.add(update);
         settings.add(encryptionSetup);
         menuBar.add(settings);
@@ -618,9 +629,9 @@ public non-sealed class UI extends JFrame implements Runner {
     public void notYetAvailable() {
         JOptionPane.showMessageDialog(
                 null,
-                "This is not yet available.",
+                "This feature is not yet available.",
                 "Alert",
-                JOptionPane.INFORMATION_MESSAGE
+                JOptionPane.ERROR_MESSAGE
         );
     }
     @Override

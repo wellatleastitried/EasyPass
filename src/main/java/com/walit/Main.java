@@ -8,12 +8,7 @@ public class Main {
     public static void main(String[] args) {
 		CLI consoleInstance = new CLI();
 		int argCount = args.length;
-		if (argCount == 0) {
-//			System.out.println("\n[*] UI is still in development, use '--help' to view available commands!\n");
-//			exit(0);
-			// Delete two lines above when UI.java is finished
-			consoleInstance.callInterface();
-		}
+		if (argCount == 0) consoleInstance.callInterface();
 		String argument = args[0];
 		if (argCount > 1 && !(argument.equals("--add") || argument.equals("--get") || argument.equals("--test"))) {
 			System.out.println("\nOnly one argument allowed!\n");
