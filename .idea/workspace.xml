@@ -5,16 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/utilities/data/userData.db" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/data/userData.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/utilities/log/PassMan.log.1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Generator.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

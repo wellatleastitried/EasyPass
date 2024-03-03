@@ -34,10 +34,6 @@ public non-sealed class CLI implements Runner {
 	public void callInterface() {
 		new UI().run();
 	}
-
-	public CLI() {
-
-	}
 	/**
 	 * Prints the version information of the program.
 	 */
@@ -587,7 +583,9 @@ public non-sealed class CLI implements Runner {
 	public void strengthTest(String pass) {
 		Generator gen = new Generator(logger);
 		System.out.print("[*] Enter the password to test here: ");
-		String password = s.nextLine().trim();
+		String password;
+		if (pass == null) password = s.nextLine().trim();
+		else password = pass;
 		System.out.println();
 		int score = gen.passwordStrengthScoring(password);
 		if (score == 0) {

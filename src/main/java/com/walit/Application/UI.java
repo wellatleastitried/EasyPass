@@ -182,7 +182,8 @@ public non-sealed class UI extends JFrame implements Runner {
                 // TODO: parse the JSON response and extract the version information from it
                 String jsonResponse = response.toString();
                 String latestVersion = "";
-                String currentVersion = "0.1.0";
+                String currentVersion = breakVersionString(new CLI().getVersionInfo());
+                System.out.println(currentVersion);
                 if (!latestVersion.equals(currentVersion)) {
                     JOptionPane.showConfirmDialog(
                             null,
@@ -211,6 +212,10 @@ public non-sealed class UI extends JFrame implements Runner {
         } catch (IOException e) {
             logger.log(Level.WARNING, "Error receiving data from http connection.");
         }
+    }
+
+    private String breakVersionString(String fullString) {
+        return fullString.substring(fullString.indexOf("-") + 1);
     }
 
     private void handleEncryptionSetup() {

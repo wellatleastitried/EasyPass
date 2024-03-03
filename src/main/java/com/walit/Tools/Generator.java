@@ -1,13 +1,15 @@
 package com.walit.Tools;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.security.SecureRandom;
 
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -203,37 +205,22 @@ public class Generator {
 		try {
 			File[] wordLists = wordDirectory.listFiles();
 			if (wordLists != null) {
-				Thread[] fileThreads = new Thread[wordLists.length];
-				for (int i = 0; i < fileThreads.length; i++) {
-					final int valForThread = i;
-					fileThreads[i] = new Thread(() -> {
-						File file = wordLists[valForThread];
-						if (file.getName().endsWith(".txt")) {
-							String line;
-							try {
-								BufferedReader bR = new BufferedReader(new FileReader(file));
-								while ((line = bR.readLine()) != null) {
-									if (wordWasFound.get()) {
-										return;
-									}
-									if (pass.equals(line)) {
-										wordWasFound.set(true);
-										break;
-									}
-								}
+				ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+				for (File file : wordLists) {
+					if (file.getName().endsWith(".txt")) {
+						threadPool.execute(() -> {
+							try (BufferedReader bR = new BufferedReader(new FileReader(file))) {
+								wordWasFound.set(bR.lines().parallel().anyMatch(pass::equals));
 							}
 							catch (IOException e) {
-								logger.log(Level.INFO, "Error checking wordlist for matching password.");
+								logger.log(Level.WARNING, "IOException while initializing buffered reader for word-lists.");
 							}
-						}
-						else {
-							System.out.println("[!] Word lists must be text files!");
-						}
-					});
-					fileThreads[i].start();
+						});
+					}
 				}
-				for (Thread thread : fileThreads) {
-					thread.join();
+				threadPool.shutdown();
+				if (!threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS)) {
+					logger.log(Level.WARNING, "Error in thread pool termination.");
 				}
 			}
 			System.out.println(
@@ -248,11 +235,11 @@ public class Generator {
 		catch (InterruptedException iE) {
 			logger.log(Level.WARNING, "Error synchronizing threads while searching word-lists");
 		}
-		if (wordWasFound.get()) {
+		boolean found = wordWasFound.get();
+		if (found) {
 			System.out.println("[*] This password was previously found in a data breach, you may want to change it.");
-			return true;
 		}
-		return false;
+		return found;
 	}
 
 	/**
