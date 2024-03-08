@@ -5,15 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangePanel.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangePanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/RemovePanel.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/RemovePanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Generator.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +39,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangeRemovePanel.java" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/GeneratorPanel.java" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/SearchPanel.java" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.java" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />

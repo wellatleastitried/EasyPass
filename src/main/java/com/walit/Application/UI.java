@@ -1,9 +1,6 @@
 package com.walit.Application;
 
-import com.walit.Interface.AddExisting;
-import com.walit.Interface.ChangeRemovePanel;
-import com.walit.Interface.GeneratorPanel;
-import com.walit.Interface.SearchPanel;
+import com.walit.Interface.*;
 import com.walit.Tools.Generator;
 import com.walit.Tools.Storage;
 
@@ -344,6 +341,7 @@ public non-sealed class UI extends JFrame implements Runner {
         this.pack();
         this.setVisible(true);
         while (!backButtonPressed) {
+            Thread.onSpinWait();
             if (submitButtonPressed) {
                 System.out.println("SUBMIT PRESSED.");
                 String lengthText = lengthTF.getText();
@@ -447,6 +445,7 @@ public non-sealed class UI extends JFrame implements Runner {
         this.pack();
         this.setVisible(true);
         while (!backButtonPressed) {
+            Thread.onSpinWait();
             if (searchButtonPressed) {
                 System.out.println("SEARCH PRESSED");
                 if (!enteredUsername.getText().isBlank()) {
@@ -536,6 +535,7 @@ public non-sealed class UI extends JFrame implements Runner {
         this.pack();
         this.setVisible(true);
         while (!backButtonPressed) {
+            Thread.onSpinWait();
             if (submitButtonPressed) {
                 System.out.println("SUBMIT PRESSED");
                 if (!passwordTF.getText().isBlank()) {
@@ -590,6 +590,88 @@ public non-sealed class UI extends JFrame implements Runner {
         this.remove(addExistingPanel);
         addExistingPanel.removeAll();
     }
+
+    public void handleStrength() {
+        StrengthPanel sP = new StrengthPanel();
+
+        JPanel strengthPanel = sP.getStrengthPanel();
+        JPanel resultPanel = sP.getResultPanel();
+
+        JButton submitButton = sP.getSubmitButton();
+        submitButton.addActionListener(e -> submitButtonPressed = true);
+        JButton backButton = sP.getBackButton();
+        backButton.addActionListener(e -> backButtonPressed = true);
+
+        JTextField passToCheck = sP.getPasswordTF();
+
+        JLabel strengthComment = sP.getStrengthComment();
+
+        JProgressBar strengthResult = sP.getPasswordStrength();
+
+        this.add(strengthPanel);
+        this.pack();
+        this.setVisible(true);
+        while (!backButtonPressed) {
+            Thread.onSpinWait();
+            if (submitButtonPressed) {
+                System.out.println("SUBMIT PRESSED");
+                if (!passToCheck.getText().isBlank()) {
+                    strengthResult.setIndeterminate(true);
+                    strengthComment.setText("Searching through word lists to ensure the security of the password...");
+                    strengthComment.setVisible(true);
+                    strengthPanel.revalidate();
+                    strengthPanel.repaint();
+                    resultPanel.revalidate();
+                    resultPanel.repaint();
+                    int score = strengthTest(passToCheck.getText());
+                    strengthResult.setIndeterminate(false);
+                    strengthResult.setValue(100);
+                    strengthResult.setValue(score * 10);
+                    String comment = switch (score) {
+                        case -1 -> String.format("Your password exists in previous data breaches, you may want to change it: %d/10", 0);
+                        case 0 -> String.format("Your password is very weak: %d/10", score);
+                        case 1, 2, 3, 4 -> String.format("Your password is somewhat weak: %d/10", score);
+                        case 5, 6, 7, 8 -> String.format("Your password is somewhat strong: %d/10", score);
+                        case 9, 10 -> String.format("Your password is very strong: %d/10", score);
+                        default -> "Error";
+                    };
+                    if (!comment.equals("Error")) {
+                        strengthComment.setText(comment);
+                        strengthComment.setVisible(true);
+                        strengthPanel.revalidate();
+                        strengthPanel.repaint();
+                        resultPanel.revalidate();
+                        resultPanel.repaint();
+                    }
+                    else {
+                        strengthComment.setVisible(false);
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "An error has occurred while testing your password.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                        logger.log(Level.WARNING, "Error in strengthTest(), ensure correct values");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "You must enter a password to test the strength of.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+                submitButtonPressed = false;
+            }
+
+        }
+        System.out.println("BACK PRESSED");
+        backButtonPressed = false;
+        strengthPanel.setVisible(false);
+        this.remove(strengthPanel);
+        strengthPanel.removeAll();
+    }
     @Override
     public void run() {
 		int x = getOption();
@@ -609,8 +691,7 @@ public non-sealed class UI extends JFrame implements Runner {
 					x = getOption();
 				}
 				case 4 -> {
-//					strengthTest(true, null);
-                    notYetAvailable();
+					handleStrength();
 					x = getOption();
 				}
 				case 5 -> {
@@ -765,43 +846,6 @@ public non-sealed class UI extends JFrame implements Runner {
         return null;
     }
     @Override
-    public String[] getPasswordFromUser() {
-		String[] userPass = new String[2];
-		userPass[1] = addExisting();
-		char[] checker = userPass[1].toCharArray();
-		boolean problem = false;
-		boolean fixed = true;
-		for (char x : checker) {
-			if (x == ',' || x == ' ') {
-				problem = true;
-				fixed = false;
-				break;
-			}
-		}
-		while (problem) {
-			// TODO: Proper message (no comma or space in password)
-			userPass[1] = addExisting();
-			checker = userPass[1].toCharArray();
-			for (char x : checker) {
-				if (!((x == ',') || (x == ' '))) {
-					fixed = true;
-				}
-				else {
-					fixed = false;
-					break;
-				}
-			}
-			if (fixed) {
-				problem = false;
-			}
-		}
-		return userPass;
-    }
-    @Override
-    public void getPassIdentifierFromUser(String[] arr) {
-        // TODO: Remove from interface
-	}
-    @Override
     public void storeInformation(String[] info) {
         try (Storage store = new Storage(logger)) {
             store.storeData(info);
@@ -812,46 +856,13 @@ public non-sealed class UI extends JFrame implements Runner {
             System.exit(1);
         }
 	}
-    @Override
-    public void strengthTest(String pass) {
-		Generator gen = new Generator(logger);
-        // TODO: Prompt user for password to test
-	}
-    @Override
-    public void extractInfoFromList() {
-        try (Storage store = new Storage(logger)) {
-            String[] combos = store.getUserPassCombosForUI();
-        }
-        catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, "Error instantiating Storage object.");
-        }
-		// TODO: add values from combos to the interface to be displayed with scroll bar if needed
+    public int strengthTest(String pass) {
+		return new Generator(logger).passwordStrengthScoring(pass);
 	}
     public void finalizeChange() {
         // TODO: Display message confirming change and see if they want to change another
     }
     public void finalizeRemove() {
         // TODO: Display message confirming removal and see if they want to remove another
-    }
-    public String cOrR() {
-        JPanel cOrRPanel = new JPanel();
-        String choice = "";
-        this.add(cOrRPanel);
-        this.pack();
-        this.setVisible(true);
-
-        // TODO: Make sure val is "change, c, r, or remove
-        return choice;
-    }
-    public String addExisting() {
-        JPanel additionPanel = new JPanel();
-        String pass = "";
-        this.add(additionPanel);
-        this.pack();
-        this.setVisible(true);
-
-        additionPanel.setVisible(false);
-        // TODO: Confirm completion and offer to go back to home screen
-        return pass;
     }
 }

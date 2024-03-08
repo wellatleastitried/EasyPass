@@ -13,11 +13,8 @@ sealed public interface Runner permits CLI, UI {
     void changeData();
     void removeData();
     String getPassIdentifierForChangeOrRemove(int x);
-    String[] getPasswordFromUser();
-    void getPassIdentifierFromUser(String[] arr);
     String[] getUserInformation();
     void storeInformation(String[] info);
-    void extractInfoFromList();
     default void initializeMissingFilesForProgram() {
 		String ls = System.getProperty("line.separator");
 		File logDir = new File("resources" + fs + "utilities" + fs + "log");
@@ -84,7 +81,6 @@ sealed public interface Runner permits CLI, UI {
         }
         return cipherText;
     }
-    void strengthTest(String pass);
     void run();
     void resetParams();
 }

@@ -250,7 +250,7 @@ public class Generator {
 	public int passwordStrengthScoring(String pass) {
 		boolean foundInList = checkForPassInLists(pass);
 		if (foundInList) {
-			return 0;
+			return -1;
 		}
 		int score = 0;
 		int passLen = pass.length();

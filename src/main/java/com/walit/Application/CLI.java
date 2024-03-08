@@ -365,7 +365,6 @@ public non-sealed class CLI implements Runner {
 	 * user's data.
 	 * @param arr A two index array holding the user's password and the name associated with it.
 	 */
-	@Override
 	public void getPassIdentifierFromUser(String[] arr) {
 		System.out.println("\n[*] What is this password for? If you don't want it to be saved, type STOP");
 		arr[0] = s.nextLine().toLowerCase().trim();
@@ -491,7 +490,6 @@ public non-sealed class CLI implements Runner {
 	/**
 	 * Prints the user's passwords and the names associated with them for the user to see.
 	 */
-	@Override
 	public void extractInfoFromList() {
 		try (Storage store = new Storage(logger)) {
 			store.displayUserPassCombos();
@@ -579,7 +577,6 @@ public non-sealed class CLI implements Runner {
 	/**
 	 * Allows the user to test how strong their password is.
 	 */
-	@Override
 	public void strengthTest(String pass) {
 		Generator gen = new Generator(logger);
 		System.out.print("[*] Enter the password to test here: ");
@@ -588,7 +585,7 @@ public non-sealed class CLI implements Runner {
 		else password = pass;
 		System.out.println();
 		int score = gen.passwordStrengthScoring(password);
-		if (score == 0) {
+		if (score == -1 || score == 0) {
 			System.out.println("[*] Your password is very weak -> " + score + "/" + 10 + "\n{....................}");
 		}
 		else if (score >= 1 && score <= 5) {
