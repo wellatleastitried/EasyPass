@@ -5,18 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangePanel.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/RemovePanel.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/RemovePanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/DisplayAllPanel.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/DisplayAllPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/Runner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Interface/AddExisting.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/AddExisting.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Interface/AddExisting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/AddExisting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangeRemovePanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangeRemovePanel.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangeRemovePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangeRemovePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/Runner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/Runner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Interface/AddExisting.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Interface/AddExisting.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Interface/ChangeRemovePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Interface/ChangeRemovePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Interface/StrengthPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Interface/StrengthPanel.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +41,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/AddExisting.java" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/ChangeRemovePanel.java" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/DisplayAllPanel.java" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/GeneratorPanel.java" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/SearchPanel.java" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/walit/Interface/StrengthPanel.java" root0="SKIP_HIGHLIGHTING" />

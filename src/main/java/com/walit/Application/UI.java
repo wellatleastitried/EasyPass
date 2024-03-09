@@ -672,6 +672,47 @@ public non-sealed class UI extends JFrame implements Runner {
         this.remove(strengthPanel);
         strengthPanel.removeAll();
     }
+
+    public void handleDisplayAll() {
+        DisplayAllPanel dAP = new DisplayAllPanel();
+
+        JPanel displayPanel = dAP.getDisplayPanel();
+
+        JList<String> listOfQueries = getListOfQueries();
+        JScrollPane scrollPane = dAP.getScrollPane();
+        scrollPane.setViewportView(listOfQueries);
+
+        JButton backButton = dAP.getBackButton();
+        backButton.addActionListener(e -> backButtonPressed = true);
+
+        this.add(displayPanel);
+        this.pack();
+        this.setVisible(true);
+        while (!backButtonPressed) {
+            Thread.onSpinWait();
+        }
+        System.out.println("BACK PRESSED");
+        backButtonPressed = false;
+        displayPanel.setVisible(false);
+        this.remove(displayPanel);
+        displayPanel.removeAll();
+    }
+
+    public JList<String> getListOfQueries() {
+        try (Storage store = new Storage(logger)) {
+            String[] resultOfQueries = store.getUserPassCombosForUI();
+            for (int i = 0; i < resultOfQueries.length; i++) {
+                String[] split = resultOfQueries[i].split("~~SEPARATOR~~");
+                resultOfQueries[i] = String.format("Username: %s, Password: %s", split[0], split[1]);
+            }
+            return new JList<>(resultOfQueries);
+        }
+        catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, "Unable to connect to database.");
+        }
+        return null;
+    }
+
     @Override
     public void run() {
 		int x = getOption();
@@ -686,8 +727,7 @@ public non-sealed class UI extends JFrame implements Runner {
 					x = getOption();
 				}
 				case 3 -> {
-//					extractInfoFromList();
-                    notYetAvailable();
+                    handleDisplayAll();
 					x = getOption();
 				}
 				case 4 -> {
@@ -715,7 +755,7 @@ public non-sealed class UI extends JFrame implements Runner {
     public void notYetAvailable() {
         JOptionPane.showMessageDialog(
                 null,
-                "This feature is not yet available.",
+                "This feature is coming soon!",
                 "Alert",
                 JOptionPane.ERROR_MESSAGE
         );
