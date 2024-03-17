@@ -145,6 +145,7 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         panel.setBackground(Color.LIGHT_GRAY);
+//        panel.setBackground(new Color(12, 196, 43));
         panel.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) { keyWasTyped = true; }
@@ -229,12 +230,14 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.setFocusable(true);
         panel.requestFocusInWindow();
         panel.setBackground(Color.LIGHT_GRAY);
+//        panel.setBackground(new Color(12, 196, 43));
         JMenuBar menuBar = getjMenuBar();
         this.setJMenuBar(menuBar);
         int ROW = 7;
         int COL = 1;
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.LIGHT_GRAY);
+//        buttonPanel.setBackground(new Color(12, 196, 43));
         buttonPanel.setLayout(new GridLayout(ROW, COL));
         buttonPanel.setPreferredSize(new Dimension(450, 500));
         JButton genPass = new JButton("Generate password");
@@ -290,6 +293,7 @@ public non-sealed class UI extends JFrame implements Runner {
         panel.add(buttonPanel, BorderLayout.LINE_START);
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(Color.LIGHT_GRAY);
+//        titlePanel.setBackground(new Color(12, 196, 43));
         titlePanel.setLayout(new BorderLayout());
         titlePanel.setPreferredSize(new Dimension(750, 150));
         JLabel title = new JLabel("Manage your passwords here!");
