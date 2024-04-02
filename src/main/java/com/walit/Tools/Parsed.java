@@ -23,6 +23,7 @@ public class Parsed {
     private String str;
     private String version;
     private String nameOfProd;
+    public final String fs = File.separator;
 
     /**
      * Constructor for Parsed class, initializes str and pad.
@@ -31,7 +32,7 @@ public class Parsed {
      * @throws SAXException Thrown if there are any remaining errors with the document builder.
      */
     public Parsed() throws ParserConfigurationException, IOException, SAXException {
-        File file = new File("resources\\utilities\\data\\versionData.xml");
+        File file = new File("resources" + fs + "utilities" + fs + "data" + fs + "versionData.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(file);

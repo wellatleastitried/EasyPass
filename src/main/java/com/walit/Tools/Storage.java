@@ -20,12 +20,13 @@ import java.util.logging.Logger;
 public class Storage implements AutoCloseable {
 	private final Logger logger;
 	private Connection connection = null;
+	public final String fs = File.separator;
 
 	/**
 	 * Sets the logger for program the duration of the program's runtime and sets up the database connection.
 	 */
 	public Storage(Logger logger) throws ClassNotFoundException {
-		final String dbPath = "resources\\utilities\\data\\userData.db";
+		final String dbPath = "resources" + fs + "utilities" + fs + "data" + fs + "userData.db";
 		this.logger = logger;
 		Class.forName("org.sqlite.JDBC");
 		try {
