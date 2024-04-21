@@ -6,24 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/utilities/data/userData.db" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/data/userData.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/AbstractLayout.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/DimensionInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/GridConstraints.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/GridLayoutManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/HorizontalInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/LayoutState.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/Spacer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/SupportCode.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/Util.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/intellij/uiDesigner/core/VerticalInfo.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,24 +62,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Users/user/OneDrive/Documents/GitHub/EasyPass/src/main/java/com/walit/Application",
-    "last_opened_file_path": "C:/Users/user/OneDrive/Documents/GitHub/EasyPass/src/main/resources/images",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/user/OneDrive/Documents/GitHub/EasyPass/src/main/java/com/walit/Application&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/OneDrive/Documents/GitHub/EasyPass/src/main/resources/images&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\user\OneDrive\Documents\GitHub\EasyPass\src\main\resources\images" />

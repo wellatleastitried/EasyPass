@@ -176,13 +176,13 @@ public class Generator {
 						break;
 					}
 					if (setOfElements.contains(passwordStringToCharArray[i])) {
-						passwordStringToCharArray[i] = '$';
+						passwordStringToCharArray[i] = '&';
 						numOfCapitalsToRemove -= 1;
 					}
 				}
 			}
 			pwd = String.valueOf(passwordStringToCharArray);
-			pwd = pwd.replace("$", "");
+			pwd = pwd.replace("&", "");
 			return true;
 		}
 		return false;
@@ -260,14 +260,14 @@ public class Generator {
 		boolean hasNumber = false;
 		boolean hasSpecialChar = false;
 		char[] passChars = password.toCharArray();
-		for (int i = 0; i < passChars.length; i++) {
-			if (isUppercase(passChars[i]) && !hasUpper) {
+		for (char c : passChars) {
+			if (isUppercase(c) && !hasUpper) {
 				hasUpper = true;
-			} else if (isSpecialChar(passChars[i]) && !hasSpecialChar) {
+			} else if (isSpecialChar(c) && !hasSpecialChar) {
 				hasSpecialChar = true;
-			} else if (isNumber(passChars[i]) && !hasNumber) {
+			} else if (isNumber(c) && !hasNumber) {
 				hasNumber = true;
-			} else if (Character.isLetter(passChars[i]) && !isUppercase(passChars[i]) && !hasLower) {
+			} else if (Character.isLetter(c) && !isUppercase(c) && !hasLower) {
 				hasLower = true;
 			}
 		}
