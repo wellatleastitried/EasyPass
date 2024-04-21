@@ -38,10 +38,10 @@ public class Main {
 						
 							--generate   -> Generate a password
 							--display    -> Display all usernames and passwords
-							
+						
 							--get        -> Displays password for given username
 								Usage: --get username
-								
+						
 							--test       -> Tests the strength of the given password
 								Usage: --test password
 						
@@ -68,7 +68,7 @@ public class Main {
 						}
 						else {
 							System.out.println("""
-								 
+								
 								There was a missing space in your command!
 								Usage for --add:
 								

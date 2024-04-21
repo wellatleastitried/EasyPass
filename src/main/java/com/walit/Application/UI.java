@@ -816,12 +816,12 @@ public non-sealed class UI extends JFrame implements Runner {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-        if (length > 32) {
+        if (length > 20) {
             lengthError = true;
             hasError = true;
             JOptionPane.showMessageDialog(
                     null,
-                    "The length must be less than 33.\nTo generate a longer password, use the CLI.",
+                    "The length must be less than 20.\nTo generate a longer password, use the CLI.",
                     "Notice",
                     JOptionPane.INFORMATION_MESSAGE
             );

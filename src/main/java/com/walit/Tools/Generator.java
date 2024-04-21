@@ -20,7 +20,7 @@ public class Generator {
 	private final char[] numbers = "0123456789".toCharArray();
 	private final char[] characters = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 	private final char[] capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-	private final char[] specialCharacters = new char[] {'!', '?', '-', '#'};
+	private final char[] specialCharacters = new char[] {'!', '?', '-', '#', '%', '$'};
 	private final StringBuilder sB = new StringBuilder();
 	private String pwd = "";
 	private final Logger logger;
@@ -245,37 +245,37 @@ public class Generator {
 	 */
 	public int passwordStrengthScoring(String pass) {
 		boolean foundInList = checkForPassInLists(pass);
-		if (foundInList) {
-			return -1;
-		}
-		int score = 0;
-		int passLen = pass.length();
-		char[] splitPass = pass.toCharArray();
-		int numCount = 0;
-		int specCount = 0;
-		int capCount = 0;
-		for (char c : splitPass) {
-			if (isUppercase(c)) {
-				capCount++;
+		if (foundInList) return -1;
+		double entropy = getPasswordEntropy(pass);
+		double maxEntropy = getMaxEntropy();
+		return (int) Math.max(0, Math.min(10, (entropy / maxEntropy) * 10));
+	}
+	public double getMaxEntropy() {
+		return Math.log(Math.pow(74, 20)) / Math.log(2);
+	}
+	public double getPasswordEntropy(String password) {
+		int charsetSize = 0;
+		boolean hasUpper = false;
+		boolean hasLower = false;
+		boolean hasNumber = false;
+		boolean hasSpecialChar = false;
+		char[] passChars = password.toCharArray();
+		for (int i = 0; i < passChars.length; i++) {
+			if (isUppercase(passChars[i]) && !hasUpper) {
+				hasUpper = true;
+			} else if (isSpecialChar(passChars[i]) && !hasSpecialChar) {
+				hasSpecialChar = true;
+			} else if (isNumber(passChars[i]) && !hasNumber) {
+				hasNumber = true;
+			} else if (Character.isLetter(passChars[i]) && !isUppercase(passChars[i]) && !hasLower) {
+				hasLower = true;
 			}
-			else if (isSpecialChar(c)) {
-				specCount++;
-			}
-			else if (isNumber(c)) {
-				numCount++;
-			}
 		}
-		if (passLen == capCount || passLen == numCount ||
-				passLen == specCount || passLen == capCount + 1 ||
-				passLen == numCount + 1 || passLen == specCount + 1 ||
-				passLen == numCount + 2 || passLen == specCount + 2 || passLen == capCount + 2) {
-			return 2;
-		}
-		score = (passLen <= 5) ? (score - 2) : (passLen < 8) ? (score - 1) : (passLen <= 10) ? (score + 1) : (score + 2);
-		score = (capCount == 0) ?  score : (capCount < 3) ? (score + 1) : (capCount < 5) ? (score + 2) : (score + 3);
-		score = (specCount == 0) ? score : (specCount < 2) ? (score + 1) : (specCount < 5) ? (score + 2) : (score + 3);
-		score = (numCount == 0) ? score : (numCount < 2) ? (score + 1) : (numCount < 4) ? (score + 2) : (score + 3);
-		return score < 0 ? 0 : Math.min(score, 10);
+		charsetSize += hasUpper ? 26 : 0;
+		charsetSize += hasLower ? 26 : 0;
+		charsetSize += hasNumber ? 10 : 0;
+		charsetSize += hasSpecialChar ? 12 : 0;
+        return Math.log(Math.pow(charsetSize, password.length())) / Math.log(2);
 	}
 	/**
 	 * Checks to see if a given char is uppercase.

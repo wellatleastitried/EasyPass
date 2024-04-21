@@ -384,27 +384,22 @@ public non-sealed class CLI implements Runner {
 			while (lengthOfPassword < specialChars || lengthOfPassword < capitals || lengthOfPassword < numbers) {
 				logger.log(Level.INFO, "Unable to generate password with the given parameters.\n" +
 						"Make sure the length of the password is long enough.");
-				//make user reenter params
 				getParams();
 			} 
 			while (lengthOfPassword == specialChars) {
 				logger.log(Level.INFO, "Cannot make password that is made up of only specialCharacters.");
-				//make user reenter params
 				getParams();
 			} 
 			while (lengthOfPassword == capitals) {
 				logger.log(Level.INFO, "Cannot make password that is made up of only capital letters.");
-				//make user reenter params
 				getParams();
 			} 
 			while (lengthOfPassword == numbers) {
 				logger.log(Level.INFO, "Cannot make password that is made up of only numbers.");
-				//make user reenter params
 				getParams();
 			} 
 			while (lengthOfPassword < (specialChars + capitals + numbers)) {
 				logger.log(Level.INFO, "Invalid parameters for the password.");
-				//make user reenter params
 				getParams();
 			}
 		}
@@ -478,6 +473,15 @@ public non-sealed class CLI implements Runner {
 	@Override
 	public void storeInformation(String[] info) {
 		info[0] = info[0].toLowerCase();
+		if (info[1].length() > 20) {
+			// TODO: Allow for storing as password in file if longer than 100 characters (JFileChooser for GUI, type in path for CLi)
+			if (info[1].length() > 100) {
+				// TODO: Prompt user for decision on saving to file or aborting, if save, get filename and write
+				System.out.println();
+			} else {
+				System.out.println("[*] Unable to save passwords to database that are longer than 20 characters.");
+			}
+		}
 		try (Storage store = new Storage(logger)) {
 			store.storeData(info);
 		}
