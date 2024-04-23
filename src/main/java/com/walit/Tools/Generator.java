@@ -1,3 +1,10 @@
+/*
+ * Generator serves as a helper class to CLI and UI by supplying helpful methods that may be necessary to
+ * calculate new passwords or test their strength.
+ *
+ * @author Jackson Swindell
+ */
+
 package com.walit.Tools;
 
 import java.io.*;
@@ -9,13 +16,8 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
-/**
- * Generator serves as a helper class to CLI and UI by supplying helpful methods that may be necessary to
- * calculate new passwords or test their strength.
- *
- * @author Jackson Swindell
- */
 public class Generator {
 	private final char[] numbers = "0123456789".toCharArray();
 	private final char[] characters = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -25,19 +27,10 @@ public class Generator {
 	private String pwd = "";
 	private final Logger logger;
 
-	/**
-	 * Constructor for Generator class.
-	 */
-	public Generator(Logger genLog) { this.logger = genLog; }
+	public Generator(Logger genLog) {
+		this.logger = genLog;
+	}
 
-	/**
-	 * Generates a unique password based on the parameters that are passed to it.
-	 * @param length The length of the password to be made.
-	 * @param specialChars The number of special characters to be added to the new password.
-	 * @param capitals The number of capital letters to be added to the new password.
-	 * @param numbers The number of numbers to be added to the new password.
-	 * @return Returns the new password for the user.
-	 */
 	public String generatePassword(int length, int specialChars, int capitals, int numbers) {
 		while (!(validateElementCount(numbers, 2))) {
 			sB.append(addNumber());
@@ -73,13 +66,6 @@ public class Generator {
 		return pwd;
 	}
 
-	/**
-	 * Makes sure that the first character does not start with a special character or number, if it does, swaps it with
-	 * a normal letter from a different index in the password.
-	 * @param toSwap The new password in the form of a char array.
-	 * @return Returns the password with the first character swapped for a normal letter instead of a special character
-	 * or number.
-	 */
 	private String swapFirstChar(char[] toSwap) {
 		int indexToNote;
 		Set<Character> lowercaseSet = new HashSet<>();
@@ -103,12 +89,6 @@ public class Generator {
 		return String.valueOf(toSwap);
 	}
 
-	/**
-	 * Checks to see if the first letter of the new password is a normal letter instead of a special character
-	 * or number.
-	 * @param characterToCheck The first character of the new password.
-	 * @return Returns 'true' if the first letter is a normal letter, 'false' otherwise.
-	 */
 	private boolean isValidChar(char characterToCheck) {
 		for (int i = 0; i < characters.length; i++) {
 			if (characterToCheck == characters[i] || characterToCheck == capLetters[i]) {
@@ -118,29 +98,18 @@ public class Generator {
 		return false;
 	}
 
-	/**
-	 * Generates a random single digit number.
-	 * @return Returns the number to be added to the password.
-	 */
-	private char addNumber() { return numbers[new SecureRandom().nextInt(numbers.length)]; }
+	private char addNumber() {
+		return numbers[new SecureRandom().nextInt(numbers.length)];
+	}
 
-	/**
-	 * Generates a random capital letter.
-	 * @return Returns the letter to be added to the password.
-	 */
-	private char addCapital() { return capLetters[new SecureRandom().nextInt(capLetters.length)];	}
+	private char addCapital() {
+		return capLetters[new SecureRandom().nextInt(capLetters.length)];
+	}
 
-	/**
-	 * Generates a random special character.
-	 * @return Returns the character to be added to the password.
-	 */
-	private char addSpecialChar() { return specialCharacters[new SecureRandom().nextInt(specialCharacters.length)]; }
+	private char addSpecialChar() {
+		return specialCharacters[new SecureRandom().nextInt(specialCharacters.length)];
+	}
 
-	/**
-	 * Checks the number of capital letters, special characters, or digits to make sure it is not more or less than the intended amount.
-	 * @param elementCount The number of elements the password SHOULD contain.
-	 * @return Returns 'true' if the number of elements is equal to the count and 'false' otherwise.
-	 */
 	private boolean validateElementCount(int elementCount, int determineElement) {
 		char[] passwordStringToCharArray = pwd.toCharArray();
 		Set<Character> setOfElements = new HashSet<>();
@@ -188,11 +157,6 @@ public class Generator {
 		return false;
 	}
 
-	/**
-	 * Searches through the provided word-lists for the given password to see if there is a match.
-	 * @param pass The password to search for.
-	 * @return Returns "true" if the password is found in the word-lists, "false" otherwise.
-	 */
 	private boolean checkForPassInLists(String pass) {
 		//User can add as many word-lists to this folder as they want, but it will impact runtime.
 		File wordDirectory = new File("resources\\WordLists");
@@ -238,20 +202,15 @@ public class Generator {
 		return found;
 	}
 
-	/**
-	 * Checks the strength of a given password by grading it by using specific criteria.
-	 * @param pass The password to test the strength of.
-	 * @return Returns the score on a scale of 1-10 based on how strong the password appears to be, returns 0 if the password is found in a provided word-list.
-	 */
 	public int passwordStrengthScoring(String pass) {
 		boolean foundInList = checkForPassInLists(pass);
 		if (foundInList) return -1;
 		double entropy = getPasswordEntropy(pass);
-		double maxEntropy = getMaxEntropy();
+		double maxEntropy = getMaxEntropy(pass.length());
 		return (int) Math.max(0, Math.min(10, (entropy / maxEntropy) * 10));
 	}
-	public double getMaxEntropy() {
-		return Math.log(Math.pow(74, 20)) / Math.log(2);
+	public double getMaxEntropy(int length) {
+		return Math.log(Math.pow(74, (double) (length + 20) / 2)) / Math.log(2);
 	}
 	public double getPasswordEntropy(String password) {
 		int charsetSize = 0;
@@ -274,35 +233,17 @@ public class Generator {
 		charsetSize += hasUpper ? 26 : 0;
 		charsetSize += hasLower ? 26 : 0;
 		charsetSize += hasNumber ? 10 : 0;
-		charsetSize += hasSpecialChar ? 12 : 0;
+		charsetSize += hasSpecialChar ? 33 : 0;
         return Math.log(Math.pow(charsetSize, password.length())) / Math.log(2);
 	}
-	/**
-	 * Checks to see if a given char is uppercase.
-	 * @param c The character to check.
-	 * @return Returns 'true' if uppercase, 'false' otherwise.
-	 */
-	public boolean isUppercase(char c) { return ((int) c) >= 65 && ((int) c) <= 90; }
 
-	/**
-	 * Checks to see if a given char is a special character.
-	 * @param c The character to check.
-	 * @return Returns 'true' if the char is a special character, 'false' otherwise.
-	 */
-	public boolean isSpecialChar(char c) {
-		char[] list = "!_?.-@#$%&*+".toCharArray();
-		for (char x : list) {
-			if (c == x) {
-				return true;
-			}
-		}
-		return false;
+	public boolean isUppercase(char c) {
+		return Pattern.matches("[A-Z]", Character.toString(c));
 	}
 
-	/**
-	 * Checks to see if a given char is a number.
-	 * @param c The character to check.
-	 * @return Returns 'true' if the char is a number, 'false' otherwise.
-	 */
+	public boolean isSpecialChar(char c) {
+		return Pattern.matches("[^a-zA-Z0-9]", Character.toString(c));
+	}
+
 	public boolean isNumber(char c) { return Character.isDigit(c); }
 }

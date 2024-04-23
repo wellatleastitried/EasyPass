@@ -1,5 +1,7 @@
 package com.walit.Application;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLaf;
 import com.walit.Interface.*;
 import com.walit.Tools.Generator;
 import com.walit.Tools.Storage;
@@ -70,17 +72,20 @@ public non-sealed class UI extends JFrame implements Runner {
 			System.out.println("[!] Error in startup.\n\n[!] Please restart program.");
 		}
 		Arrays.fill(checker, false);
+        FlatLaf.registerCustomDefaultsSource("com.walit.themes");
+        FlatIntelliJLaf.setup();
         this.setTitle("EasyPass");
         this.setResizable(false);
         this.setPreferredSize(dim);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setIconImage(getApplicationIcon().getImage());
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            System.err.println("Error setting the \"look and feel\".");
-        }
+//        try {
+//            // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//            UIManager.setLookAndFeel(new FlatLightLaf());
+//        }
+//        catch (UnsupportedLookAndFeelException ex) {
+//            System.err.println("Error setting the look and feel of the application.");
+//        }
 		startPanel = buildStartPanel();
 		start();
     }
