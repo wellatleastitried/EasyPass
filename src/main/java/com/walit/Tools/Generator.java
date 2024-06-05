@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Generator {
+	
 	private final char[] numbers = "0123456789".toCharArray();
 	private final char[] characters = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 	private final char[] capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

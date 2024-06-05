@@ -5,20 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f092fed7-4e3e-4a72-ae56-7c1f131b20ce" name="Changes" comment="Small tweaks to main and test java files and a few separate files.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/easypass_jar/easypass.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/utilities/data/userData.db" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/data/userData.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/utilities/log/PassMan.log.1" beforeDir="false" afterPath="$PROJECT_DIR$/resources/utilities/log/PassMan.log.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Application/CLI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/walit/Tools/Generator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/CLI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/Runner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/Runner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Application/UI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Generator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Tools/Generator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Parsed.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Tools/Parsed.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/walit/Tools/Storage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/walit/Tools/Storage.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +93,35 @@
       <recent name="com.walit" />
       <recent name="com.walit.pass" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Babashka" factoryName="BabashkaLocalRepl" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="bbPath" value="" />
+      <setting name="parameters" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <setting name="workingDir" value="" />
+      <setting name="focusEditor" value="false" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="ClojureREPL" factoryName="Remote" activateToolWindowBeforeRun="false">
+      <setting name="displayName" value="" />
+      <setting name="host" value="" />
+      <setting name="port" value="0" />
+      <setting name="replType" value="SOCKET" />
+      <setting name="configType" value="SPECIFY" />
+      <setting name="replPortFileType" value="STANDARD" />
+      <setting name="customPortFile" value="" />
+      <setting name="fixLineNumbers" value="false" />
+      <setting name="focusEditor" value="false" />
+      <setting name="urlFile" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
